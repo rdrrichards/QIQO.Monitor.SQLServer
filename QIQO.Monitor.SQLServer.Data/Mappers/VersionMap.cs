@@ -14,7 +14,7 @@ namespace QIQO.Monitor.SQLServer.Data
             {
                 return new VersionData()
                 {
-                    VersionText = NullCheck<string>(record["server_name"])
+                    VersionText = NullCheck<string>(record["version_text"])
                 };
             }
             catch (Exception ex)

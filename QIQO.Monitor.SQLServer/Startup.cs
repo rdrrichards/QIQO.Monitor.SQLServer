@@ -31,9 +31,15 @@ namespace QIQO.Monitor.SQLServer
                 c.IncludeXmlComments(xmlPath);
             });
 
-            services.AddScoped<ISQLServerDbContext, SQLServerDbContext>();
+            services.AddSingleton<IDbContextFactory>(new DbContextFactory(services));
+            services.AddSingleton<IDataRepositoryFactory>(new DataRepositoryFactory(services));
+            services.AddScoped<IMonitorDbContext, MonitorDbContext>();
+
+            // move these to extension
             services.AddTransient<IServerMap, ServerMap>();
             services.AddTransient<IServerRepository, ServerRepository>();
+            services.AddTransient<IVersionMap, VersionMap>();
+            services.AddTransient<IVersionRepository, VersionRepository>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

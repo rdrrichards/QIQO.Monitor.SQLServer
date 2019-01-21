@@ -8,8 +8,8 @@ namespace QIQO.Monitor.SQLServer.Data
     public class VersionRepository : RepositoryBase<VersionData>,
                                      IVersionRepository
     {
-        private readonly ISQLServerDbContext entityContext;
-        public VersionRepository(ISQLServerDbContext dbc, IVersionMap map, ILogger<VersionData> log) : base(log, map)
+        private readonly ISqlServerDbContext entityContext;
+        public VersionRepository(ISqlServerDbContext dbc, IVersionMap map, ILogger<VersionData> log) : base(log, map)
         {
             entityContext = dbc;
         }
@@ -21,7 +21,7 @@ namespace QIQO.Monitor.SQLServer.Data
         public override VersionData GetByCode(string server_code, string entityCode = "")
         {
             Log.LogInformation("Accessing VersionRepository GetByCode function"); 
-            using (entityContext) return MapRow(entityContext.ExecuteProcedureAsSqlDataReader("SELECT @@VERSION AS version_text"));
+            using (entityContext) return MapRow(entityContext.ExecuteSqlStatementAsSqlDataReader("SELECT @@VERSION AS version_text"));
         }
 
         public override void Insert(VersionData entity) => throw new NotImplementedException();

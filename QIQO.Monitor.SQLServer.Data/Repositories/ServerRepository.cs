@@ -9,8 +9,8 @@ namespace QIQO.Monitor.SQLServer.Data
     public class ServerRepository : RepositoryBase<ServerData>,
                                      IServerRepository
     {
-        private readonly ISQLServerDbContext entityContext;
-        public ServerRepository(ISQLServerDbContext dbc, IServerMap map, ILogger<ServerData> log) : base(log, map)
+        private readonly IMonitorDbContext entityContext;
+        public ServerRepository(IMonitorDbContext dbc, IServerMap map, ILogger<ServerData> log) : base(log, map)
         {
             entityContext = dbc;
         }
