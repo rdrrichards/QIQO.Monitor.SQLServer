@@ -13,16 +13,17 @@ namespace QIQO.Monitor.SQLServer.Data
         {
             entityContext = dbc;
         }
+        public VersionData Get()
+        {
+            Log.LogInformation("Accessing VersionRepository Get function");
+            using (entityContext) return MapRow(entityContext.ExecuteSqlStatementAsSqlDataReader("SELECT @@VERSION AS version_text"));
+        }
 
         public override IEnumerable<VersionData> GetAll() => throw new NotImplementedException();
 
         public override VersionData GetByID(int server_key) => throw new NotImplementedException();
 
-        public override VersionData GetByCode(string server_code, string entityCode = "")
-        {
-            Log.LogInformation("Accessing VersionRepository GetByCode function"); 
-            using (entityContext) return MapRow(entityContext.ExecuteSqlStatementAsSqlDataReader("SELECT @@VERSION AS version_text"));
-        }
+        public override VersionData GetByCode(string server_code, string entityCode = "") => throw new NotImplementedException();
 
         public override void Insert(VersionData entity) => throw new NotImplementedException();
 

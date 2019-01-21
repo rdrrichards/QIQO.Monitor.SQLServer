@@ -3,7 +3,9 @@
 namespace QIQO.Monitor.SQLServer.Data
 {
     public interface IServerRepository : IRepository<ServerData> { }
-    public interface IVersionRepository : IRepository<VersionData> { }
+    public interface IVersionRepository : IRepository<VersionData> {
+        VersionData Get();
+    }
 
 
 

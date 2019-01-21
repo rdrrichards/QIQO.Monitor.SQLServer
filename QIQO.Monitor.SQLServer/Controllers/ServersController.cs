@@ -23,9 +23,13 @@ namespace QIQO.Monitor.SQLServer.Controllers
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        public ActionResult<ServerData> Get(int id)
         {
-            return "value";
+            var server = _serverRepository.GetByID(id);
+            if (server.ServerKey != 0)
+                return Ok(_serverRepository.GetByID(id));
+            else
+                return NotFound();
         }
     }
 }
