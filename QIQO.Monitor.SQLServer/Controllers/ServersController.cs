@@ -8,26 +8,26 @@ namespace QIQO.Monitor.SQLServer.Controllers
     [ApiController]
     public class ServersController : ControllerBase
     {
-        private readonly IServerRepository _serverRepository;
+        private readonly ICacheService _cacheService;
 
-        public ServersController(IServerRepository serverRepository)
+        public ServersController(ICacheService cacheService)
         {
-            _serverRepository = serverRepository;
+            _cacheService = cacheService;
         }
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<ServerData>> Get()
         {
-            return Ok(_serverRepository.GetAll());
+            return Ok(_cacheService.GetServers());
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
         public ActionResult<ServerData> Get(int id)
         {
-            var server = _serverRepository.GetByID(id);
+            var server = _cacheService.GetServer(id);
             if (server.ServerKey != 0)
-                return Ok(_serverRepository.GetByID(id));
+                return Ok(server);
             else
                 return NotFound();
         }

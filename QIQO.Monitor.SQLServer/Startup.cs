@@ -31,17 +31,10 @@ namespace QIQO.Monitor.SQLServer
                 c.IncludeXmlComments(xmlPath);
             });
 
-            services.AddSingleton<IDbContextFactory>(new DbContextFactory(services));
-            services.AddSingleton<IDataRepositoryFactory>(new DataRepositoryFactory(services));
-            services.AddScoped<IMonitorDbContext, MonitorDbContext>();
-
-            // move these to extension
-            services.AddTransient<IServerMap, ServerMap>();
-            services.AddTransient<IServerRepository, ServerRepository>();
-            services.AddTransient<IVersionMap, VersionMap>();
-            services.AddTransient<IVersionRepository, VersionRepository>();
-
+            services.AddSingleton<ICacheService, CacheService>();
+            services.AddDataAccess();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,7 +54,10 @@ namespace QIQO.Monitor.SQLServer
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "QIQO SQL Server Monitoring API V1");
             });
-
+            app.UseSignalR(routes =>
+            {
+                routes.MapHub<ResultsHub>("/results");
+            });
             app.UseHttpsRedirection();
             app.UseMvc();
         }
