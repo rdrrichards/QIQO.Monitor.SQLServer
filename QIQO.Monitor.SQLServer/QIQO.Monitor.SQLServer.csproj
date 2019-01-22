@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\QIQO.Monitor.Core\QIQO.Monitor.Core.csproj" />
+    <ProjectReference Include="..\QIQO.Monitor.Core\QIQO.Monitor.Core.csproj" />
     <ProjectReference Include="..\QIQO.Monitor.SQLServer.Data\QIQO.Monitor.SQLServer.Data.csproj" />
   </ItemGroup>
 
