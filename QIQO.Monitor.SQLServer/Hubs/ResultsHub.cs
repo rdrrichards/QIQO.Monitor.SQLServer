@@ -5,9 +5,9 @@ namespace QIQO.Monitor.SQLServer
 {
     public class ResultsHub : Hub
     {
-        public async Task SendResult(string user, string message)
+        public async Task SendResult(string resultType, string result)
         {
-            await Clients.All.SendAsync("Result", user, message);
+            await Clients.All.SendAsync("result", resultType, result);
         }
     }
 }

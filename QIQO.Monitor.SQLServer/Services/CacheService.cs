@@ -3,7 +3,6 @@ using QIQO.Monitor.SQLServer.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace QIQO.Monitor.SQLServer
 {

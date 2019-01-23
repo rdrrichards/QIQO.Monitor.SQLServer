@@ -32,6 +32,7 @@ namespace QIQO.Monitor.SQLServer
             });
 
             services.AddSingleton<ICacheService, CacheService>();
+            services.AddTransient<IHubClientService, HubClientService>();
             services.AddDataAccess();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddSignalR();
