@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.SignalR.Client;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.SignalR.Client;
 using System.Threading.Tasks;
 
 namespace QIQO.Monitor.SQLServer
@@ -10,10 +11,12 @@ namespace QIQO.Monitor.SQLServer
     public class HubClientService : IHubClientService
     {
         private readonly HubConnection connection;
-        public HubClientService()
+        public HubClientService(IHttpContextAccessor httpContext)
         {
+            var cx = httpContext.HttpContext;
+            var url = $"{cx.Request.Scheme}://{cx.Request.Host}/results";
             connection = new HubConnectionBuilder()
-                .WithUrl("/results")
+                .WithUrl(url)
                 .Build();
             connection.StartAsync();
         }

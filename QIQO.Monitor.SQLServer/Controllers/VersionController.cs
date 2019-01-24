@@ -10,11 +10,13 @@ namespace QIQO.Monitor.SQLServer.Controllers
     public class VersionController : QIQOControllerBase
     {
         private readonly IServerRepository _serverRepository;
+        private readonly IHubClientService _hubClientService;
 
-        public VersionController(IDbContextFactory dbContextFactory,
+        public VersionController(IDbContextFactory dbContextFactory, IHubClientService hubClientService,
             IDataRepositoryFactory repositoryFactory, IServerRepository serverRepository) : base(dbContextFactory, repositoryFactory)
         {
             _serverRepository = serverRepository;
+            _hubClientService = hubClientService;
         }
 
         // GET api/values/5
@@ -26,7 +28,9 @@ namespace QIQO.Monitor.SQLServer.Controllers
             {
                 CreateContext(server.ServerSource);
                 var repo = _repositoryFactory.GetDataRepository<IVersionRepository>();
-                return Ok(repo.Get().VersionText);
+                var version = repo.Get().VersionText;
+                _hubClientService.SendResult(ResultType.Version, version);
+                return Ok(version);
             }
             return NotFound();
         }
