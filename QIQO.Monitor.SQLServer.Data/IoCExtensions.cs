@@ -14,6 +14,8 @@ namespace QIQO.Monitor.SQLServer.Data
             services.AddTransient<IServerRepository, ServerRepository>();
             services.AddTransient<IVersionMap, VersionMap>();
             services.AddTransient<IVersionRepository, VersionRepository>();
+            services.AddTransient<IHardwareMap, HardwareMap>();
+            services.AddTransient<IHardwareRepository, HardwareRepository>();
             return services;
         }
     }

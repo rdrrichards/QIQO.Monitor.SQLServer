@@ -19,5 +19,10 @@ namespace QIQO.Monitor.Core.Contracts
         void DeleteByCode(string entity_code);
         void Save(T entity);
     }
+    public interface IReadRepository<T> : IRepository
+        where T : class, IEntity, new()
+    {
+        IEnumerable<T> Get();
+    }
 
 }

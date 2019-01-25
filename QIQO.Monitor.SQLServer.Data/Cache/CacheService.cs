@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace QIQO.Monitor.SQLServer
+namespace QIQO.Monitor.SQLServer.Data
 {
     public interface ICacheService
     {

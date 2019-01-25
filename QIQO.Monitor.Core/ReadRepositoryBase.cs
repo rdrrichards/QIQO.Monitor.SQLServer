@@ -6,13 +6,13 @@ using System.Data.Common;
 
 namespace QIQO.Monitor.Core
 {
-    public abstract class RepositoryBase<T> : IRepository<T> //, IMapper<T> 
+    public abstract class ReadRepositoryBase<T> : IReadRepository<T> //, IMapper<T> 
         where T : class, IEntity, new()
     {
         protected readonly IMapper<T> Mapper;
         protected readonly ILogger<T> Log;
 
-        public RepositoryBase(ILogger<T> logger, IMapper<T> map)
+        public ReadRepositoryBase(ILogger<T> logger, IMapper<T> map)
         {
             Log = logger;
             Mapper = map;
@@ -61,13 +61,6 @@ namespace QIQO.Monitor.Core
             else return new T();
         }
 
-        public abstract void Delete(T entity);
-        public abstract void DeleteByCode(string entity_code);
-        public abstract void DeleteByID(int entity_key);
-        public abstract IEnumerable<T> GetAll();
-        public abstract T GetByCode(string account_code, string entity_code);
-        public abstract T GetByID(int entity_key);
-        public abstract void Insert(T entity);
-        public abstract void Save(T entity);
+        public abstract IEnumerable<T> Get();
     }
 }

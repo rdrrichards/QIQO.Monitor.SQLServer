@@ -28,7 +28,7 @@ namespace QIQO.Monitor.SQLServer.Controllers
             {
                 CreateContext(server.ServerSource);
                 var repo = _repositoryFactory.GetDataRepository<IVersionRepository>();
-                var version = repo.Get().VersionText;
+                var version = repo.Get().ToArray()[0].VersionText;
                 _hubClientService.SendResult(ResultType.Version, version);
                 return Ok(version);
             }
