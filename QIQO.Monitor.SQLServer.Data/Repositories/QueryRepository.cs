@@ -18,24 +18,24 @@ namespace QIQO.Monitor.SQLServer.Data
         public override IEnumerable<QueryData> GetAll()
         {
             Log.LogInformation("Accessing QueryRepository GetAll function");
-            using (entityContext) return MapRows(entityContext.ExecuteProcedureAsSqlDataReader("usp_server_all"));
+            using (entityContext) return MapRows(entityContext.ExecuteProcedureAsSqlDataReader("usp_query_all"));
         }
 
-        public override QueryData GetByID(int server_key)
+        public override QueryData GetByID(int query_key)
         {
             Log.LogInformation("Accessing QueryRepository GetByID function");
-            var pcol = new List<SqlParameter>() { Mapper.BuildParam("@server_key", server_key) };
-            using (entityContext) return MapRow(entityContext.ExecuteProcedureAsSqlDataReader("usp_server_get", pcol));
+            var pcol = new List<SqlParameter>() { Mapper.BuildParam("@query_key", query_key) };
+            using (entityContext) return MapRow(entityContext.ExecuteProcedureAsSqlDataReader("usp_query_get", pcol));
         }
 
-        public override QueryData GetByCode(string server_code, string entityCode)
+        public override QueryData GetByCode(string query_code, string entityCode)
         {
             Log.LogInformation("Accessing QueryRepository GetByCode function");
             var pcol = new List<SqlParameter>() {
-                Mapper.BuildParam("@server_code", server_code),
+                Mapper.BuildParam("@query_code", query_code),
                 Mapper.BuildParam("@company_code", entityCode)
             };
-            using (entityContext) return MapRow(entityContext.ExecuteProcedureAsSqlDataReader("usp_server_get_c", pcol));
+            using (entityContext) return MapRow(entityContext.ExecuteProcedureAsSqlDataReader("usp_query_get_c", pcol));
         }
 
         public override void Insert(QueryData entity)
@@ -59,26 +59,26 @@ namespace QIQO.Monitor.SQLServer.Data
         public override void Delete(QueryData entity)
         {
             Log.LogInformation("Accessing QueryRepository Delete function");
-            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_server_del", Mapper.MapParamsForDelete(entity));
+            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_query_del", Mapper.MapParamsForDelete(entity));
         }
 
         public override void DeleteByCode(string entityCode)
         {
             Log.LogInformation("Accessing QueryRepository DeleteByCode function");
-            var pcol = new List<SqlParameter>() { Mapper.BuildParam("@server_code", entityCode) };
+            var pcol = new List<SqlParameter>() { Mapper.BuildParam("@query_code", entityCode) };
             pcol.Add(Mapper.GetOutParam());
-            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_server_del_c", pcol);
+            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_query_del_c", pcol);
         }
 
         public override void DeleteByID(int entityKey)
         {
             Log.LogInformation("Accessing QueryRepository Delete function");
-            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_server_del", Mapper.MapParamsForDelete(entityKey));
+            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_query_del", Mapper.MapParamsForDelete(entityKey));
         }
 
         private void Upsert(QueryData entity)
         {
-            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_server_ups", Mapper.MapParamsForUpsert(entity));
+            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_query_ups", Mapper.MapParamsForUpsert(entity));
         }
     }
 }

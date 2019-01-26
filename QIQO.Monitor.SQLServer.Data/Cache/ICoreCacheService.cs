@@ -6,6 +6,8 @@ namespace QIQO.Monitor.SQLServer.Data
     {
         IEnumerable<ServerData> GetServers();
         ServerData GetServer(int serverKey);
+        IEnumerable<QueryData> GetQueries();
         QueryData GetQuery(string name, int level);
+        QueryData GetQuery(int id);
     }
 }
