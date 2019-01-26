@@ -1,8 +1,6 @@
 ﻿using QIQO.Monitor.Core;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 
 namespace QIQO.Monitor.SQLServer.Data
 {
@@ -14,7 +12,20 @@ namespace QIQO.Monitor.SQLServer.Data
             {
                 return new HardwareData()
                 {
-                    ProcessPhysicalAffinity = NullCheck<string>(record["version_text"])
+                    LogicalCPUCount = NullCheck<int>(record["LogicalCPUCount"]),
+                    SchedulerCount = NullCheck<int>(record["SchedulerCount"]),
+                    PhysicalCoreCount = NullCheck<int>(record["PhysicalCoreCount"]),
+                    SocketCount = NullCheck<int>(record["SocketCount"]),
+                    CoresPerSocket = NullCheck<int>(record["CoresPerSocket"]),
+                    NUMANodeCount = NullCheck<int>(record["NUMANodeCount"]),
+                    PhysicalMemoryMB = NullCheck<long>(record["PhysicalMemoryMB"]),
+                    MaxWorkersCount = NullCheck<int>(record["MaxWorkersCount"]),
+                    AffinityType = NullCheck<string>(record["AffinityType"]),
+                    SQLServerStartTime = NullCheck<DateTime>(record["SQLServerStartTime"]),
+                    VirtualMachineType = NullCheck<string>(record["VirtualMachineType"]),
+                    SoftNUMAConfiguration = NullCheck<string>(record["SoftNUMAConfiguration"]),
+                    SQLMemoryModelDesc = NullCheck<string>(record["SQLMemoryModelDesc"]),
+                    ProcessPhysicalAffinity = NullCheck<string>(record["ProcessPhysicalAffinity"]),
                 };
             }
             catch (Exception ex)
@@ -22,11 +33,5 @@ namespace QIQO.Monitor.SQLServer.Data
                 throw new MapException($"HardwareMap Exception occured: {ex.Message}", ex);
             }
         }
-
-        public List<SqlParameter> MapParamsForUpsert(HardwareData entity) => throw new NotImplementedException();
-
-        public List<SqlParameter> MapParamsForDelete(HardwareData entity) => throw new NotImplementedException();
-
-        public List<SqlParameter> MapParamsForDelete(int server_key) => throw new NotImplementedException();
     }
 }

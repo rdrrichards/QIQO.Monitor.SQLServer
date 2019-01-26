@@ -31,7 +31,7 @@ namespace QIQO.Monitor.SQLServer
                 c.IncludeXmlComments(xmlPath);
             });
 
-            services.AddSingleton<ICacheService, CacheService>();
+            services.AddSingleton<IResultsCacheService, ResultsCacheService>();
             services.AddTransient<IHubClientService, HubClientService>();
             services.AddDataAccess();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);

@@ -16,8 +16,7 @@ namespace QIQO.Monitor.SQLServer.Data
                 {
                     ServerKey = NullCheck<int>(record["server_key"]),
                     ServerName = NullCheck<string>(record["server_name"]),
-                    ServerSource = NullCheck<string>(record["server_source"]),
-                    //AuditDatetime = NullCheck<DateTime>(record["audit_datetime"]),
+                    ServerSource = NullCheck<string>(record["server_source"])
                 };
             }
             catch (Exception ex)

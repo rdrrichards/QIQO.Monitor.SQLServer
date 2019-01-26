@@ -8,9 +8,9 @@ namespace QIQO.Monitor.SQLServer.Controllers
     [ApiController]
     public class ServersController : ControllerBase
     {
-        private readonly ICacheService _cacheService;
+        private readonly ICoreCacheService _cacheService;
 
-        public ServersController(ICacheService cacheService)
+        public ServersController(ICoreCacheService cacheService)
         {
             _cacheService = cacheService;
         }

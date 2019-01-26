@@ -6,6 +6,8 @@ namespace QIQO.Monitor.Core.Contracts
 {
     public interface IMapper
     {
+        SqlParameter GetOutParam();
+        SqlParameter BuildParam(string parameterName, object value);
     }
 
     public interface IMapper<T> : IMapper
@@ -14,8 +16,10 @@ namespace QIQO.Monitor.Core.Contracts
         List<SqlParameter> MapParamsForUpsert(T entity);
         List<SqlParameter> MapParamsForDelete(T entity);
         List<SqlParameter> MapParamsForDelete(int entity_key);
-        SqlParameter GetOutParam();
-        SqlParameter BuildParam(string parameterName, object value);
+    }
+    public interface IReadMapper<T> : IMapper
+    {
+        T Map(IDataReader ds);
     }
 
 }

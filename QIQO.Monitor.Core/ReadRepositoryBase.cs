@@ -9,10 +9,10 @@ namespace QIQO.Monitor.Core
     public abstract class ReadRepositoryBase<T> : IReadRepository<T> //, IMapper<T> 
         where T : class, IEntity, new()
     {
-        protected readonly IMapper<T> Mapper;
+        protected readonly IReadMapper<T> Mapper;
         protected readonly ILogger<T> Log;
 
-        public ReadRepositoryBase(ILogger<T> logger, IMapper<T> map)
+        public ReadRepositoryBase(ILogger<T> logger, IReadMapper<T> map)
         {
             Log = logger;
             Mapper = map;
