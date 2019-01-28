@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace QIQO.Monitor.SQLServer
+namespace QIQO.Monitor.Api
 {
     public interface IResultsCacheService
     {

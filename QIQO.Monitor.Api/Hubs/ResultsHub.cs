@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using System.Threading.Tasks;
 
-namespace QIQO.Monitor.SQLServer
+namespace QIQO.Monitor.Api
 {
     public class ResultsHub : Hub
     {

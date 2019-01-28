@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 using NLog.Web;
 
-namespace QIQO.Monitor.SQLServer
+namespace QIQO.Monitor.Api
 {
     public class Program
     {

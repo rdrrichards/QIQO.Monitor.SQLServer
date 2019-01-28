@@ -13,7 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\QIQO.Monitor.SQLServer\QIQO.Monitor.SQLServer.csproj" />
+    <ProjectReference Include="..\QIQO.Monitor.Api\QIQO.Monitor.Api.csproj" />
+    <ProjectReference Include="..\QIQO.Monitor.Service\QIQO.Monitor.Service.csproj" />
   </ItemGroup>
 
 </Project>

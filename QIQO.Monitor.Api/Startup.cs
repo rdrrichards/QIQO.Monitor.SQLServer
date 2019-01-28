@@ -9,7 +9,7 @@ using System;
 using System.IO;
 using System.Reflection;
 
-namespace QIQO.Monitor.SQLServer
+namespace QIQO.Monitor.Api
 {
     public class Startup
     {

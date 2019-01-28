@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using QIQO.Monitor.SQLServer.Data;
 
-namespace QIQO.Monitor.SQLServer.Controllers
+namespace QIQO.Monitor.Api.Controllers
 {
     public class QIQOControllerBase : ControllerBase
     {

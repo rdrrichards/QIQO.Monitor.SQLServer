@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.SignalR.Client;
 using System.Threading.Tasks;
 
-namespace QIQO.Monitor.SQLServer
+namespace QIQO.Monitor.Api
 {
     public interface IHubClientService
     {

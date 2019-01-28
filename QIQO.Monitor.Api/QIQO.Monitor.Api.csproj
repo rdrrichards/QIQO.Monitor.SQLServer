@@ -7,18 +7,8 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <NoWarn>1701;1702;1705;1591</NoWarn>
-    <DocumentationFile>C:\Dev\Source\Web\Monitor\QIQO.Monitor.SQLServer\QIQO.Monitor.SQLServer\QIQO.Monitor.SQLServer.xml</DocumentationFile>
+    <DocumentationFile>C:\Dev\Source\Web\Monitor\QIQO.Monitor.SQLServer\QIQO.Monitor.Api\QIQO.Monitor.Api.xml</DocumentationFile>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="QIQO.Monitor.SQLServer.xml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="QIQO.Monitor.SQLServer.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
@@ -37,6 +27,12 @@
     <Content Update="nlog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="QIQO.Monitor.Api.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,4 @@
-﻿namespace QIQO.Monitor.SQLServer
+﻿namespace QIQO.Monitor.Api
 {
     public static class ResultsCacheKeys
     {
