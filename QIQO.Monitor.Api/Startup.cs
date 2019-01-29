@@ -25,11 +25,17 @@ namespace QIQO.Monitor.Api
         {
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "QIQO SQL Server Monitoring API", Version = "v1" });
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.SwaggerDoc(Configuration["Swagger:Version"],
+                    new Info
+                    {
+                        Title = Configuration["Swagger:ApplicationName"],
+                        Version = Configuration["Swagger:Version"],
+                        Description = Configuration["Swagger:Description"]
+                    });
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, $"{Assembly.GetExecutingAssembly().GetName().Name}.xml");
                 c.IncludeXmlComments(xmlPath);
             });
+
 
             services.AddSingleton<IResultsCacheService, ResultsCacheService>();
             services.AddTransient<IHubClientService, HubClientService>();
@@ -53,7 +59,7 @@ namespace QIQO.Monitor.Api
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "QIQO SQL Server Monitoring API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", Configuration["Swagger:ApplicationName"]);
             });
             app.UseSignalR(routes =>
             {

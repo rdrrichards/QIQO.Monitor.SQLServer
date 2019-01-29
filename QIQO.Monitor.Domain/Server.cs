@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace QIQO.Monitor.Domain
 {
     public class Server
     {
-        public Server(string serverName, string serverSource)
-        {
-            ServerName = serverName;
-            ServerSource = serverSource;
-        }
-        public string ServerName { get; }
-        public string ServerSource { get; }
+        public Server(string name) => Name = name;
+        public string Name { get; }
+        public IEnumerable<Monitor> Monitors { get; }
     }
 }
