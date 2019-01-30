@@ -7,5 +7,5 @@ namespace QIQO.Monitor.Domain
     {
         IEnumerable<IModel> Results { get; }
     }
-    public interface IResultPayload<T> : IResultPayload where T : class, IModel, new() { }
+    public interface IResultPayload<T> : IResultPayload where T : IModel { }
 }

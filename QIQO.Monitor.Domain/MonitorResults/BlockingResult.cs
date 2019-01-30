@@ -7,17 +7,32 @@ namespace QIQO.Monitor.Domain
     {
         IEnumerable<IModel> IResultPayload.Results => new List<Blocking>();
     }
-    public class Blocking : IModel
+    public partial class Blocking : IModel
     {
-        public string LockType { get; set; }
-        public string Database { get; set; }
-        public int BlockObject { get; set; }
-        public string LockRequest { get; set; }
-        public int WaiterSid { get; set; }
-        public int WaitTime { get; set; }
-        public string WaiterBatch { get; set; }
-        public string WaiterStatement { get; set; }
-        public int BlockerSid { get; set; }
-        public string BlockerBatch { get; set; }
+        public Blocking(string lockType, string database, int blockObject,
+            string lockRequest, int waiterSid, int waitTime, string waiterBatch,
+            string waiterStatement, int blockerSid, string blockerBatch)
+        {
+            LockType = lockType;
+            Database = database;
+            BlockObject = blockObject;
+            LockRequest = lockRequest;
+            WaiterSid = waiterSid;
+            WaitTime = waitTime;
+            WaiterBatch = waiterBatch;
+            WaiterStatement = waiterStatement;
+            BlockerSid = blockerSid;
+            BlockerBatch = blockerBatch;
+        }
+        public string LockType { get; }
+        public string Database { get; }
+        public int BlockObject { get; }
+        public string LockRequest { get; }
+        public int WaiterSid { get; }
+        public int WaitTime { get; }
+        public string WaiterBatch { get; }
+        public string WaiterStatement { get; }
+        public int BlockerSid { get; }
+        public string BlockerBatch { get; }
     }
 }

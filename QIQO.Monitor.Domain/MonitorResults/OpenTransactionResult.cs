@@ -8,15 +8,27 @@ namespace QIQO.Monitor.Domain
     {
         IEnumerable<IModel> IResultPayload.Results => new List<OpenTranaction>();
     }
-    public class OpenTranaction : IModel
+    public partial class OpenTranaction : IModel
     {
-        public int SessionId { get; set; }
-        public string HostName { get; set; }
-        public string LoginName { get; set; }
-        public long TransactionID { get; set; }
-        public string TransactionName { get; set; }
-        public DateTime TransactionBegan { get; set; }
-        public int DatabaseId { get; set; }
-        public string DatabaseName { get; set; }
+        public OpenTranaction(int sessionId, string hostName, string loginName, long transactionID,
+            string transactionName, DateTime transactionBegan, int databaseId, string databaseName)
+        {
+            SessionId = sessionId;
+            HostName = hostName;
+            LoginName = loginName;
+            TransactionID = transactionID;
+            TransactionName = transactionName;
+            TransactionBegan = transactionBegan;
+            DatabaseId = databaseId;
+            DatabaseName = databaseName;
+        }
+        public int SessionId { get; }
+        public string HostName { get; }
+        public string LoginName { get; }
+        public long TransactionID { get; }
+        public string TransactionName { get; }
+        public DateTime TransactionBegan { get; }
+        public int DatabaseId { get; }
+        public string DatabaseName { get; }
     }
 }
