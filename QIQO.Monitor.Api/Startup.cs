@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using QIQO.Monitor.Api.Services;
 using QIQO.Monitor.SQLServer.Data;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
@@ -40,6 +41,7 @@ namespace QIQO.Monitor.Api
             services.AddSingleton<IResultsCacheService, ResultsCacheService>();
             services.AddTransient<IHubClientService, HubClientService>();
             services.AddDataAccess();
+            services.AddEntityServices();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddSignalR();
         }
