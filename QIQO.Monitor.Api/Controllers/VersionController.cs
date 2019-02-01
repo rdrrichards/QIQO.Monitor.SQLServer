@@ -9,13 +9,11 @@ namespace QIQO.Monitor.Api.Controllers
     public class VersionController : QIQOControllerBase
     {
         private readonly IServerRepository _serverRepository;
-        private readonly IHubClientService _hubClientService;
 
-        public VersionController(IDbContextFactory dbContextFactory, IHubClientService hubClientService,
+        public VersionController(IDbContextFactory dbContextFactory, 
             IDataRepositoryFactory repositoryFactory, IServerRepository serverRepository) : base(dbContextFactory, repositoryFactory)
         {
             _serverRepository = serverRepository;
-            _hubClientService = hubClientService;
         }
 
         // GET api/values/5
@@ -28,7 +26,6 @@ namespace QIQO.Monitor.Api.Controllers
                 CreateContext(server.ServerSource);
                 var repo = _repositoryFactory.GetDataRepository<IVersionRepository>();
                 var version = repo.Get().ToArray()[0].VersionText;
-                _hubClientService.SendResult(ResultType.Version, version);
                 return Ok(version);
             }
             return NotFound();

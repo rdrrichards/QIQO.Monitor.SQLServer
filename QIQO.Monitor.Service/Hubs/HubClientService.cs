@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.SignalR.Client;
+﻿using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.Extensions.Configuration;
 using System.Threading.Tasks;
 
-namespace QIQO.Monitor.Api
+namespace QIQO.Monitor.Service
 {
     public interface IHubClientService
     {
@@ -11,22 +11,21 @@ namespace QIQO.Monitor.Api
     public class HubClientService : IHubClientService
     {
         private readonly HubConnection connection;
-        public HubClientService(IHttpContextAccessor httpContext)
+        public HubClientService(IConfiguration configuration)
         {
-            var cx = httpContext.HttpContext;
-            var url = $"{cx.Request.Scheme}://{cx.Request.Host}/results";
             connection = new HubConnectionBuilder()
-                .WithUrl(url)
+                .WithUrl(configuration["WS:BaseUrl"])
                 .Build();
             connection.StartAsync();
         }
         public async Task SendResult(ResultType resultType, object payload)
         {
-            await connection.InvokeAsync("SendResult", resultType, payload);
+            await connection.InvokeAsync("result", resultType, payload);
         }
     }
     public enum ResultType
     {
-        Version
+        Blocking,
+        OpenTransaction
     }
 }

@@ -60,7 +60,7 @@ namespace QIQO.Monitor.Service
                 .ConfigureLogging(logging =>
                 {
                     logging.ClearProviders();
-                    logging.SetMinimumLevel(LogLevel.Error);
+                    logging.SetMinimumLevel(LogLevel.Information);
                 })
                 .UseNLog()
                 .ConfigureAppConfiguration((context, config) =>

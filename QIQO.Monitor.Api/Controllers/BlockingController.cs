@@ -10,13 +10,11 @@ namespace QIQO.Monitor.Api.Controllers
     public class BlockingController : QIQOControllerBase
     {
         private readonly IServerRepository _serverRepository;
-        private readonly IHubClientService _hubClientService;
 
-        public BlockingController(IDbContextFactory dbContextFactory, IHubClientService hubClientService,
+        public BlockingController(IDbContextFactory dbContextFactory, 
             IDataRepositoryFactory repositoryFactory, IServerRepository serverRepository) : base(dbContextFactory, repositoryFactory)
         {
             _serverRepository = serverRepository;
-            _hubClientService = hubClientService;
         }
 
         // GET api/values/5

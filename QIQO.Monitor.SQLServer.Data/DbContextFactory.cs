@@ -22,6 +22,6 @@ namespace QIQO.Monitor.SQLServer.Data
             var serviceCol = _services.BuildServiceProvider();
             _logger = serviceCol.GetService<ILogger<DbContextBase>>();
         }
-        public void Create(string connectionString) => _services.AddScoped<ISqlServerDbContext>(_ => new SqlServerDbContext(_logger, connectionString));
+        public void Create(string connectionString) => _services.AddTransient<ISqlServerDbContext>(_ => new SqlServerDbContext(_logger, connectionString));
     }
 }

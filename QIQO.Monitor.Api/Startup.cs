@@ -39,7 +39,6 @@ namespace QIQO.Monitor.Api
 
 
             services.AddSingleton<IResultsCacheService, ResultsCacheService>();
-            services.AddTransient<IHubClientService, HubClientService>();
             services.AddDataAccess();
             services.AddEntityServices();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
