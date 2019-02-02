@@ -20,6 +20,18 @@ namespace QIQO.Monitor.SQLServer.Data
             services.AddTransient<ICategoryMap, CategoryMap>();
             services.AddTransient<ICategoryRepository, CategoryRepository>();
 
+
+            services.AddTransient<IMonitorMap, MonitorMap>();
+            services.AddTransient<IMonitorRepository, MonitorRepository>();
+            services.AddTransient<IMonitorTypeMap, IMonitorTypeMap>();
+            services.AddTransient<IMonitorTypeRepository, MonitorTypeRepository>();
+            services.AddTransient<IQueryHistoryMap, QueryHistoryMap>();
+            services.AddTransient<IQueryHistoryRepository, QueryHistoryRepository>();
+            services.AddTransient<IServiceMap, ServiceMap>();
+            services.AddTransient<IServiceRepository, ServiceRepository>();
+            services.AddTransient<IServiceTypeMap, ServiceTypeMap>();
+            services.AddTransient<IServiceTypeRepository, ServiceTypeRepository>();
+
             services.AddTransient<IVersionMap, VersionMap>();
             services.AddTransient<IVersionRepository, VersionRepository>();
             services.AddTransient<IHardwareMap, HardwareMap>();
