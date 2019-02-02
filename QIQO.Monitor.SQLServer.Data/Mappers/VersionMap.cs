@@ -1,8 +1,6 @@
 ﻿using QIQO.Monitor.Core;
 using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 
 namespace QIQO.Monitor.SQLServer.Data
 {
@@ -22,11 +20,5 @@ namespace QIQO.Monitor.SQLServer.Data
                 throw new MapException($"VersionMap Exception occured: {ex.Message}", ex);
             }
         }
-
-        public List<SqlParameter> MapParamsForUpsert(VersionData entity) => throw new NotImplementedException();
-
-        public List<SqlParameter> MapParamsForDelete(VersionData entity) => throw new NotImplementedException();
-
-        public List<SqlParameter> MapParamsForDelete(int server_key) => throw new NotImplementedException();
     }
 }

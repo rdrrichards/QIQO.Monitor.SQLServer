@@ -29,11 +29,11 @@ namespace QIQO.Monitor.SQLServer.Data
 
         public List<SqlParameter> MapParamsForUpsert(ServiceData entity) => new List<SqlParameter>
             {
-                new SqlParameter("@service_key", entity.ServiceKey),
-                new SqlParameter("@server_key", entity.ServerKey),
-                new SqlParameter("@service_type_key", entity.ServiceTypeKey),
-                new SqlParameter("@service_name", entity.ServiceName),
-                new SqlParameter("@instance_name", entity.InstanceName),
+                BuildParam("@service_key", entity.ServiceKey),
+                BuildParam("@server_key", entity.ServerKey),
+                BuildParam("@service_type_key", entity.ServiceTypeKey),
+                BuildParam("@service_name", entity.ServiceName),
+                BuildParam("@instance_name", entity.InstanceName),
                 GetOutParam()
             };
 
@@ -41,7 +41,7 @@ namespace QIQO.Monitor.SQLServer.Data
 
         public List<SqlParameter> MapParamsForDelete(int category_key) => new List<SqlParameter>
             {
-                new SqlParameter("@service_key", category_key),
+                BuildParam("@service_key", category_key),
                 GetOutParam()
             };
     }

@@ -27,9 +27,9 @@ namespace QIQO.Monitor.SQLServer.Data
 
         public List<SqlParameter> MapParamsForUpsert(MonitorData entity) => new List<SqlParameter>
             {
-                new SqlParameter("@monitor_key", entity.MonitorKey),
-                new SqlParameter("@monitor_type_key", entity.MonitorTypeKey),
-                new SqlParameter("@monitor_name", entity.MonitorName),
+                BuildParam("@monitor_key", entity.MonitorKey),
+                BuildParam("@monitor_type_key", entity.MonitorTypeKey),
+                BuildParam("@monitor_name", entity.MonitorName),
                 GetOutParam()
             };
 
@@ -37,7 +37,7 @@ namespace QIQO.Monitor.SQLServer.Data
 
         public List<SqlParameter> MapParamsForDelete(int category_key) => new List<SqlParameter>
             {
-                new SqlParameter("@monitor_key", category_key),
+                BuildParam("@monitor_key", category_key),
                 GetOutParam()
             };
     }
