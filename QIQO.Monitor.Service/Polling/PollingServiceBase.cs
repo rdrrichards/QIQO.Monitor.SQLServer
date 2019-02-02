@@ -9,7 +9,7 @@ namespace QIQO.Monitor.Service.Polling
         void StartPolling();
         void StopPolling();
     }
-    public abstract class PollingServiceBase : IPollingService
+    public abstract class PollingServiceBase
     {
         protected CancellationTokenSource cancellationTokenSource = null;
         protected readonly ILogger<PollingServiceBase> _logger;

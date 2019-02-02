@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace QIQO.Monitor.Domain
 {
-    public interface IResultPayload
-    {
-        IEnumerable<IModel> Results { get; }
-    }
-    public interface IResultPayload<T> : IResultPayload where T : IModel { }
+    //public interface IResultPayload
+    //{
+    //    IList<IModel> Results { get; }
+    //}
+    //public interface IResultPayload<T> : IResultPayload where T : IModel { }
 }

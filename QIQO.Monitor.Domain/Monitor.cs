@@ -12,6 +12,6 @@ namespace QIQO.Monitor.Domain
         }
         public string Name { get; } = string.Empty;
         public MonitorType MonitorType { get; } = MonitorType.Unknown;
-        public IEnumerable<MonitorResult> MonitorResults { get; } = new List<MonitorResult>();
+        // public IEnumerable<MonitorResult> MonitorResults { get; } = new List<MonitorResult>();
     }
 }

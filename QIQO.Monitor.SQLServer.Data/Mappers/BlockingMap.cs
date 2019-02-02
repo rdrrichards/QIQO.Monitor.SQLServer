@@ -12,16 +12,16 @@ namespace QIQO.Monitor.SQLServer.Data
             {
                 return new BlockingData()
                 {
-                    LockType = NullCheck<string>(record["SchedulerCount"]),
-                    Database = NullCheck<string>(record["SchedulerCount"]),
-                    BlockObject = NullCheck<int>(record["SchedulerCount"]),
-                    LockRequest = NullCheck<string>(record["SchedulerCount"]),
-                    WaiterSid = NullCheck<int>(record["SchedulerCount"]),
-                    WaitTime = NullCheck<int>(record["SchedulerCount"]),
-                    WaiterBatch = NullCheck<string>(record["SchedulerCount"]),
-                    WaiterStatement = NullCheck<string>(record["SchedulerCount"]),
-                    BlockerSid = NullCheck<int>(record["SchedulerCount"]),
-                    BlockerBatch = NullCheck<string>(record["SchedulerCount"])
+                    LockType = NullCheck<string>(record["LockType"]),
+                    Database = NullCheck<string>(record["Database"]),
+                    BlockObject = NullCheck<long>(record["BlockObject"]),
+                    LockRequest = NullCheck<string>(record["LockRequest"]),
+                    WaiterSid = NullCheck<int>(record["WaiterSid"]),
+                    WaitTime = NullCheck<long>(record["WaitTime"]),
+                    WaiterBatch = NullCheck<string>(record["WaiterBatch"]),
+                    WaiterStatement = NullCheck<string>(record["WaiterStatement"]),
+                    BlockerSid = NullCheck<short>(record["BlockerSid"]),
+                    BlockerBatch = NullCheck<string>(record["BlockerBatch"])
                 };
             }
             catch (Exception ex)

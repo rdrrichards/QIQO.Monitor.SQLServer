@@ -3,14 +3,14 @@ using System.Collections.Generic;
 
 namespace QIQO.Monitor.Domain
 {
-    public class BlockingResult : MonitorResult, IResultPayload<Blocking>
+    public class BlockingResult : MonitorResult<Blocking>
     {
-        IEnumerable<IModel> IResultPayload.Results => new List<Blocking>();
+        public override List<Blocking> Results { get; } = new List<Blocking>();
     }
     public partial class Blocking : IModel
     {
-        public Blocking(string lockType, string database, int blockObject,
-            string lockRequest, int waiterSid, int waitTime, string waiterBatch,
+        public Blocking(string lockType, string database, long blockObject,
+            string lockRequest, int waiterSid, long waitTime, string waiterBatch,
             string waiterStatement, int blockerSid, string blockerBatch)
         {
             LockType = lockType;
@@ -26,10 +26,10 @@ namespace QIQO.Monitor.Domain
         }
         public string LockType { get; }
         public string Database { get; }
-        public int BlockObject { get; }
+        public long BlockObject { get; }
         public string LockRequest { get; }
         public int WaiterSid { get; }
-        public int WaitTime { get; }
+        public long WaitTime { get; }
         public string WaiterBatch { get; }
         public string WaiterStatement { get; }
         public int BlockerSid { get; }

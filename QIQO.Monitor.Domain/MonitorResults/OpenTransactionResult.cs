@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace QIQO.Monitor.Domain
 {
-    public class OpenTransactionResult : MonitorResult, IResultPayload<OpenTranaction>
+    public class OpenTransactionResult : MonitorResult<OpenTranaction>
     {
-        IEnumerable<IModel> IResultPayload.Results => new List<OpenTranaction>();
+        public override List<OpenTranaction> Results { get; } = new List<OpenTranaction>();
     }
     public partial class OpenTranaction : IModel
     {

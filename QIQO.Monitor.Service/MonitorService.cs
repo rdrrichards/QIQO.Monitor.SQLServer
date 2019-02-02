@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using QIQO.Monitor.Service.Polling;
+using QIQO.Monitor.Service.Services;
 using QIQO.Monitor.SQLServer.Data;
 using System.Linq;
 
@@ -26,6 +27,7 @@ namespace QIQO.Monitor.Service
             servicesToMonitor.ForEach(s =>
             {
                 _logger.LogInformation($"Doing something with {s.ServerName} in the MonitorService");
+                _pollingServiceFactory.GetPollingService<IBlockingPollingService>().StartPolling(s.ServerSource);
             });
         }
     }
