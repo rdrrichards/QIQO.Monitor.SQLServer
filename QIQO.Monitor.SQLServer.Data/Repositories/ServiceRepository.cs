@@ -18,24 +18,24 @@ namespace QIQO.Monitor.SQLServer.Data
         public override IEnumerable<ServiceData> GetAll()
         {
             Log.LogInformation("Accessing ServiceRepository GetAll function");
-            using (entityContext) return MapRows(entityContext.ExecuteProcedureAsSqlDataReader("usp_server_all"));
+            using (entityContext) return MapRows(entityContext.ExecuteProcedureAsSqlDataReader("usp_service_all"));
         }
 
-        public override ServiceData GetByID(int server_key)
+        public override ServiceData GetByID(int service_key)
         {
             Log.LogInformation("Accessing ServiceRepository GetByID function");
-            var pcol = new List<SqlParameter>() { Mapper.BuildParam("@server_key", server_key) };
-            using (entityContext) return MapRow(entityContext.ExecuteProcedureAsSqlDataReader("usp_server_get", pcol));
+            var pcol = new List<SqlParameter>() { Mapper.BuildParam("@service_key", service_key) };
+            using (entityContext) return MapRow(entityContext.ExecuteProcedureAsSqlDataReader("usp_service_get", pcol));
         }
 
-        public override ServiceData GetByCode(string server_code, string entityCode)
+        public override ServiceData GetByCode(string service_code, string entityCode)
         {
             Log.LogInformation("Accessing ServiceRepository GetByCode function");
             var pcol = new List<SqlParameter>() {
-                Mapper.BuildParam("@server_code", server_code),
+                Mapper.BuildParam("@service_code", service_code),
                 Mapper.BuildParam("@company_code", entityCode)
             };
-            using (entityContext) return MapRow(entityContext.ExecuteProcedureAsSqlDataReader("usp_server_get_c", pcol));
+            using (entityContext) return MapRow(entityContext.ExecuteProcedureAsSqlDataReader("usp_service_get_c", pcol));
         }
 
         public override void Insert(ServiceData entity)
@@ -59,26 +59,26 @@ namespace QIQO.Monitor.SQLServer.Data
         public override void Delete(ServiceData entity)
         {
             Log.LogInformation("Accessing ServiceRepository Delete function");
-            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_server_del", Mapper.MapParamsForDelete(entity));
+            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_service_del", Mapper.MapParamsForDelete(entity));
         }
 
         public override void DeleteByCode(string entityCode)
         {
             Log.LogInformation("Accessing ServiceRepository DeleteByCode function");
-            var pcol = new List<SqlParameter>() { Mapper.BuildParam("@server_code", entityCode) };
+            var pcol = new List<SqlParameter>() { Mapper.BuildParam("@service_code", entityCode) };
             pcol.Add(Mapper.GetOutParam());
-            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_server_del_c", pcol);
+            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_service_del_c", pcol);
         }
 
         public override void DeleteByID(int entityKey)
         {
             Log.LogInformation("Accessing ServiceRepository Delete function");
-            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_server_del", Mapper.MapParamsForDelete(entityKey));
+            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_service_del", Mapper.MapParamsForDelete(entityKey));
         }
 
         private void Upsert(ServiceData entity)
         {
-            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_server_ups", Mapper.MapParamsForUpsert(entity));
+            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_service_ups", Mapper.MapParamsForUpsert(entity));
         }
     }
 }
