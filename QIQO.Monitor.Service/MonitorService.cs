@@ -22,12 +22,17 @@ namespace QIQO.Monitor.Service
         }
         private void StartMonitors()
         {
-            var servicesToMonitor =_cacheService.GetServers().ToList();
+            var serversToMonitor =_cacheService.GetServers().ToList();
             var queries = _cacheService.GetQueries().ToList();
-            servicesToMonitor.ForEach(s =>
+            serversToMonitor.ForEach(server =>
             {
-                _logger.LogInformation($"Doing something with {s.ServerName} in the MonitorService");
-                _pollingServiceFactory.GetPollingService<IBlockingPollingService>().StartPolling(s.ServerSource);
+                _logger.LogInformation($"Doing something with {server.ServerName} in the MonitorService");
+                // Start basci server level monitors (when we have them built)
+                // _pollingServiceFactory.GetPollingService<IBlockingPollingService>().StartPolling(server);
+
+                // Then, pass the server object along to another function that
+                // starts monitors for any services on that server
+                _pollingServiceFactory.GetPollingService<IBlockingPollingService>().StartPolling(server.ServerSource);
             });
         }
     }

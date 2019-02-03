@@ -12,7 +12,7 @@ namespace QIQO.Monitor.Domain
     }
     public abstract class MonitorResult<T> : IMonitorResult<T> where T : IModel
     {
-        public DateTime ResultDateTime { get; } = DateTime.Now;
+        public virtual DateTime ResultDateTime { get; } = DateTime.Now;
         // public IResultPayload ResultPayload { get; }
         public abstract List<T> Results { get; }
     }

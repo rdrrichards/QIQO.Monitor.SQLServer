@@ -28,6 +28,11 @@ namespace QIQO.Monitor.Service.Services
             ServiceSource = serviceSource;
             StartPolling();
         }
+        public void StartPolling(Domain.Service service)
+        {
+            ServiceSource = service.Name;
+            StartPolling();
+        }
         public override void StartPolling()
         {
             var token = cancellationTokenSource.Token;
