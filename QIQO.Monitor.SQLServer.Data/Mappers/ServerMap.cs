@@ -15,8 +15,7 @@ namespace QIQO.Monitor.SQLServer.Data
                 return new ServerData()
                 {
                     ServerKey = NullCheck<int>(record["server_key"]),
-                    ServerName = NullCheck<string>(record["server_name"]),
-                    ServerSource = NullCheck<string>(record["server_source"])
+                    ServerName = NullCheck<string>(record["server_name"])
                 };
             }
             catch (Exception ex)
@@ -29,7 +28,6 @@ namespace QIQO.Monitor.SQLServer.Data
             {
                 BuildParam("@server_key", entity.ServerKey),
                 BuildParam("@server_name", entity.ServerName),
-                BuildParam("@server_source", entity.ServerSource),
                 GetOutParam()
             };
 

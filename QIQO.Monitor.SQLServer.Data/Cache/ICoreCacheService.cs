@@ -9,5 +9,9 @@ namespace QIQO.Monitor.SQLServer.Data
         IEnumerable<QueryData> GetQueries();
         QueryData GetQuery(string name, int level);
         QueryData GetQuery(int id);
+
+        IEnumerable<ServiceData> GetServices();
+        ServiceData GetService(int serviceKey);
+        IEnumerable<ServiceData> GetServices(int serverKey);
     }
 }

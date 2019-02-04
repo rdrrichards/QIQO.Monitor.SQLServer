@@ -11,8 +11,10 @@ namespace QIQO.Monitor.Service
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMemoryCache();
+            services.AddEntityServices();
             services.AddDataAccess();
             services.AddPollers();
+            services.AddTransient<IServerManager, ServerManager>();
             services.AddSignalR();
             services.AddTransient<IHubClientService, HubClientService>();
             services.AddSingleton<IMonitorService, MonitorService>();

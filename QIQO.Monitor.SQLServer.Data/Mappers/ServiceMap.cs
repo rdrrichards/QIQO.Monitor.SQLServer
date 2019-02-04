@@ -18,7 +18,8 @@ namespace QIQO.Monitor.SQLServer.Data
                     ServerKey = NullCheck<int>(record["server_key"]),
                     ServiceTypeKey = NullCheck<int>(record["service_type_key"]),
                     ServiceName = NullCheck<string>(record["service_name"]),
-                    InstanceName = NullCheck<string>(record["instance_name"])
+                    InstanceName = NullCheck<string>(record["instance_name"]),
+                    ServiceSource = NullCheck<string>(record["service_source"])
                 };
             }
             catch (Exception ex)
@@ -34,6 +35,7 @@ namespace QIQO.Monitor.SQLServer.Data
                 BuildParam("@service_type_key", entity.ServiceTypeKey),
                 BuildParam("@service_name", entity.ServiceName),
                 BuildParam("@instance_name", entity.InstanceName),
+                BuildParam("@service_source", entity.ServiceSource),
                 GetOutParam()
             };
 

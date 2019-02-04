@@ -24,7 +24,8 @@ namespace QIQO.Monitor.Api.Controllers
             var server = _serverRepository.GetAll().FirstOrDefault(s => s.ServerKey == id);
             if (server != null)
             {
-                CreateContext(server.ServerSource);
+                //***** THIS IS NOT RIGHT!! *******//
+                CreateContext(server.ServerName);
                 var repo = _repositoryFactory.GetDataRepository<IOpenTranactionRepository>();
                 var transOpen = repo.Get();
                 // _hubClientService.SendResult(ResultType.Version, version);

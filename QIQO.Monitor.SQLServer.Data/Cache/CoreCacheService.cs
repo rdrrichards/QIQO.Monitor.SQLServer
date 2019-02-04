@@ -9,15 +9,19 @@ namespace QIQO.Monitor.SQLServer.Data
     {
         private readonly IMemoryCache _cache;
         private readonly IServerRepository _serverRepository;
+        private readonly IServiceRepository _serviceRepository;
         private readonly IQueryRepository _queryRepository;
 
-        public CoreCacheService(IMemoryCache memoryCache, IServerRepository serverRepository, IQueryRepository queryRepository)
+        public CoreCacheService(IMemoryCache memoryCache, IServerRepository serverRepository, IServiceRepository serviceRepository,
+            IQueryRepository queryRepository)
         {
             _cache = memoryCache;
             _serverRepository = serverRepository;
+            _serviceRepository = serviceRepository;
             _queryRepository = queryRepository;
             GetServers();
             GetQueries();
+            GetServices();
         }
         public IEnumerable<ServerData> GetServers()
         {
@@ -36,6 +40,18 @@ namespace QIQO.Monitor.SQLServer.Data
         }
         public QueryData GetQuery(string name, int level) => GetQueries().FirstOrDefault(q => q.Name == name && q.LevelKey == level);
         public QueryData GetQuery(int id) => GetQueries().FirstOrDefault(q => q.QueryKey == id);
+
+
+        public IEnumerable<ServiceData> GetServices()
+        {
+            if (!_cache.TryGetValue(CoreCacheKeys.Services, out IEnumerable<ServiceData> servers))
+                _cache.Set(CoreCacheKeys.Services, _serviceRepository.GetAll(), GetMemoryCacheEntryOptions());
+
+            return servers;
+        }
+        public ServiceData GetService(int serviceKey) => GetServices().FirstOrDefault(s => s.ServiceKey == serviceKey);
+        public IEnumerable<ServiceData> GetServices(int serverKey) => GetServices().Where(s => s.ServerKey == serverKey);
+
         private MemoryCacheEntryOptions GetMemoryCacheEntryOptions() => new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromMinutes(20));
     }
 }

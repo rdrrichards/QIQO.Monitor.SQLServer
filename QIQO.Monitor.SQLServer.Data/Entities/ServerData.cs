@@ -4,6 +4,5 @@
     {
         public int ServerKey { get; set; }
         public string ServerName { get; set; }
-        public string ServerSource { get; set; }
     }
 }
