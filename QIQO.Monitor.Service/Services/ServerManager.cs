@@ -33,7 +33,17 @@ namespace QIQO.Monitor.Service
 
             serversToMonitor.ForEach(server =>
             {
-                servers.Add(new Server(server, _serviceEntityService.Map(_cacheService.GetServices(server.ServerKey))));
+                var services = new List<Service>();
+                _cacheService.GetServices(server.ServerKey).ToList().ForEach(service =>
+                {
+                    var monitors = new List<Monitor>();
+                    _cacheService.GetMonitors(service.ServiceTypeKey).ToList().ForEach(monitor =>
+                    {
+                        monitors.Add(new Monitor(monitor, _queryEntityService.Map(_cacheService.GetQueries(monitor.MonitorKey))));
+                    });
+                    services.Add(new Service(service, monitors));
+                });
+                servers.Add(new Server(server, services));
             });
 
             return servers;

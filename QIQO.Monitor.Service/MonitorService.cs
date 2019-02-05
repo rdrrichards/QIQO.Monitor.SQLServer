@@ -27,27 +27,42 @@ namespace QIQO.Monitor.Service
             // var queries = _cacheService.GetQueries().ToList();
             serversToMonitor.ForEach(server =>
             {
-                _logger.LogInformation($"Doing something with {server.ServerName} in the MonitorService");
+                _logger.LogInformation($"Beginning to monitor {server.ServerName}");
                 // Start basci server level monitors (when we have them built)
                 // _pollingServiceFactory.GetPollingService<IBlockingPollingService>().StartPolling(server);
 
                 // Then, pass the server object along to another function that
                 // starts monitors for any services on that server
                 // _pollingServiceFactory.GetPollingService<IBlockingPollingService>().StartPolling(server.ServiceSource);
-                StartSqlMonitors(server.Services);
+                StartSqlMonitors(server.Services.Where(s => s.ServiceType == ServiceType.SqlServer).ToList());
             });
         }
         private void StartSqlMonitors(List<Service> services)
         {
             services.ForEach(service =>
             {
-                _logger.LogInformation($"Doing something with {service.ServiceSource} in the MonitorService");
-                // Start basci server level monitors (when we have them built)
-                // _pollingServiceFactory.GetPollingService<IBlockingPollingService>().StartPolling(server);
-
-                // Then, pass the server object along to another function that
-                // starts monitors for any services on that server
-                _pollingServiceFactory.GetPollingService<IBlockingPollingService>().StartPolling(service.ServiceSource);
+                _logger.LogInformation($"Beginning to monitor Sql Server {service.ServiceSource}");
+                service.Monitors.ForEach(monitor => 
+                {
+                    monitor.Queries.ForEach(query =>
+                    {
+                        switch (query.QueryCategory)
+                        {
+                            case QueryCategory.Version:
+                                break;
+                            case QueryCategory.SQLServerHardware:
+                                break;
+                            case QueryCategory.DetectBlocking:
+                                _pollingServiceFactory.GetPollingService<IBlockingPollingService>().StartPolling(service.ServiceSource);
+                                break;
+                            case QueryCategory.OpenTranactions:
+                                // _pollingServiceFactory.GetPollingService<IOpenTranactionPollingService>().StartPolling(service.ServiceSource);
+                                break;
+                            default:
+                                break;
+                        }
+                    });
+                });                
             });
         }
     }
