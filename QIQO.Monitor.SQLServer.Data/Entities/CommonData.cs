@@ -1,5 +1,4 @@
 using QIQO.Monitor.Core.Contracts;
-using System;
 
 namespace QIQO.Monitor.SQLServer.Data
 {

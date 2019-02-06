@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace QIQO.Monitor.Domain
+﻿namespace QIQO.Monitor.Domain
 {
     public class Monitor
     {

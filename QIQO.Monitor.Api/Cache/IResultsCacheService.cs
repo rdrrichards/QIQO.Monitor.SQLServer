@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace QIQO.Monitor.Api
+﻿namespace QIQO.Monitor.Api
 {
     public interface IResultsCacheService
     {
