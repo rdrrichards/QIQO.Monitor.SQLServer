@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using QIQO.Monitor.Api.Services;
 using QIQO.Monitor.SQLServer.Data;
 
 namespace QIQO.Monitor.Api.Controllers
@@ -8,25 +10,25 @@ namespace QIQO.Monitor.Api.Controllers
     [ApiController]
     public class ServersController : ControllerBase
     {
-        private readonly ICoreCacheService _cacheService;
+        private readonly IServerManager _serverManager;
 
-        public ServersController(ICoreCacheService cacheService)
+        public ServersController(IServerManager serverManager)
         {
-            _cacheService = cacheService;
+            _serverManager = serverManager;
         }
         // GET api/values
         [HttpGet]
         public ActionResult<IEnumerable<ServerData>> Get()
         {
-            return Ok(_cacheService.GetServers());
+            return Ok(_serverManager.GetServers());
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
         public ActionResult<ServerData> Get(int id)
         {
-            var server = _cacheService.GetServer(id);
-            if (server.ServerKey != 0)
+            var server = _serverManager.GetServers().FirstOrDefault(s => s.ServerKey == id);
+            if (server != null)
                 return Ok(server);
             else
                 return NotFound();

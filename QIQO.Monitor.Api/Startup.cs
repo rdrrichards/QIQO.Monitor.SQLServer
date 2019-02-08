@@ -24,6 +24,16 @@ namespace QIQO.Monitor.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AnyOrigin", builder =>
+                {
+                    builder
+                        .AllowAnyOrigin()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc(Configuration["Swagger:Version"],
@@ -62,6 +72,7 @@ namespace QIQO.Monitor.Api
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", Configuration["Swagger:ApplicationName"]);
             });
             app.UseHttpsRedirection();
+            app.UseCors("AnyOrigin");
             app.UseMvc();
         }
     }
