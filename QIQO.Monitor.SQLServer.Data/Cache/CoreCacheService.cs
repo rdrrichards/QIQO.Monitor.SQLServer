@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,9 +14,11 @@ namespace QIQO.Monitor.SQLServer.Data
         private readonly IQueryRepository _queryRepository;
         private readonly IMonitorRepository _monitorRepository;
         private readonly IMonitorQueryRepository _monitorQueryRepository;
+        private readonly ILogger<CoreCacheService> _logger;
 
         public CoreCacheService(IMemoryCache memoryCache, IServerRepository serverRepository, IServiceRepository serviceRepository,
-            IQueryRepository queryRepository, IMonitorRepository monitorRepository, IMonitorQueryRepository monitorQueryRepository)
+            IQueryRepository queryRepository, IMonitorRepository monitorRepository, IMonitorQueryRepository monitorQueryRepository,
+            ILogger<CoreCacheService> logger)
         {
             _cache = memoryCache;
             _serverRepository = serverRepository;
@@ -23,6 +26,8 @@ namespace QIQO.Monitor.SQLServer.Data
             _queryRepository = queryRepository;
             _monitorRepository = monitorRepository;
             _monitorQueryRepository = monitorQueryRepository;
+            _logger = logger;
+            _logger.LogInformation($"Initializing {nameof(CoreCacheService)}");
             GetServers();
             GetQueries();
             GetServices();
@@ -31,8 +36,8 @@ namespace QIQO.Monitor.SQLServer.Data
         }
         public IEnumerable<ServerData> GetServers()
         {
-            if(!_cache.TryGetValue(CoreCacheKeys.Servers, out IEnumerable<ServerData> servers))
-                _cache.Set(CoreCacheKeys.Servers, _serverRepository.GetAll(), GetMemoryCacheEntryOptions());
+            if (!_cache.TryGetValue(CoreCacheKeys.Servers, out IEnumerable<ServerData> servers))
+                servers = _cache.Set(CoreCacheKeys.Servers, _serverRepository.GetAll(), GetMemoryCacheEntryOptions());
 
             return servers;
         }
@@ -40,7 +45,7 @@ namespace QIQO.Monitor.SQLServer.Data
         public IEnumerable<QueryData> GetQueries()
         {
             if (!_cache.TryGetValue(CoreCacheKeys.Queries, out IEnumerable<QueryData> queries))
-                _cache.Set(CoreCacheKeys.Queries, _queryRepository.GetAll(), GetMemoryCacheEntryOptions());
+                queries = _cache.Set(CoreCacheKeys.Queries, _queryRepository.GetAll(), GetMemoryCacheEntryOptions());
 
             return queries;
         }
@@ -52,19 +57,21 @@ namespace QIQO.Monitor.SQLServer.Data
         public IEnumerable<ServiceData> GetServices()
         {
             if (!_cache.TryGetValue(CoreCacheKeys.Services, out IEnumerable<ServiceData> services))
-                _cache.Set(CoreCacheKeys.Services, _serviceRepository.GetAll(), GetMemoryCacheEntryOptions());
+                services = _cache.Set(CoreCacheKeys.Services, _serviceRepository.GetAll(), GetMemoryCacheEntryOptions());
 
             return services;
         }
         public ServiceData GetService(int serviceKey) => GetServices().FirstOrDefault(s => s.ServiceKey == serviceKey);
         public IEnumerable<ServiceData> GetServices(int serverKey) => GetServices().Where(s => s.ServerKey == serverKey);
 
-        private MemoryCacheEntryOptions GetMemoryCacheEntryOptions() => new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromMinutes(20));
+        private MemoryCacheEntryOptions GetMemoryCacheEntryOptions() =>
+            new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromMinutes(20))
+            .SetPriority(CacheItemPriority.NeverRemove);
 
         public IEnumerable<MonitorData> GetMonitors()
         {
             if (!_cache.TryGetValue(CoreCacheKeys.Monitors, out IEnumerable<MonitorData> monitors))
-                _cache.Set(CoreCacheKeys.Monitors, _monitorRepository.GetAll(), GetMemoryCacheEntryOptions());
+                monitors = _cache.Set(CoreCacheKeys.Monitors, _monitorRepository.GetAll(), GetMemoryCacheEntryOptions());
 
             return monitors;
         }
@@ -73,7 +80,7 @@ namespace QIQO.Monitor.SQLServer.Data
         public IEnumerable<MonitorQueryData> GetMonitorQueries()
         {
             if (!_cache.TryGetValue(CoreCacheKeys.MonitorQueries, out IEnumerable<MonitorQueryData> monitorQueries))
-                _cache.Set(CoreCacheKeys.MonitorQueries, _monitorQueryRepository.GetAll(), GetMemoryCacheEntryOptions());
+                monitorQueries = _cache.Set(CoreCacheKeys.MonitorQueries, _monitorQueryRepository.GetAll(), GetMemoryCacheEntryOptions());
 
             return monitorQueries;
         }

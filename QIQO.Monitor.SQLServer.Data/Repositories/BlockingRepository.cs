@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using QIQO.Monitor.Core;
+using System;
 using System.Collections.Generic;
 
 namespace QIQO.Monitor.SQLServer.Data
@@ -7,20 +8,19 @@ namespace QIQO.Monitor.SQLServer.Data
     public class BlockingRepository : ReadRepositoryBase<BlockingData>, IBlockingRepository
     {
         private readonly ISqlServerDbContext entityContext;
-        private readonly ICoreCacheService _cacheService;
+        // private readonly ICoreCacheService _cacheService;
 
-        public BlockingRepository(ISqlServerDbContext dbc, IBlockingMap map,
-            ILogger<BlockingData> log, ICoreCacheService cacheService) : base(log, map)
+        public BlockingRepository(ISqlServerDbContext dbc, IBlockingMap map, ILogger<BlockingData> log) : base(log, map)
         {
             entityContext = dbc;
-            _cacheService = cacheService;
+            // _cacheService = cacheService;
+        }
+        public override IEnumerable<BlockingData> Get() => throw new NotImplementedException();
+        public IEnumerable<BlockingData> Get(string queryText)
+        {
+            Log.LogInformation("Accessing BlockingRepository Get(queryText) function");
+            using (entityContext) return MapRows(entityContext.ExecuteSqlStatementAsSqlDataReader(queryText));
         }
 
-        public override IEnumerable<BlockingData> Get()
-        {
-            Log.LogInformation("Accessing BlockingRepository Get function");
-            var sql = _cacheService.GetQuery("Detect Blocking", 1);
-            using (entityContext) return MapRows(entityContext.ExecuteSqlStatementAsSqlDataReader(sql.QueryText));
-        }
     }
 }

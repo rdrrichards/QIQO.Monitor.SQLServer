@@ -14,7 +14,7 @@ namespace QIQO.Monitor.Service
             services.AddEntityServices();
             services.AddDataAccess();
             services.AddPollers();
-            services.AddTransient<IServerManager, ServerManager>();
+            services.AddSingleton<IServerManager, ServerManager>();
             services.AddSignalR();
             services.AddTransient<IHubClientService, HubClientService>();
             services.AddSingleton<IMonitorService, MonitorService>();

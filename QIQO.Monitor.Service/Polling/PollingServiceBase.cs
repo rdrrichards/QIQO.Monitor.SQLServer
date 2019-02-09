@@ -16,7 +16,7 @@ namespace QIQO.Monitor.Service.Polling
         protected readonly IDbContextFactory _dbContextFactory;
         protected readonly IDataRepositoryFactory _dataRepositoryFactory;
 
-        protected int PollingInterval { get; set; } = 5000;
+        protected int PollingInterval { get; set; } = 30000;
         public PollingServiceBase(ILogger<PollingServiceBase> logger, IDbContextFactory dbContextFactory,
             IDataRepositoryFactory dataRepositoryFactory)
         {

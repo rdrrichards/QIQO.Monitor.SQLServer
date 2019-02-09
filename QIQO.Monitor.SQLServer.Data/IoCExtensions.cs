@@ -9,7 +9,7 @@ namespace QIQO.Monitor.SQLServer.Data
             services.AddSingleton<ICoreCacheService, CoreCacheService>();
             services.AddSingleton<IDbContextFactory>(new DbContextFactory(services));
             services.AddSingleton<IDataRepositoryFactory>(new DataRepositoryFactory(services));
-            services.AddTransient<IMonitorDbContext, MonitorDbContext>();
+            services.AddSingleton<IMonitorDbContext, MonitorDbContext>();
 
             services.AddTransient<IServerMap, ServerMap>();
             services.AddTransient<IServerRepository, ServerRepository>();

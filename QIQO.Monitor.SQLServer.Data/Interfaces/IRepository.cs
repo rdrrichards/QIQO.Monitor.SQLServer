@@ -1,4 +1,5 @@
 ﻿using QIQO.Monitor.Core.Contracts;
+using System.Collections.Generic;
 
 namespace QIQO.Monitor.SQLServer.Data
 {
@@ -28,7 +29,9 @@ namespace QIQO.Monitor.SQLServer.Data
     // Monitor results related interfaces
     public interface IVersionRepository : IReadRepository<VersionData> { }
     public interface IHardwareRepository : IReadRepository<HardwareData> { }
-    public interface IBlockingRepository : IReadRepository<BlockingData> { }
+    public interface IBlockingRepository : IReadRepository<BlockingData> {
+        IEnumerable<BlockingData> Get(string queryText);
+    }
     public interface IOpenTranactionRepository : IReadRepository<OpenTranactionData> { }
 
     public interface IVersionMap : IReadMapper<VersionData> { }

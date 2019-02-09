@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace QIQO.Monitor.Service.Services
 {
     public interface IBlockingPollingService : IPollingService {
-        void StartPolling(string serviceSource);
+        void StartPolling(Server server, Service service);
     }
     public class BlockingPollingService : PollingServiceBase, IBlockingPollingService
     {
@@ -22,30 +22,31 @@ namespace QIQO.Monitor.Service.Services
         {
             _hubClientService = hubClientService;
         }
-        public string ServiceSource { get; set; }
-        public void StartPolling(string serviceSource)
+        private Service Service { get; set; }
+        private Server Server { get; set; }
+        private Query Query { get; set; }
+        public void StartPolling(Server server, Service service)
         {
-            ServiceSource = serviceSource;
-            StartPolling();
-        }
-        public void StartPolling(Domain.Service service)
-        {
-            ServiceSource = service.Name;
-            StartPolling();
+            Server = server;
+            Service = service;
+            Query = Service.Monitors.FirstOrDefault(m => m.MonitorType == MonitorType.SqlServer)
+                .Queries.FirstOrDefault(q => q.QueryCategory == QueryCategory.DetectBlocking);
+            if (Query != null) StartPolling();
         }
         public override void StartPolling()
         {
+            _logger.LogInformation("Blocking Poller started");
             var token = cancellationTokenSource.Token;
             var listener = Task.Factory.StartNew(() =>
             {
                 while (true)
                 {
                     _logger.LogInformation("Blocking Polling");
-                    CreateContext(ServiceSource);
+                    CreateContext(Service.ServiceSource);
                     var repo = _dataRepositoryFactory.GetDataRepository<IBlockingRepository>();
                     try
                     {
-                        var blockingData = repo.Get().ToList();
+                        var blockingData = repo.Get(Query.QueryText).ToList();
                         if (blockingData.Count > 0)
                         {
                             // build polling monitor results
@@ -55,7 +56,7 @@ namespace QIQO.Monitor.Service.Services
                     }
                     catch (Exception ex)
                     {
-                        _hubClientService.SendResult(ResultType.Blocking, new PollingMonitorResult(ex));
+                        _hubClientService.SendResult(ResultType.Blocking, new PollingMonitorResult(Server, Service, ex));
                     }
                     
                     Thread.Sleep(PollingInterval);
@@ -75,12 +76,13 @@ namespace QIQO.Monitor.Service.Services
                     bd.LockRequest, bd.WaiterSid, bd.WaitTime, bd.WaiterBatch,
                     bd.WaiterStatement, bd.BlockerSid, bd.BlockerBatch));
             });
-            return new PollingMonitorResult(monRes);
+            return new PollingMonitorResult(Server, Service, monRes);
         }
 
         ~BlockingPollingService()
         {
             StopPolling();
+            _logger.LogInformation("Blocking Poller stopped");
         }
     }
 }

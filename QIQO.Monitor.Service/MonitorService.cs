@@ -33,12 +33,12 @@ namespace QIQO.Monitor.Service
                 // Then, pass the server object along to another function that
                 // starts monitors for any services on that server
                 // _pollingServiceFactory.GetPollingService<IBlockingPollingService>().StartPolling(server.ServiceSource);
-                StartSqlMonitors(server.Services.Where(s => s.ServiceType == ServiceType.SqlServer).ToList());
+                StartSqlMonitors(server);
             });
         }
-        private void StartSqlMonitors(List<Service> services)
+        private void StartSqlMonitors(Server server)
         {
-            services.ForEach(service =>
+            server.Services.Where(s => s.ServiceType == ServiceType.SqlServer).ToList().ForEach(service =>
             {
                 _logger.LogInformation($"Beginning to monitor Sql Server {service.ServiceSource}");
                 service.Monitors.ForEach(monitor => 
@@ -52,7 +52,7 @@ namespace QIQO.Monitor.Service
                             case QueryCategory.SQLServerHardware:
                                 break;
                             case QueryCategory.DetectBlocking:
-                                _pollingServiceFactory.GetPollingService<IBlockingPollingService>().StartPolling(service.ServiceSource);
+                                _pollingServiceFactory.GetPollingService<IBlockingPollingService>().StartPolling(server, service);
                                 break;
                             case QueryCategory.OpenTranactions:
                                 // _pollingServiceFactory.GetPollingService<IOpenTranactionPollingService>().StartPolling(service.ServiceSource);
