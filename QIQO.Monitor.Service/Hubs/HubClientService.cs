@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace QIQO.Monitor.Service
@@ -21,7 +22,10 @@ namespace QIQO.Monitor.Service
         }
         public async Task SendResult(ResultType resultType, object payload)
         {
-            var result = JsonConvert.SerializeObject(payload);
+            var result = JsonConvert.SerializeObject(payload, new JsonSerializerSettings
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            });
             await connection.InvokeAsync("SendResult", resultType, result);
         }
     }
