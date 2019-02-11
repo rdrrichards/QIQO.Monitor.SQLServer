@@ -1,6 +1,6 @@
 ﻿namespace QIQO.Monitor.Api
 {
-    public enum QueryLevel
+    public enum MonitorLevel
     {
         Instance = 1,
         Database

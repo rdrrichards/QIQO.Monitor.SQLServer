@@ -33,10 +33,10 @@ namespace QIQO.Monitor.Api.Controllers
         }
 
         // GET api/values/5
-        [HttpGet("{name}/{level}")]
-        public ActionResult<QueryData> Get(string name, int level)
+        [HttpGet("{name}")]
+        public ActionResult<QueryData> Get(string name)
         {
-            var query = _cacheService.GetQuery(name, level);
+            var query = _cacheService.GetQuery(name);
             if (query.QueryKey != 0)
                 return Ok(query);
             else

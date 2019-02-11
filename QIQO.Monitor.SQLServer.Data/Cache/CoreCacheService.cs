@@ -50,7 +50,7 @@ namespace QIQO.Monitor.SQLServer.Data
             return queries;
         }
         public IEnumerable<QueryData> GetQueries(int monitorKey) => GetQueries().Join(GetMonitorQueries().Where(s => s.MonitorKey == monitorKey), q => q.QueryKey, m => m.QueryKey, (q, m) => q);
-        public QueryData GetQuery(string name, int level) => GetQueries().FirstOrDefault(q => q.Name == name && q.LevelKey == level);
+        public QueryData GetQuery(string name) => GetQueries().FirstOrDefault(q => q.Name == name);
         public QueryData GetQuery(int id) => GetQueries().FirstOrDefault(q => q.QueryKey == id);
 
 

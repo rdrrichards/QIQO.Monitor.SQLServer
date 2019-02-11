@@ -28,7 +28,10 @@ namespace QIQO.Monitor.SQLServer.Data
 
     // Monitor results related interfaces
     public interface IVersionRepository : IReadRepository<VersionData> { }
-    public interface IHardwareRepository : IReadRepository<HardwareData> { }
+    public interface IHardwareRepository : IReadRepository<HardwareData>
+    {
+        IEnumerable<HardwareData> Get(string queryText);
+    }
     public interface IBlockingRepository : IReadRepository<BlockingData> {
         IEnumerable<BlockingData> Get(string queryText);
     }

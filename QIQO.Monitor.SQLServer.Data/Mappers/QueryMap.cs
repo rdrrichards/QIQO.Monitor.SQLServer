@@ -16,8 +16,6 @@ namespace QIQO.Monitor.SQLServer.Data
                 {
                     QueryKey = NullCheck<int>(record["query_key"]),
                     Name = NullCheck<string>(record["name"]),
-                    LevelKey = NullCheck<int>(record["level_key"]),
-                    CategoryKey = NullCheck<int>(record["category_key"]),
                     QueryText = NullCheck<string>(record["query_text"])
                 };
             }
@@ -31,8 +29,6 @@ namespace QIQO.Monitor.SQLServer.Data
             {
                 BuildParam("@query_key", entity.QueryKey),
                 BuildParam("@name", entity.Name),
-                BuildParam("@level_key", entity.LevelKey),
-                BuildParam("@category_key", entity.CategoryKey),
                 BuildParam("@query_text", entity.QueryText),
                 GetOutParam()
             };

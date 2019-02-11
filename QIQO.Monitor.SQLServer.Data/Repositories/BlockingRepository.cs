@@ -18,7 +18,7 @@ namespace QIQO.Monitor.SQLServer.Data
         public override IEnumerable<BlockingData> Get() => throw new NotImplementedException();
         public IEnumerable<BlockingData> Get(string queryText)
         {
-            Log.LogInformation("Accessing BlockingRepository Get(queryText) function");
+            // Log.LogInformation("Accessing BlockingRepository Get(queryText) function");
             using (entityContext) return MapRows(entityContext.ExecuteSqlStatementAsSqlDataReader(queryText));
         }
 

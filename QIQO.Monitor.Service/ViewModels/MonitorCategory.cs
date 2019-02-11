@@ -1,6 +1,6 @@
-﻿namespace QIQO.Monitor.Api
+﻿namespace QIQO.Monitor.Service
 {
-    public enum QueryCategory
+    public enum MonitorCategory
     {
         Version = 1,
         SQLServerHardware,

@@ -43,24 +43,21 @@ namespace QIQO.Monitor.Service
                 _logger.LogInformation($"Beginning to monitor Sql Server {service.ServiceSource}");
                 service.Monitors.ForEach(monitor => 
                 {
-                    monitor.Queries.ForEach(query =>
+                    switch (monitor.MonitorCategory)
                     {
-                        switch (query.QueryCategory)
-                        {
-                            case QueryCategory.Version:
-                                break;
-                            case QueryCategory.SQLServerHardware:
-                                break;
-                            case QueryCategory.DetectBlocking:
-                                _pollingServiceFactory.GetPollingService<IBlockingPollingService>().StartPolling(server, service);
-                                break;
-                            case QueryCategory.OpenTranactions:
-                                // _pollingServiceFactory.GetPollingService<IOpenTranactionPollingService>().StartPolling(service.ServiceSource);
-                                break;
-                            default:
-                                break;
-                        }
-                    });
+                        case MonitorCategory.Version:
+                            break;
+                        case MonitorCategory.SQLServerHardware:
+                            break;
+                        case MonitorCategory.DetectBlocking:
+                            _pollingServiceFactory.GetPollingService<IBlockingPollingService>().StartPolling(server, service);
+                            break;
+                        case MonitorCategory.OpenTranactions:
+                            // _pollingServiceFactory.GetPollingService<IOpenTranactionPollingService>().StartPolling(service.ServiceSource);
+                            break;
+                        default:
+                            break;
+                    }
                 });                
             });
         }

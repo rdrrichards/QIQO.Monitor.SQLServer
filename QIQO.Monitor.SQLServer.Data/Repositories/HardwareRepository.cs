@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using QIQO.Monitor.Core;
+using System;
 using System.Collections.Generic;
 
 namespace QIQO.Monitor.SQLServer.Data
@@ -16,11 +17,11 @@ namespace QIQO.Monitor.SQLServer.Data
             _cacheService = cacheService;
         }
 
-        public override IEnumerable<HardwareData> Get()
+        public override IEnumerable<HardwareData> Get() => throw new NotImplementedException();
+        public IEnumerable<HardwareData> Get(string queryText)
         {
-            Log.LogInformation("Accessing HardwareRepository Get function");
-            var sql = _cacheService.GetQuery("SQL Server Hardware", 1);
-            using (entityContext) return MapRows(entityContext.ExecuteSqlStatementAsSqlDataReader(sql.QueryText));
+            Log.LogInformation("Accessing OpenTranactionRepository Get function");
+            using (entityContext) return MapRows(entityContext.ExecuteSqlStatementAsSqlDataReader(queryText));
         }
     }
 }

@@ -24,13 +24,15 @@ namespace QIQO.Monitor.Service.Services
         }
         private Service Service { get; set; }
         private Server Server { get; set; }
+        private Monitor Monitor { get; set; }
         private Query Query { get; set; }
         public void StartPolling(Server server, Service service)
         {
             Server = server;
             Service = service;
-            Query = Service.Monitors.FirstOrDefault(m => m.MonitorType == MonitorType.SqlServer)
-                .Queries.FirstOrDefault(q => q.QueryCategory == QueryCategory.DetectBlocking);
+            Monitor = Service.Monitors.FirstOrDefault(m => m.MonitorType == MonitorType.SqlServer &&
+                m.MonitorCategory == MonitorCategory.DetectBlocking);
+            Query = Monitor.Queries.FirstOrDefault();
             if (Query != null) StartPolling();
         }
         public override void StartPolling()
@@ -81,8 +83,8 @@ namespace QIQO.Monitor.Service.Services
 
         ~BlockingPollingService()
         {
+            _logger.LogInformation("Blocking Poller stopping");
             StopPolling();
-            _logger.LogInformation("Blocking Poller stopped");
         }
     }
 }

@@ -17,6 +17,8 @@ namespace QIQO.Monitor.SQLServer.Data
                     MonitorKey = NullCheck<int>(record["monitor_key"]),
                     MonitorTypeKey = NullCheck<int>(record["monitor_type_key"]),
                     MonitorName = NullCheck<string>(record["monitor_name"]),
+                    LevelKey = NullCheck<int>(record["level_key"]),
+                    CategoryKey = NullCheck<int>(record["category_key"]),
                 };
             }
             catch (Exception ex)
@@ -30,6 +32,8 @@ namespace QIQO.Monitor.SQLServer.Data
                 BuildParam("@monitor_key", entity.MonitorKey),
                 BuildParam("@monitor_type_key", entity.MonitorTypeKey),
                 BuildParam("@monitor_name", entity.MonitorName),
+                BuildParam("@level_key", entity.LevelKey),
+                BuildParam("@category_key", entity.CategoryKey),
                 GetOutParam()
             };
 
