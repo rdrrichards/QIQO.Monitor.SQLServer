@@ -43,7 +43,7 @@ namespace QIQO.Monitor.Service.Services
             {
                 while (true)
                 {
-                    _logger.LogInformation("Blocking Polling");
+                    _logger.LogInformation($"Blocking Polling: Server: {Server.ServerName}; Service: {Service.ServiceName}; Monitor: {Monitor.MonitorName};");
                     CreateContext(Service.ServiceSource);
                     var repo = _dataRepositoryFactory.GetDataRepository<IBlockingRepository>();
                     try
