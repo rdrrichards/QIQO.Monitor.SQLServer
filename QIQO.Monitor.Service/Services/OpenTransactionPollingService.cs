@@ -8,14 +8,15 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+
 namespace QIQO.Monitor.Service.Services
 {
-    public interface IBlockingPollingService : IPollingService { }
-    public class BlockingPollingService : PollingServiceBase<BlockingData>, IBlockingPollingService
+    public interface IOpenTransactionPollingService : IPollingService { }
+    public class OpenTransactionPollingService : PollingServiceBase<OpenTransactionData>, IOpenTransactionPollingService
     {
         private readonly IHubClientService _hubClientService;
 
-        public BlockingPollingService(ILogger<BlockingPollingService> logger, IDbContextFactory dbContextFactory,
+        public OpenTransactionPollingService(ILogger<OpenTransactionPollingService> logger, IDbContextFactory dbContextFactory,
             IDataRepositoryFactory dataRepositoryFactory, IHubClientService hubClientService) : base(logger, dbContextFactory, dataRepositoryFactory)
         {
             _hubClientService = hubClientService;
@@ -25,36 +26,36 @@ namespace QIQO.Monitor.Service.Services
             Server = server;
             Service = service;
             Monitor = Service.Monitors.FirstOrDefault(m => m.MonitorType == MonitorType.SqlServer &&
-                m.MonitorCategory == MonitorCategory.DetectBlocking);
+                m.MonitorCategory == MonitorCategory.OpenTranactions);
             Query = Monitor.Queries.FirstOrDefault();
             if (Query != null) StartPolling();
         }
         public override void StartPolling()
         {
-            _logger.LogInformation("Blocking Poller started");
+            _logger.LogInformation("Open Transaction Poller started");
             var token = cancellationTokenSource.Token;
             var listener = Task.Factory.StartNew(() =>
             {
                 while (true)
                 {
-                    _logger.LogInformation($"Blocking Polling: Server: {Server.ServerName}; Service: {Service.ServiceName}; Monitor: {Monitor.MonitorName};");
+                    _logger.LogInformation($"Open Transaction Polling: Server: {Server.ServerName}; Service: {Service.ServiceName}; Monitor: {Monitor.MonitorName};");
                     CreateContext(Service.ServiceSource);
-                    var repo = _dataRepositoryFactory.GetDataRepository<IBlockingRepository>();
+                    var repo = _dataRepositoryFactory.GetDataRepository<IOpenTransactionRepository>();
                     try
                     {
-                        var blockingData = repo.Get(Query.QueryText).ToList();
-                        if (blockingData.Count > 0)
+                        var openTxData = repo.Get(Query.QueryText).ToList();
+                        if (openTxData.Count > 0)
                         {
                             // build polling monitor results
                             // send to the result to the hub for anyone listtening
-                            _hubClientService.SendResult(ResultType.Blocking, BuildMonitorResult(blockingData));
+                            _hubClientService.SendResult(ResultType.OpenTransaction, BuildMonitorResult(openTxData));
                         }
                     }
                     catch (Exception ex)
                     {
-                        _hubClientService.SendResult(ResultType.Blocking, new PollingMonitorResult(Server, Service, ex));
+                        _hubClientService.SendResult(ResultType.OpenTransaction, new PollingMonitorResult(Server, Service, ex));
                     }
-                    
+
                     Thread.Sleep(PollingInterval);
                     if (token.IsCancellationRequested)
                         break;
@@ -63,21 +64,20 @@ namespace QIQO.Monitor.Service.Services
             }, token, TaskCreationOptions.LongRunning, TaskScheduler.Default);
         }
 
-        public override PollingMonitorResult BuildMonitorResult(IEnumerable<BlockingData> blockingData)
+        public override PollingMonitorResult BuildMonitorResult(IEnumerable<OpenTransactionData> openTxData)
         {
-            var monRes = new BlockingResult();
-            blockingData.ToList().ForEach(bd =>
+            var monRes = new OpenTransactionResult();
+            openTxData.ToList().ForEach(tx =>
             {
-                monRes.Results.Add(new Blocking(bd.LockType, bd.Database, bd.BlockObject,
-                    bd.LockRequest, bd.WaiterSid, bd.WaitTime, bd.WaiterBatch,
-                    bd.WaiterStatement, bd.BlockerSid, bd.BlockerBatch));
+                monRes.Results.Add(new OpenTransaction(tx.SessionId, tx.HostName, tx.LoginName, tx.TransactionID,
+                    tx.TransactionName, tx.TransactionBegan, tx.DatabaseId, tx.DatabaseName));
             });
             return new PollingMonitorResult(Server, Service, monRes);
         }
 
-        ~BlockingPollingService()
+        ~OpenTransactionPollingService()
         {
-            _logger.LogInformation("Blocking Poller stopping");
+            _logger.LogInformation("Open Transaction Poller stopping");
             StopPolling();
         }
     }

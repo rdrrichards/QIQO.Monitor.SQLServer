@@ -4,13 +4,13 @@ using System.Collections.Generic;
 
 namespace QIQO.Monitor.Domain
 {
-    public class OpenTransactionResult : MonitorResult<OpenTranaction>
+    public class OpenTransactionResult : MonitorResult<OpenTransaction>
     {
-        public override List<OpenTranaction> Results { get; } = new List<OpenTranaction>();
+        public override List<OpenTransaction> Results { get; } = new List<OpenTransaction>();
     }
-    public partial class OpenTranaction : IModel
+    public partial class OpenTransaction : IModel
     {
-        public OpenTranaction(int sessionId, string hostName, string loginName, long transactionID,
+        public OpenTransaction(int sessionId, string hostName, string loginName, long transactionID,
             string transactionName, DateTime transactionBegan, int databaseId, string databaseName)
         {
             SessionId = sessionId;

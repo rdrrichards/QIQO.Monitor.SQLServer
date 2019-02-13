@@ -19,14 +19,14 @@ namespace QIQO.Monitor.Api.Controllers
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public ActionResult<IEnumerable<OpenTranactionData>> Get(int id)
+        public ActionResult<IEnumerable<OpenTransactionData>> Get(int id)
         {
             var server = _serverRepository.GetAll().FirstOrDefault(s => s.ServerKey == id);
             if (server != null)
             {
                 //***** THIS IS NOT RIGHT!! *******//
                 CreateContext(server.ServerName);
-                var repo = _repositoryFactory.GetDataRepository<IOpenTranactionRepository>();
+                var repo = _repositoryFactory.GetDataRepository<IOpenTransactionRepository>();
                 var transOpen = repo.Get();
                 // _hubClientService.SendResult(ResultType.Version, version);
                 return Ok(transOpen);

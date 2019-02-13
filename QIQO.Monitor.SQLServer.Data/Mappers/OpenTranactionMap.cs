@@ -6,11 +6,11 @@ namespace QIQO.Monitor.SQLServer.Data
 {
     public class OpenTranactionMap : MapperBase, IOpenTranactionMap
     {
-        public OpenTranactionData Map(IDataReader record)
+        public OpenTransactionData Map(IDataReader record)
         {
             try
             {
-                return new OpenTranactionData()
+                return new OpenTransactionData()
                 {
                     SessionId = NullCheck<int>(record["SessionId"]),
                     HostName = NullCheck<string>(record["HostName"]),

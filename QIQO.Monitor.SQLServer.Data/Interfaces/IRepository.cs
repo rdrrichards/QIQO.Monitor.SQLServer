@@ -35,10 +35,12 @@ namespace QIQO.Monitor.SQLServer.Data
     public interface IBlockingRepository : IReadRepository<BlockingData> {
         IEnumerable<BlockingData> Get(string queryText);
     }
-    public interface IOpenTranactionRepository : IReadRepository<OpenTranactionData> { }
+    public interface IOpenTransactionRepository : IReadRepository<OpenTransactionData> {
+        IEnumerable<OpenTransactionData> Get(string queryText);
+    }
 
     public interface IVersionMap : IReadMapper<VersionData> { }
     public interface IHardwareMap : IReadMapper<HardwareData> { }
     public interface IBlockingMap : IReadMapper<BlockingData> { }
-    public interface IOpenTranactionMap : IReadMapper<OpenTranactionData> { }
+    public interface IOpenTranactionMap : IReadMapper<OpenTransactionData> { }
 }

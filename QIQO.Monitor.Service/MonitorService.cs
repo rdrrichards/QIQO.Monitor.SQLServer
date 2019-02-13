@@ -53,7 +53,7 @@ namespace QIQO.Monitor.Service
                             _pollingServiceFactory.GetPollingService<IBlockingPollingService>().StartPolling(server, service);
                             break;
                         case MonitorCategory.OpenTranactions:
-                            // _pollingServiceFactory.GetPollingService<IOpenTranactionPollingService>().StartPolling(service.ServiceSource);
+                            _pollingServiceFactory.GetPollingService<IOpenTransactionPollingService>().StartPolling(server, service);
                             break;
                         default:
                             break;

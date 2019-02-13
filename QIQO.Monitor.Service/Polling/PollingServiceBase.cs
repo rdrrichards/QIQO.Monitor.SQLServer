@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
+using QIQO.Monitor.Core.Contracts;
 using QIQO.Monitor.SQLServer.Data;
+using System.Collections.Generic;
 using System.Threading;
 
 namespace QIQO.Monitor.Service.Polling
@@ -8,16 +10,21 @@ namespace QIQO.Monitor.Service.Polling
     {
         void StartPolling();
         void StopPolling();
+        void StartPolling(Server server, Service service);
     }
-    public abstract class PollingServiceBase
+    public abstract class PollingServiceBase<T>
     {
         protected CancellationTokenSource cancellationTokenSource = null;
-        protected readonly ILogger<PollingServiceBase> _logger;
+        protected readonly ILogger<PollingServiceBase<T>> _logger;
         protected readonly IDbContextFactory _dbContextFactory;
         protected readonly IDataRepositoryFactory _dataRepositoryFactory;
 
         protected int PollingInterval { get; set; } = 30000;
-        public PollingServiceBase(ILogger<PollingServiceBase> logger, IDbContextFactory dbContextFactory,
+        protected Service Service { get; set; }
+        protected Server Server { get; set; }
+        protected Monitor Monitor { get; set; }
+        protected Query Query { get; set; }
+        public PollingServiceBase(ILogger<PollingServiceBase<T>> logger, IDbContextFactory dbContextFactory,
             IDataRepositoryFactory dataRepositoryFactory)
         {
             _logger = logger;
@@ -32,6 +39,7 @@ namespace QIQO.Monitor.Service.Polling
             cancellationTokenSource.Dispose();
         }
         public virtual void StartPolling() { }
+        public abstract PollingMonitorResult BuildMonitorResult(IEnumerable<T> blockingData);
         protected void CreateContext(string connectionString)
         {
             _dbContextFactory.Create(CreateConnectionString(connectionString));

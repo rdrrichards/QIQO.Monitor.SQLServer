@@ -41,7 +41,7 @@ namespace QIQO.Monitor.SQLServer.Data
             services.AddTransient<IBlockingMap, BlockingMap>();
             services.AddTransient<IBlockingRepository, BlockingRepository>();
             services.AddTransient<IOpenTranactionMap, OpenTranactionMap>();
-            services.AddTransient<IOpenTranactionRepository, OpenTranactionRepository>();
+            services.AddTransient<IOpenTransactionRepository, OpenTranactionRepository>();
             return services;
         }
     }

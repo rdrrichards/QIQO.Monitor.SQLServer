@@ -5,12 +5,12 @@ using System;
 
 namespace QIQO.Monitor.Api.Services
 {
-    public interface IOpenTranactionEntityService : IEntityService<OpenTranaction, OpenTranactionData> { }
+    public interface IOpenTranactionEntityService : IEntityService<OpenTransaction, OpenTransactionData> { }
     public class OpenTranactionEntityService : IOpenTranactionEntityService
     {
-        public OpenTranaction Map(OpenTranactionData ent) => new OpenTranaction(ent.SessionId, ent.HostName, ent.LoginName,
+        public OpenTransaction Map(OpenTransactionData ent) => new OpenTransaction(ent.SessionId, ent.HostName, ent.LoginName,
                 ent.TransactionID, ent.TransactionName, ent.TransactionBegan, ent.DatabaseId, ent.DatabaseName);
 
-        public OpenTranactionData Map(OpenTranaction ent) => throw new NotImplementedException();
+        public OpenTransactionData Map(OpenTransaction ent) => throw new NotImplementedException();
     }
 }

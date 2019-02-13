@@ -2,7 +2,7 @@
 
 namespace QIQO.Monitor.SQLServer.Data
 {
-    public class OpenTranactionData : CommonData
+    public class OpenTransactionData : CommonData
     {
         public int SessionId { get; set; }
         public string HostName { get; set; }
