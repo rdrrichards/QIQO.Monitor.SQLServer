@@ -31,6 +31,7 @@ namespace QIQO.Monitor.Service
     }
     public enum ResultType
     {
+        Health,
         Blocking,
         OpenTransaction
     }

@@ -17,7 +17,8 @@ namespace QIQO.Monitor.Service.Services
         private readonly IHubClientService _hubClientService;
 
         public OpenTransactionPollingService(ILogger<OpenTransactionPollingService> logger, IDbContextFactory dbContextFactory,
-            IDataRepositoryFactory dataRepositoryFactory, IHubClientService hubClientService) : base(logger, dbContextFactory, dataRepositoryFactory)
+            IDataRepositoryFactory dataRepositoryFactory, IHubClientService hubClientService, IHealthService healthService) 
+            : base(logger, dbContextFactory, dataRepositoryFactory, healthService)
         {
             _hubClientService = hubClientService;
         }
@@ -49,11 +50,15 @@ namespace QIQO.Monitor.Service.Services
                             // build polling monitor results
                             // send to the result to the hub for anyone listtening
                             _hubClientService.SendResult(ResultType.OpenTransaction, BuildMonitorResult(openTxData));
+                            AssessUnhealthy();
                         }
+                        else
+                            AssessHealthy();
                     }
                     catch (Exception ex)
                     {
                         _hubClientService.SendResult(ResultType.OpenTransaction, new PollingMonitorResult(Server, Service, ex));
+                        AssessUnhealthy();
                     }
 
                     Thread.Sleep(PollingInterval);

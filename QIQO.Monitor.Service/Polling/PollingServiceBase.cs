@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using QIQO.Monitor.Core.Contracts;
+using QIQO.Monitor.Domain;
 using QIQO.Monitor.SQLServer.Data;
 using System.Collections.Generic;
 using System.Threading;
@@ -18,6 +19,7 @@ namespace QIQO.Monitor.Service.Polling
         protected readonly ILogger<PollingServiceBase<T>> _logger;
         protected readonly IDbContextFactory _dbContextFactory;
         protected readonly IDataRepositoryFactory _dataRepositoryFactory;
+        protected readonly IHealthService _healthService;
 
         protected int PollingInterval { get; set; } = 30000;
         protected Service Service { get; set; }
@@ -25,11 +27,12 @@ namespace QIQO.Monitor.Service.Polling
         protected Monitor Monitor { get; set; }
         protected Query Query { get; set; }
         public PollingServiceBase(ILogger<PollingServiceBase<T>> logger, IDbContextFactory dbContextFactory,
-            IDataRepositoryFactory dataRepositoryFactory)
+            IDataRepositoryFactory dataRepositoryFactory, IHealthService healthService)
         {
             _logger = logger;
             _dbContextFactory = dbContextFactory;
             _dataRepositoryFactory = dataRepositoryFactory;
+            _healthService = healthService;
             cancellationTokenSource = new CancellationTokenSource();
         }
 
@@ -48,5 +51,8 @@ namespace QIQO.Monitor.Service.Polling
         {
             return $"Data Source={serverSource};User ID=QIQOMonitorUser;Password=QIQOMonitorUser;Application Name=QIQOMonitorAPI";
         }
+        protected void Assess(HealthStatus healthStatus) => _healthService.Assess(healthStatus, Server, Service);
+        protected void AssessHealthy() => _healthService.Assess(HealthStatus.Healthly, Server, Service);
+        protected void AssessUnhealthy() => _healthService.Assess(HealthStatus.Unhealthy, Server, Service);
     }
 }

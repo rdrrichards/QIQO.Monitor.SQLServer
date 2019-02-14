@@ -18,6 +18,7 @@ namespace QIQO.Monitor.Service
             services.AddSignalR();
             services.AddTransient<IHubClientService, HubClientService>();
             services.AddSingleton<IMonitorService, MonitorService>();
+            services.AddSingleton<IHealthService, HealthService>();
             services.BuildServiceProvider().GetService<IMonitorService>();
         }
 

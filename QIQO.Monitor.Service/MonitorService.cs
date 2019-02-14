@@ -32,7 +32,6 @@ namespace QIQO.Monitor.Service
 
                 // Then, pass the server object along to another function that
                 // starts monitors for any services on that server
-                // _pollingServiceFactory.GetPollingService<IBlockingPollingService>().StartPolling(server.ServiceSource);
                 StartSqlMonitors(server);
             });
         }
