@@ -51,8 +51,8 @@ namespace QIQO.Monitor.Service.Polling
         {
             return $"Data Source={serverSource};User ID=QIQOMonitorUser;Password=QIQOMonitorUser;Application Name=QIQOMonitorAPI";
         }
-        protected void Assess(HealthStatus healthStatus) => _healthService.Assess(healthStatus, Server, Service);
-        protected void AssessHealthy() => _healthService.Assess(HealthStatus.Healthly, Server, Service);
-        protected void AssessUnhealthy() => _healthService.Assess(HealthStatus.Unhealthy, Server, Service);
+        protected void Assess(HealthStatus healthStatus) => _healthService.Assess(healthStatus, Server, Service, Monitor);
+        protected void AssessHealthy() => Assess(HealthStatus.Healthly);
+        protected void AssessUnhealthy() => Assess(HealthStatus.Unhealthy);
     }
 }
