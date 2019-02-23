@@ -56,7 +56,7 @@ namespace QIQO.Monitor.Service.Services
                     }
                     catch (Exception ex)
                     {
-                        _hubClientService.SendResult(ResultType.Blocking, new PollingMonitorResult(Server, Service, ex));
+                        _hubClientService.SendResult(ResultType.Blocking, new PollingMonitorResult(Server, Service, Monitor, ex));
                         AssessUnhealthy();
                     }
                     
@@ -77,7 +77,7 @@ namespace QIQO.Monitor.Service.Services
                     bd.LockRequest, bd.WaiterSid, bd.WaitTime, bd.WaiterBatch,
                     bd.WaiterStatement, bd.BlockerSid, bd.BlockerBatch));
             });
-            return new PollingMonitorResult(Server, Service, monRes);
+            return new PollingMonitorResult(Server, Service, Monitor, monRes);
         }
 
         ~BlockingPollingService()

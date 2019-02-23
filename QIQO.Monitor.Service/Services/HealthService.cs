@@ -32,7 +32,7 @@ namespace QIQO.Monitor.Service
                 // _logger.LogInformation($"***Assess: Hash: {server.ServerKey}_{service.ServiceKey}_{monitor.MonitorKey} new health update to {healthStatus}");
                 var healthResult = new HealthResult();
                 healthResult.Results.Add(new Health(healthStatus));
-                await _hubClientService.SendResult(ResultType.Health, new PollingMonitorResult(server, service, healthResult));
+                await _hubClientService.SendResult(ResultType.Health, new PollingMonitorResult(server, service, monitor, healthResult));
             }
         }
         private async Task<bool> AssessmentChangedAsync(HealthStatus healthStatus, Server server, Service service, Monitor monitor)

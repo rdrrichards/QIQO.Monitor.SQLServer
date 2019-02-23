@@ -57,7 +57,7 @@ namespace QIQO.Monitor.Service.Services
                     }
                     catch (Exception ex)
                     {
-                        _hubClientService.SendResult(ResultType.OpenTransaction, new PollingMonitorResult(Server, Service, ex));
+                        _hubClientService.SendResult(ResultType.OpenTransaction, new PollingMonitorResult(Server, Service, Monitor, ex));
                         AssessUnhealthy();
                     }
 
@@ -77,7 +77,7 @@ namespace QIQO.Monitor.Service.Services
                 monRes.Results.Add(new OpenTransaction(tx.SessionId, tx.HostName, tx.LoginName, tx.TransactionID,
                     tx.TransactionName, tx.TransactionBegan, tx.DatabaseId, tx.DatabaseName));
             });
-            return new PollingMonitorResult(Server, Service, monRes);
+            return new PollingMonitorResult(Server, Service, Monitor, monRes);
         }
 
         ~OpenTransactionPollingService()
