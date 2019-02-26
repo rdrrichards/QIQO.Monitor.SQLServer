@@ -18,19 +18,27 @@ namespace QIQO.Monitor.Service
             if (exception != null)
             {
                 HasError = true;
-                Exception = exception;
+                Exception = new MonitorException(exception.Message);
             }
         }
         public PollingMonitorResult(Server server, Service service, Monitor monitor, Exception exception) :
             this(server, service, monitor, null, exception) { }
         public IMonitorResult MonitorResult { get; }
         public bool HasError { get; } = false;
-        public Exception Exception { get; } = null;
+        public MonitorException Exception { get; } = null;
         public Server Server { get; }
         public Service Service { get; }
         public Monitor Monitor { get; }
         public int ServerKey => Server.ServerKey;
         public int ServiceKey => Service.ServiceKey;
         public int MonitorKey => Monitor.MonitorKey;
+    }
+    public class MonitorException
+    {
+        public MonitorException(string message)
+        {
+            Message = message;
+        }
+        public string Message { get; }
     }
 }
