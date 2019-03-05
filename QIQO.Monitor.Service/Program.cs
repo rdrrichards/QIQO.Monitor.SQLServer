@@ -63,10 +63,10 @@ namespace QIQO.Monitor.Service
                     logging.SetMinimumLevel(LogLevel.Information);
                 })
                 .UseNLog()
-                .ConfigureAppConfiguration((context, config) =>
-                {
-                    // Configure the app here.
-                })
+                //.ConfigureAppConfiguration((context, config) =>
+                //{
+                //    // Configure the app here.
+                //})
                 .UseStartup<Startup>();
     }
 }

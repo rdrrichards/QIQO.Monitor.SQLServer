@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using QIQO.Monitor.Service.Polling;
 using QIQO.Monitor.SQLServer.Data;
 
@@ -19,11 +20,11 @@ namespace QIQO.Monitor.Service
             services.AddTransient<IHubClientService, HubClientService>();
             services.AddSingleton<IMonitorService, MonitorService>();
             services.AddSingleton<IHealthService, HealthService>();
-            services.BuildServiceProvider().GetService<IMonitorService>();
+            services.AddSingleton<IHostedService, MonitorStarter>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, Microsoft.AspNetCore.Hosting.IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
