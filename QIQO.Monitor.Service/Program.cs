@@ -67,6 +67,7 @@ namespace QIQO.Monitor.Service
                 //{
                 //    // Configure the app here.
                 //})
+                // .UseUrls("https://127.0.0.1:44365")
                 .UseStartup<Startup>();
     }
 }
