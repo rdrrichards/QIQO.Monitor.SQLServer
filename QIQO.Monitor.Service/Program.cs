@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Server.Kestrel.Https.Internal;
 using Microsoft.Extensions.Logging;
 using NLog.Web;
 
@@ -67,7 +70,21 @@ namespace QIQO.Monitor.Service
                 //{
                 //    // Configure the app here.
                 //})
-                // .UseUrls("https://127.0.0.1:44365")
-                .UseStartup<Startup>();
+                .UseStartup<Startup>()
+                .ConfigureKestrel((context, options) =>
+                {
+                    options.ListenAnyIP(7377, listenOptions =>
+                    {
+                        listenOptions.UseHttps(httpsOptions =>
+                        {
+                            var localhostCert = CertificateLoader.LoadFromStoreCert(
+                                "localhost", "My", StoreLocation.CurrentUser,
+                                allowInvalid: true);
+                            httpsOptions.ServerCertificateSelector = (connectionContext, name) => localhostCert;
+                        });
+                    });
+                });
+
+
     }
 }
