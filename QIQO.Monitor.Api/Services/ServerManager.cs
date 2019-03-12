@@ -16,15 +16,17 @@ namespace QIQO.Monitor.Api.Services
         private readonly IServiceEntityService _serviceEntityService;
         private readonly IMonitorEntityService _monitorEntityService;
         private readonly IQueryEntityService _queryEntityService;
+        private readonly IEnvironmentEntityService _environmentEntityService;
 
         public ServerManager(ICoreCacheService cacheService, IServerEntityService serverEntityService, IServiceEntityService serviceEntityService,
-            IMonitorEntityService monitorEntityService, IQueryEntityService queryEntityService)
+            IMonitorEntityService monitorEntityService, IQueryEntityService queryEntityService, IEnvironmentEntityService environmentEntityService)
         {
             _cacheService = cacheService;
             _serverEntityService = serverEntityService;
             _serviceEntityService = serviceEntityService;
             _monitorEntityService = monitorEntityService;
             _queryEntityService = queryEntityService;
+            _environmentEntityService = environmentEntityService;
         }
         public List<Server> GetServers()
         {
@@ -41,9 +43,9 @@ namespace QIQO.Monitor.Api.Services
                     {
                         monitors.Add(new Monitor(monitor, _queryEntityService.Map(_cacheService.GetQueries(monitor.MonitorKey))));
                     });
-                    services.Add(new Service(service, monitors));
+                    services.Add(new Service(service, monitors, _environmentEntityService.Map(_cacheService.GetServiceEnvironments(service.ServiceKey))));
                 });
-                servers.Add(new Server(server, services));
+                servers.Add(new Server(server, services, _environmentEntityService.Map(_cacheService.GetServerEnvironments(server.ServerKey))));
             });
 
             return servers;

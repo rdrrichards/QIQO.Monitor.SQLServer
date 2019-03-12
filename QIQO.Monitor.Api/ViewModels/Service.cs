@@ -16,7 +16,11 @@ namespace QIQO.Monitor.Api
             ServiceSource = serviceData.ServiceSource;
 
         }
-        public Service(ServiceData serviceData, List<Monitor> monitors) : this(serviceData) => Monitors = monitors;
+        public Service(ServiceData serviceData, List<Monitor> monitors, List<Environment> environments) : this(serviceData)
+        {
+            Monitors = monitors;
+            Environments = environments;
+        }
         public int ServiceKey { get; }
         public int ServerKey { get; }
         public string ServiceName { get; }
@@ -24,5 +28,6 @@ namespace QIQO.Monitor.Api
         public string ServiceSource { get; }
         public ServiceType ServiceType { get; }
         public List<Monitor> Monitors { get; } = new List<Monitor>();
+        public List<Environment> Environments { get; } = new List<Environment>();
     }
 }

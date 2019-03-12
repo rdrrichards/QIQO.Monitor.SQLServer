@@ -14,10 +14,15 @@ namespace QIQO.Monitor.SQLServer.Data
         private readonly IQueryRepository _queryRepository;
         private readonly IMonitorRepository _monitorRepository;
         private readonly IMonitorQueryRepository _monitorQueryRepository;
+        private readonly IEnvironmentRepository _environmentRepository;
+        private readonly IEnvironmentServerRepository _environmentServerRepository;
+        private readonly IEnvironmentServiceRepository _environmentServiceRepository;
         private readonly ILogger<CoreCacheService> _logger;
 
         public CoreCacheService(IMemoryCache memoryCache, IServerRepository serverRepository, IServiceRepository serviceRepository,
             IQueryRepository queryRepository, IMonitorRepository monitorRepository, IMonitorQueryRepository monitorQueryRepository,
+            IEnvironmentRepository environmentRepository, IEnvironmentServerRepository environmentServerRepository,
+            IEnvironmentServiceRepository environmentServiceRepository,
             ILogger<CoreCacheService> logger)
         {
             _cache = memoryCache;
@@ -26,8 +31,14 @@ namespace QIQO.Monitor.SQLServer.Data
             _queryRepository = queryRepository;
             _monitorRepository = monitorRepository;
             _monitorQueryRepository = monitorQueryRepository;
+            _environmentRepository = environmentRepository;
+            _environmentServerRepository = environmentServerRepository;
+            _environmentServiceRepository = environmentServiceRepository;
             _logger = logger;
             _logger.LogInformation($"Initializing {nameof(CoreCacheService)}");
+            GetEnviroments();
+            GetEnvironmentServers();
+            GetEnvironmentServices();
             GetServers();
             GetQueries();
             GetServices();
@@ -84,5 +95,33 @@ namespace QIQO.Monitor.SQLServer.Data
 
             return monitorQueries;
         }
+
+        public IEnumerable<EnvironmentData> GetEnviroments()
+        {
+            if (!_cache.TryGetValue(CoreCacheKeys.Environments, out IEnumerable<EnvironmentData> environments))
+                environments = _cache.Set(CoreCacheKeys.Environments, _environmentRepository.GetAll(), GetMemoryCacheEntryOptions());
+
+            return environments;
+        }
+
+        public IEnumerable<EnvironmentServerData> GetEnvironmentServers()
+        {
+            if (!_cache.TryGetValue(CoreCacheKeys.EnvironmentServers, out IEnumerable<EnvironmentServerData> environments))
+                environments = _cache.Set(CoreCacheKeys.EnvironmentServers, _environmentServerRepository.GetAll(), GetMemoryCacheEntryOptions());
+
+            return environments;
+        }
+
+        public IEnumerable<EnvironmentServiceData> GetEnvironmentServices()
+        {
+            if (!_cache.TryGetValue(CoreCacheKeys.EnvironmentServices, out IEnumerable<EnvironmentServiceData> environments))
+                environments = _cache.Set(CoreCacheKeys.EnvironmentServices, _environmentServiceRepository.GetAll(), GetMemoryCacheEntryOptions());
+
+            return environments;
+        }
+        public IEnumerable<EnvironmentData> GetServerEnvironments(int serverKey) => GetEnviroments().Join(GetEnvironmentServers()
+            .Where(s => s.ServerKey == serverKey), q => q.EnvironmentKey, m => m.EnvironmentKey, (q, m) => q);
+        public IEnumerable<EnvironmentData> GetServiceEnvironments(int serviceKey) => GetEnviroments().Join(GetEnvironmentServices()
+            .Where(s => s.ServiceKey == serviceKey), q => q.EnvironmentKey, m => m.EnvironmentKey, (q, m) => q);
     }
 }

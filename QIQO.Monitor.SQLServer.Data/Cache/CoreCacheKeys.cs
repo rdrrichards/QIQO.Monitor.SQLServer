@@ -7,5 +7,8 @@
         public static string Monitors { get { return "_Monitors"; } }
         public static string Queries { get { return "_Queries"; } }
         public static string MonitorQueries { get { return "_MonitorQueries"; } }
+        public static string Environments { get { return "_Environments"; } }
+        public static string EnvironmentServices { get { return "_EnvironmentServices"; } }
+        public static string EnvironmentServers { get { return "_EnvironmentServers"; } }
     }
 }

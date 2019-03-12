@@ -8,6 +8,7 @@ namespace QIQO.Monitor.Api
     public interface IServiceEntityService : IEntityService<Service, ServiceData> { }
     public interface IMonitorEntityService : IEntityService<Monitor, MonitorData> { }
     public interface IQueryEntityService : IEntityService<Query, QueryData> { }
+    public interface IEnvironmentEntityService : IEntityService<Environment, EnvironmentData> { }
     public class ServerEntityService : IServerEntityService
     {
         public Server Map(ServerData ent) => new Server(ent);
@@ -31,5 +32,11 @@ namespace QIQO.Monitor.Api
         public Query Map(QueryData ent) => new Query(ent);
 
         public QueryData Map(Query ent) => throw new NotImplementedException();
+    }
+    public class EnvironmentEntityService : IEnvironmentEntityService
+    {
+        public Environment Map(EnvironmentData ent) => new Environment(ent);
+
+        public EnvironmentData Map(Environment ent) => throw new NotImplementedException();
     }
 }

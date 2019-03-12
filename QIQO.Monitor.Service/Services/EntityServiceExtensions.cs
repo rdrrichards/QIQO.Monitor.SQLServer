@@ -10,6 +10,7 @@ namespace QIQO.Monitor.Service
             services.AddTransient<IServiceEntityService, ServiceEntityService>();
             services.AddTransient<IMonitorEntityService, MonitorEntityService>();
             services.AddTransient<IQueryEntityService, QueryEntityService>();
+            services.AddTransient<IEnvironmentEntityService, EnvironmentEntityService>();
             return services;
         }
     }

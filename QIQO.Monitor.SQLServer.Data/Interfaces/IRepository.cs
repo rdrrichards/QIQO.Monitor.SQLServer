@@ -13,6 +13,9 @@ namespace QIQO.Monitor.SQLServer.Data
     public interface IQueryHistoryRepository : IRepository<QueryHistoryData> { }
     public interface IServiceRepository : IRepository<ServiceData> { }
     public interface IServiceTypeRepository : IRepository<ServiceTypeData> { }
+    public interface IEnvironmentRepository : IRepository<EnvironmentData> { }
+    public interface IEnvironmentServerRepository : IRepository<EnvironmentServerData> { }
+    public interface IEnvironmentServiceRepository : IRepository<EnvironmentServiceData> { }
 
 
     public interface IServerMap : IMapper<ServerData> { }
@@ -38,6 +41,9 @@ namespace QIQO.Monitor.SQLServer.Data
     public interface IOpenTransactionRepository : IReadRepository<OpenTransactionData> {
         IEnumerable<OpenTransactionData> Get(string queryText);
     }
+    public interface IEnvironmentMap : IMapper<EnvironmentData> { }
+    public interface IEnvironmentServerMap : IMapper<EnvironmentServerData> { }
+    public interface IEnvironmentServiceMap : IMapper<EnvironmentServiceData> { }
 
     public interface IVersionMap : IReadMapper<VersionData> { }
     public interface IHardwareMap : IReadMapper<HardwareData> { }
