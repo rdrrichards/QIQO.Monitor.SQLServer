@@ -7,6 +7,9 @@ namespace QIQO.Monitor.Api.Services
         public static IServiceCollection AddEntityServices(this IServiceCollection services)
         {
             services.AddTransient<IServerManager, ServerManager>();
+            services.AddTransient<IServiceManager, ServiceManager>();
+            services.AddTransient<IEnvironmentManager, EnvironmentManager>();
+
             services.AddTransient<IServerEntityService, ServerEntityService>();
             services.AddTransient<IServiceEntityService, ServiceEntityService>();
             services.AddTransient<IMonitorEntityService, MonitorEntityService>();

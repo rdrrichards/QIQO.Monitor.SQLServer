@@ -4,5 +4,77 @@
         <name>QIQO.Monitor.Api</name>
     </assembly>
     <members>
+        <member name="M:QIQO.Monitor.Api.Controllers.EnvironmentsController.Get">
+            <summary>
+            Get a collection of all Environments being managed
+            </summary>
+            <returns>200 - Ok</returns>
+        </member>
+        <member name="M:QIQO.Monitor.Api.Controllers.EnvironmentsController.Get(System.Int32)">
+            <summary>
+            Get a Environment being managed
+            </summary>
+            <returns>200 - Ok</returns>
+        </member>
+        <member name="M:QIQO.Monitor.Api.Controllers.EnvironmentsController.Post(QIQO.Monitor.Api.EnvironmentAdd)">
+            <summary>
+            Add a new Environment to be managed
+            </summary>
+            <returns>200 - Ok</returns>
+        </member>
+        <member name="M:QIQO.Monitor.Api.Controllers.EnvironmentsController.Put(System.Int32,QIQO.Monitor.Api.EnvironmentUpdate)">
+            <summary>
+            Update an existing Environment being managed
+            </summary>
+            <returns>200 - Ok</returns>
+        </member>
+        <member name="M:QIQO.Monitor.Api.Controllers.ServersController.Get">
+            <summary>
+            Get a collection of all Servers being managed
+            </summary>
+            <returns>200 - Ok</returns>
+        </member>
+        <member name="M:QIQO.Monitor.Api.Controllers.ServersController.Get(System.Int32)">
+            <summary>
+            Get a Server being managed
+            </summary>
+            <returns>200 - Ok</returns>
+        </member>
+        <member name="M:QIQO.Monitor.Api.Controllers.ServersController.Post(QIQO.Monitor.Api.ServerAdd)">
+            <summary>
+            Add a new Server to be managed
+            </summary>
+            <returns>200 - Ok</returns>
+        </member>
+        <member name="M:QIQO.Monitor.Api.Controllers.ServersController.Put(System.Int32,QIQO.Monitor.Api.ServerUpdate)">
+            <summary>
+            Update an existing Server being managed
+            </summary>
+            <returns>200 - Ok</returns>
+        </member>
+        <member name="M:QIQO.Monitor.Api.Controllers.ServicesController.Get">
+            <summary>
+            Get a collection of all Services being managed
+            </summary>
+            <returns>200 - Ok</returns>
+        </member>
+        <member name="M:QIQO.Monitor.Api.Controllers.ServicesController.Get(System.Int32)">
+            <summary>
+            Get a Service being managed
+            </summary>
+            <returns>200 - Ok</returns>
+        </member>
+        <member name="M:QIQO.Monitor.Api.Controllers.ServicesController.Post(QIQO.Monitor.Api.ServiceAdd)">
+            <summary>
+            Add a new Service to be managed
+            </summary>
+            <returns>200 - Ok</returns>
+        </member>
+        <member name="M:QIQO.Monitor.Api.Controllers.ServicesController.Put(System.Int32,QIQO.Monitor.Api.ServiceUpdate)">
+            <summary>
+            Update an existing Service being managed
+            </summary>
+            <returns>200 - Ok</returns>
+        </member>
     </members>
 </doc>
