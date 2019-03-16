@@ -24,8 +24,7 @@ namespace QIQO.Monitor.Api.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Service>> Get()
         {
-            var services = _serviceManager.GetServices();
-            return Ok();
+            return Ok(_serviceManager.GetServices());
         }
 
 

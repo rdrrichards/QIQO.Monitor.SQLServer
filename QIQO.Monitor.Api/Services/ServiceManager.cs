@@ -1,4 +1,5 @@
-﻿using QIQO.Monitor.SQLServer.Data;
+﻿using QIQO.Monitor.Core.Contracts;
+using QIQO.Monitor.SQLServer.Data;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,10 +12,14 @@ namespace QIQO.Monitor.Api.Services
     public class ServiceManager : IServiceManager
     {
         private readonly ICoreCacheService _cacheService;
+        private readonly IQueryEntityService _queryEntityService;
+        private readonly IEnvironmentEntityService _environmentEntityService;
 
-        public ServiceManager(ICoreCacheService cacheService)
+        public ServiceManager(ICoreCacheService cacheService, IQueryEntityService queryEntityService, IEnvironmentEntityService environmentEntityService)
         {
             _cacheService = cacheService;
+            _queryEntityService = queryEntityService;
+            _environmentEntityService = environmentEntityService;
         }
         public List<Service> GetServices()
         {
@@ -23,7 +28,12 @@ namespace QIQO.Monitor.Api.Services
 
             servicesToMonitor.ForEach(service =>
             {
-                services.Add(new Service(service));
+                var monitors = new List<Monitor>();
+                _cacheService.GetMonitors(service.ServiceTypeKey).ToList().ForEach(monitor =>
+                {
+                    monitors.Add(new Monitor(monitor, _queryEntityService.Map(_cacheService.GetQueries(monitor.MonitorKey))));
+                });
+                services.Add(new Service(service, monitors, _environmentEntityService.Map(_cacheService.GetServiceEnvironments(service.ServiceKey))));
             });
 
             return services;

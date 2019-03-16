@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using QIQO.Monitor.Api.Services;
 using QIQO.Monitor.SQLServer.Data;
 
 namespace QIQO.Monitor.Api.Controllers
@@ -8,23 +9,22 @@ namespace QIQO.Monitor.Api.Controllers
     [ApiController]
     public class VersionController : QIQOControllerBase
     {
-        private readonly IServerRepository _serverRepository;
+        private readonly IServiceManager _serviceManager;
 
         public VersionController(IDbContextFactory dbContextFactory, 
-            IDataRepositoryFactory repositoryFactory, IServerRepository serverRepository) : base(dbContextFactory, repositoryFactory)
+            IDataRepositoryFactory repositoryFactory, IServiceManager serviceManager) : base(dbContextFactory, repositoryFactory)
         {
-            _serverRepository = serverRepository;
+            _serviceManager = serviceManager;
         }
 
         // GET api/values/5
         [HttpGet("{id}")]
         public ActionResult<string> Get(int id)
         {
-            var server = _serverRepository.GetAll().FirstOrDefault(s => s.ServerKey == id);
+            var server = _serviceManager.GetServices().FirstOrDefault(s => s.ServiceKey == id);
             if (server != null)
             {
-                //***** THIS IS NOT RIGHT!! *******//
-                CreateContext(server.ServerName);
+                CreateContext(server.ServiceSource);
                 var repo = _repositoryFactory.GetDataRepository<IVersionRepository>();
                 var version = repo.Get().ToArray()[0].VersionText;
                 return Ok(version);
