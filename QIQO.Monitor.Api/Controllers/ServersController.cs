@@ -16,18 +16,55 @@ namespace QIQO.Monitor.Api.Controllers
         {
             _serverManager = serverManager;
         }
-        // GET api/values
+        
+        /// <summary>
+        /// Get a collection of all Servers being managed
+        /// </summary>
+        /// <returns>200 - Ok</returns>
         [HttpGet]
-        public ActionResult<IEnumerable<ServerData>> Get()
+        public ActionResult<IEnumerable<Server>> Get()
         {
             return Ok(_serverManager.GetServers());
         }
 
-        // GET api/values/5
+
+        /// <summary>
+        /// Get a Server being managed
+        /// </summary>
+        /// <returns>200 - Ok</returns>
         [HttpGet("{id}")]
         public ActionResult<ServerData> Get(int id)
         {
             var server = _serverManager.GetServers().FirstOrDefault(s => s.ServerKey == id);
+            if (server != null)
+                return Ok(server);
+            else
+                return NotFound();
+        }
+
+
+        /// <summary>
+        /// Add a new Server to be managed
+        /// </summary>
+        /// <returns>200 - Ok</returns>
+        [HttpPost()]
+        public ActionResult<Server> Post([FromBody] ServerAdd server)
+        {
+            // var server = _serverManager.GetServers().FirstOrDefault(s => s.ServerKey == id);
+            if (server != null)
+                return Ok(server);
+            else
+                return NotFound();
+        }
+
+        /// <summary>
+        /// Update an existing Server being managed
+        /// </summary>
+        /// <returns>200 - Ok</returns>
+        [HttpPut("{id}")]
+        public ActionResult<Server> Put(int id, [FromBody] ServerUpdate server)
+        {
+            // var server = _serverManager.GetServers().FirstOrDefault(s => s.ServerKey == id);
             if (server != null)
                 return Ok(server);
             else
