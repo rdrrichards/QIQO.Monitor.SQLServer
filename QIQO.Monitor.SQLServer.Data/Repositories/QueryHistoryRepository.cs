@@ -28,16 +28,6 @@ namespace QIQO.Monitor.SQLServer.Data
             using (entityContext) return MapRow(entityContext.ExecuteProcedureAsSqlDataReader("usp_query_history_get", pcol));
         }
 
-        public override QueryHistoryData GetByCode(string query_history_code, string entityCode)
-        {
-            Log.LogInformation("Accessing QueryHistoryRepository GetByCode function");
-            var pcol = new List<SqlParameter>() {
-                Mapper.BuildParam("@query_history_code", query_history_code),
-                Mapper.BuildParam("@company_code", entityCode)
-            };
-            using (entityContext) return MapRow(entityContext.ExecuteProcedureAsSqlDataReader("usp_query_history_get_c", pcol));
-        }
-
         public override void Insert(QueryHistoryData entity)
         {
             Log.LogInformation("Accessing QueryHistoryRepository Insert function");
@@ -61,15 +51,6 @@ namespace QIQO.Monitor.SQLServer.Data
             Log.LogInformation("Accessing QueryHistoryRepository Delete function");
             using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_query_history_del", Mapper.MapParamsForDelete(entity));
         }
-
-        public override void DeleteByCode(string entityCode)
-        {
-            Log.LogInformation("Accessing QueryHistoryRepository DeleteByCode function");
-            var pcol = new List<SqlParameter>() { Mapper.BuildParam("@query_history_code", entityCode) };
-            pcol.Add(Mapper.GetOutParam());
-            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_query_history_del_c", pcol);
-        }
-
         public override void DeleteByID(int entityKey)
         {
             Log.LogInformation("Accessing QueryHistoryRepository Delete function");

@@ -28,16 +28,6 @@ namespace QIQO.Monitor.SQLServer.Data
             using (entityContext) return MapRow(entityContext.ExecuteProcedureAsSqlDataReader("usp_service_type_get", pcol));
         }
 
-        public override ServiceTypeData GetByCode(string service_type_code, string entityCode)
-        {
-            Log.LogInformation("Accessing ServiceTypeRepository GetByCode function");
-            var pcol = new List<SqlParameter>() {
-                Mapper.BuildParam("@service_type_code", service_type_code),
-                Mapper.BuildParam("@company_code", entityCode)
-            };
-            using (entityContext) return MapRow(entityContext.ExecuteProcedureAsSqlDataReader("usp_service_type_get_c", pcol));
-        }
-
         public override void Insert(ServiceTypeData entity)
         {
             Log.LogInformation("Accessing ServiceTypeRepository Insert function");
@@ -61,15 +51,7 @@ namespace QIQO.Monitor.SQLServer.Data
             Log.LogInformation("Accessing ServiceTypeRepository Delete function");
             using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_service_type_del", Mapper.MapParamsForDelete(entity));
         }
-
-        public override void DeleteByCode(string entityCode)
-        {
-            Log.LogInformation("Accessing ServiceTypeRepository DeleteByCode function");
-            var pcol = new List<SqlParameter>() { Mapper.BuildParam("@service_type_code", entityCode) };
-            pcol.Add(Mapper.GetOutParam());
-            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_service_type_del_c", pcol);
-        }
-
+        
         public override void DeleteByID(int entityKey)
         {
             Log.LogInformation("Accessing ServiceTypeRepository Delete function");

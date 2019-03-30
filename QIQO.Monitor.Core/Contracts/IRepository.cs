@@ -12,11 +12,11 @@ namespace QIQO.Monitor.Core.Contracts
     {
         IEnumerable<T> GetAll();
         T GetByID(int entity_key);
-        T GetByCode(string account_code, string entity_code);
+        // T GetByCode(string account_code, string entity_code);
         void Insert(T entity);
         void Delete(T entity);
         void DeleteByID(int entity_key);
-        void DeleteByCode(string entity_code);
+        // void DeleteByCode(string entity_code);
         void Save(T entity);
     }
     public interface IReadRepository<T> : IRepository

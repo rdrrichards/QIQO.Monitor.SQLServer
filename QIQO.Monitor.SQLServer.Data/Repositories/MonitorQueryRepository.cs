@@ -28,16 +28,6 @@ namespace QIQO.Monitor.SQLServer.Data
             using (entityContext) return MapRow(entityContext.ExecuteProcedureAsSqlDataReader("usp_monitor_query_get", pcol));
         }
 
-        public override MonitorQueryData GetByCode(string monitor_code, string entityCode)
-        {
-            Log.LogInformation("Accessing MonitorRepository GetByCode function");
-            var pcol = new List<SqlParameter>() {
-                Mapper.BuildParam("@monitor_code", monitor_code),
-                Mapper.BuildParam("@company_code", entityCode)
-            };
-            using (entityContext) return MapRow(entityContext.ExecuteProcedureAsSqlDataReader("usp_monitor_query_get_c", pcol));
-        }
-
         public override void Insert(MonitorQueryData entity)
         {
             Log.LogInformation("Accessing MonitorRepository Insert function");
@@ -60,14 +50,6 @@ namespace QIQO.Monitor.SQLServer.Data
         {
             Log.LogInformation("Accessing MonitorRepository Delete function");
             using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_monitor_query_del", Mapper.MapParamsForDelete(entity));
-        }
-
-        public override void DeleteByCode(string entityCode)
-        {
-            Log.LogInformation("Accessing MonitorRepository DeleteByCode function");
-            var pcol = new List<SqlParameter>() { Mapper.BuildParam("@monitor_code", entityCode) };
-            pcol.Add(Mapper.GetOutParam());
-            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_monitor_query_del_c", pcol);
         }
 
         public override void DeleteByID(int entityKey)

@@ -28,16 +28,6 @@ namespace QIQO.Monitor.SQLServer.Data
             using (entityContext) return MapRow(entityContext.ExecuteProcedureAsSqlDataReader("usp_query_get", pcol));
         }
 
-        public override QueryData GetByCode(string query_code, string entityCode)
-        {
-            Log.LogInformation("Accessing QueryRepository GetByCode function");
-            var pcol = new List<SqlParameter>() {
-                Mapper.BuildParam("@query_code", query_code),
-                Mapper.BuildParam("@company_code", entityCode)
-            };
-            using (entityContext) return MapRow(entityContext.ExecuteProcedureAsSqlDataReader("usp_query_get_c", pcol));
-        }
-
         public override void Insert(QueryData entity)
         {
             Log.LogInformation("Accessing QueryRepository Insert function");
@@ -60,14 +50,6 @@ namespace QIQO.Monitor.SQLServer.Data
         {
             Log.LogInformation("Accessing QueryRepository Delete function");
             using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_query_del", Mapper.MapParamsForDelete(entity));
-        }
-
-        public override void DeleteByCode(string entityCode)
-        {
-            Log.LogInformation("Accessing QueryRepository DeleteByCode function");
-            var pcol = new List<SqlParameter>() { Mapper.BuildParam("@query_code", entityCode) };
-            pcol.Add(Mapper.GetOutParam());
-            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_query_del_c", pcol);
         }
 
         public override void DeleteByID(int entityKey)
