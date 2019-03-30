@@ -18,14 +18,14 @@ namespace QIQO.Monitor.SQLServer.Data
         public override IEnumerable<LevelData> GetAll()
         {
             Log.LogInformation("Accessing LevelRepository GetAll function");
-            using (entityContext) return MapRows(entityContext.ExecuteProcedureAsSqlDataReader("usp_server_all"));
+            using (entityContext) return MapRows(entityContext.ExecuteProcedureAsSqlDataReader("usp_level_all"));
         }
 
-        public override LevelData GetByID(int server_key)
+        public override LevelData GetByID(int level_key)
         {
             Log.LogInformation("Accessing LevelRepository GetByID function");
-            var pcol = new List<SqlParameter>() { Mapper.BuildParam("@server_key", server_key) };
-            using (entityContext) return MapRow(entityContext.ExecuteProcedureAsSqlDataReader("usp_server_get", pcol));
+            var pcol = new List<SqlParameter>() { Mapper.BuildParam("@level_key", level_key) };
+            using (entityContext) return MapRow(entityContext.ExecuteProcedureAsSqlDataReader("usp_level_get", pcol));
         }
 
         public override void Insert(LevelData entity)
@@ -49,18 +49,18 @@ namespace QIQO.Monitor.SQLServer.Data
         public override void Delete(LevelData entity)
         {
             Log.LogInformation("Accessing LevelRepository Delete function");
-            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_server_del", Mapper.MapParamsForDelete(entity));
+            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_level_del", Mapper.MapParamsForDelete(entity));
         }
 
         public override void DeleteByID(int entityKey)
         {
             Log.LogInformation("Accessing LevelRepository Delete function");
-            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_server_del", Mapper.MapParamsForDelete(entityKey));
+            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_level_del", Mapper.MapParamsForDelete(entityKey));
         }
 
         private void Upsert(LevelData entity)
         {
-            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_server_ups", Mapper.MapParamsForUpsert(entity));
+            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_level_ups", Mapper.MapParamsForUpsert(entity));
         }
     }
 }

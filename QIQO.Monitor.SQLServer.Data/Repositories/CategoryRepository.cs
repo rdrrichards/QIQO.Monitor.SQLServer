@@ -18,14 +18,14 @@ namespace QIQO.Monitor.SQLServer.Data
         public override IEnumerable<CategoryData> GetAll()
         {
             Log.LogInformation("Accessing CategoryRepository GetAll function");
-            using (entityContext) return MapRows(entityContext.ExecuteProcedureAsSqlDataReader("usp_server_all"));
+            using (entityContext) return MapRows(entityContext.ExecuteProcedureAsSqlDataReader("usp_category_all"));
         }
 
-        public override CategoryData GetByID(int server_key)
+        public override CategoryData GetByID(int category_key)
         {
             Log.LogInformation("Accessing CategoryRepository GetByID function");
-            var pcol = new List<SqlParameter>() { Mapper.BuildParam("@server_key", server_key) };
-            using (entityContext) return MapRow(entityContext.ExecuteProcedureAsSqlDataReader("usp_server_get", pcol));
+            var pcol = new List<SqlParameter>() { Mapper.BuildParam("@category_key", category_key) };
+            using (entityContext) return MapRow(entityContext.ExecuteProcedureAsSqlDataReader("usp_category_get", pcol));
         }
 
         public override void Insert(CategoryData entity)
@@ -49,18 +49,18 @@ namespace QIQO.Monitor.SQLServer.Data
         public override void Delete(CategoryData entity)
         {
             Log.LogInformation("Accessing CategoryRepository Delete function");
-            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_server_del", Mapper.MapParamsForDelete(entity));
+            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_category_del", Mapper.MapParamsForDelete(entity));
         }
 
         public override void DeleteByID(int entityKey)
         {
             Log.LogInformation("Accessing CategoryRepository Delete function");
-            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_server_del", Mapper.MapParamsForDelete(entityKey));
+            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_category_del", Mapper.MapParamsForDelete(entityKey));
         }
 
         private void Upsert(CategoryData entity)
         {
-            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_server_ups", Mapper.MapParamsForUpsert(entity));
+            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_category_ups", Mapper.MapParamsForUpsert(entity));
         }
     }
 }
