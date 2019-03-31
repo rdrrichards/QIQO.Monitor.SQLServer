@@ -33,6 +33,7 @@ namespace QIQO.Monitor.Service
     {
         Health,
         Blocking,
-        OpenTransaction
+        OpenTransaction,
+        WaitStats
     }
 }

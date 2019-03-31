@@ -7,9 +7,11 @@ namespace QIQO.Monitor.Service.Polling
     {
         public static IServiceCollection AddPollers(this IServiceCollection services)
         {
-            services.AddSingleton<IPollingServiceFactory>(new PollingServiceFactory(services));
-            services.AddScoped<IBlockingPollingService, BlockingPollingService>();
-            services.AddScoped<IOpenTransactionPollingService, OpenTransactionPollingService>();
+            services.AddSingleton<IPollingServiceFactory>(new PollingServiceFactory(services))
+                .AddScoped<IBlockingPollingService, BlockingPollingService>()
+                .AddScoped<IOpenTransactionPollingService, OpenTransactionPollingService>()
+                // .AddScoped<IWaitStatsPollingService, WaitStatsPollingService>()
+                ;
             return services;
         }
     }

@@ -48,7 +48,7 @@ namespace QIQO.Monitor.Service.Services
                         if (openTxData.Count > 0)
                         {
                             // build polling monitor results
-                            // send to the result to the hub for anyone listtening
+                            // send to the result to the hub for anyone listening
                             _hubClientService.SendResult(ResultType.OpenTransaction, BuildMonitorResult(openTxData));
                             AssessUnhealthy();
                         }

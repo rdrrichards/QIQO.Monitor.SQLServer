@@ -49,4 +49,9 @@ namespace QIQO.Monitor.SQLServer.Data
     public interface IHardwareMap : IReadMapper<HardwareData> { }
     public interface IBlockingMap : IReadMapper<BlockingData> { }
     public interface IOpenTranactionMap : IReadMapper<OpenTransactionData> { }
+    public interface IWaitStatsMap : IReadMapper<WaitStatsData> { }
+    public interface IWaitStatsRepository : IReadRepository<WaitStatsData>
+    {
+        IEnumerable<WaitStatsData> Get(string queryText);
+    }
 }

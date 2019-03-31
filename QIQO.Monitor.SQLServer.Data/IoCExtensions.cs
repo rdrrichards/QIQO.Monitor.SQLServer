@@ -43,6 +43,9 @@ namespace QIQO.Monitor.SQLServer.Data
             services.AddTransient<IOpenTranactionMap, OpenTranactionMap>();
             services.AddTransient<IOpenTransactionRepository, OpenTranactionRepository>();
 
+            services.AddTransient<IWaitStatsMap, WaitStatsMap>();
+            services.AddTransient<IWaitStatsRepository, WaitStatsRepository>();
+
             services.AddTransient<IEnvironmentMap, EnvironmentMap>();
             services.AddTransient<IEnvironmentRepository, EnvironmentRepository>();
             services.AddTransient<IEnvironmentServerMap, EnvironmentServerMap>();

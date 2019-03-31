@@ -17,7 +17,8 @@ namespace QIQO.Monitor.Api.Services
             services.AddTransient<IEnvironmentEntityService, EnvironmentEntityService>();
 
             return services.AddTransient<IBlockingEntityService, BlockingEntityService>()
-                .AddTransient<IOpenTranactionEntityService, OpenTranactionEntityService>();
+                .AddTransient<IOpenTranactionEntityService, OpenTranactionEntityService>()
+                .AddTransient<IWaitStatsEntityService, WaitStatsEntityService>();
         }
     }
 }
