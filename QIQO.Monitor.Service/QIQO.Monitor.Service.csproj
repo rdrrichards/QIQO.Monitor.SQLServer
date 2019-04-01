@@ -19,6 +19,7 @@
     <ProjectReference Include="..\QIQO.Monitor.Core\QIQO.Monitor.Core.csproj" />
     <ProjectReference Include="..\QIQO.Monitor.Domain\QIQO.Monitor.Domain.csproj" />
     <ProjectReference Include="..\QIQO.Monitor.SQLServer.Data\QIQO.Monitor.SQLServer.Data.csproj" />
+    <ProjectReference Include="..\QIQO.MQ\QIQO.MQ.csproj" />
   </ItemGroup>
 
   <ItemGroup>
