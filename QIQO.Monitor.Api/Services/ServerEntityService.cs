@@ -1,5 +1,4 @@
 ﻿using QIQO.Monitor.SQLServer.Data;
-using System;
 
 namespace QIQO.Monitor.Api
 {
@@ -7,6 +6,9 @@ namespace QIQO.Monitor.Api
     {
         public Server Map(ServerData ent) => new Server(ent);
 
-        public ServerData Map(Server ent) => throw new NotImplementedException();
+        public ServerData Map(Server ent) => new ServerData {
+            ServerKey = ent.ServerKey,
+            ServerName = ent.ServerName
+        };
     }
 }

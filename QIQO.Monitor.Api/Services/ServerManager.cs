@@ -12,18 +12,12 @@ namespace QIQO.Monitor.Api.Services
     public class ServerManager : IServerManager
     {
         private readonly ICoreCacheService _cacheService;
-        //private readonly IServerEntityService _serverEntityService;
-        //private readonly IServiceEntityService _serviceEntityService;
-        //private readonly IMonitorEntityService _monitorEntityService;
         private readonly IQueryEntityService _queryEntityService;
         private readonly IEnvironmentEntityService _environmentEntityService;
 
         public ServerManager(ICoreCacheService cacheService, IQueryEntityService queryEntityService, IEnvironmentEntityService environmentEntityService)
         {
             _cacheService = cacheService;
-            //_serverEntityService = serverEntityService;
-            //_serviceEntityService = serviceEntityService;
-            //_monitorEntityService = monitorEntityService;
             _queryEntityService = queryEntityService;
             _environmentEntityService = environmentEntityService;
         }
