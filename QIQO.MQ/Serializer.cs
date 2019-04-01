@@ -8,24 +8,12 @@ namespace QIQO.MQ
     {
         public static byte[] Serialize(this object obj)
         {
-            if (obj == null)
-            {
-                return null;
-            }
-
-            var json = JsonConvert.SerializeObject(obj);
-            return Encoding.ASCII.GetBytes(json);
+            if (obj == null) return null;
+            return Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(obj));
         }
 
-        public static object DeSerialize(this byte[] arrBytes, Type type)
-        {
-            var json = Encoding.Default.GetString(arrBytes);
-            return JsonConvert.DeserializeObject(json, type);
-        }
+        public static object DeSerialize(this byte[] arrBytes, Type type) => JsonConvert.DeserializeObject(Encoding.Default.GetString(arrBytes), type);
 
-        public static string DeSerializeText(this byte[] arrBytes)
-        {
-            return Encoding.Default.GetString(arrBytes);
-        }
+        public static string DeSerializeText(this byte[] arrBytes) => Encoding.Default.GetString(arrBytes);
     }
 }

@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-using QIQO.Monitor.Core.Contracts;
 using QIQO.Monitor.Domain;
 using QIQO.Monitor.SQLServer.Data;
 using System.Collections.Generic;
@@ -13,7 +12,7 @@ namespace QIQO.Monitor.Service.Polling
         void StopPolling();
         void StartPolling(Server server, Service service);
     }
-    public abstract class PollingServiceBase<T>
+    public abstract class PollingServiceBase<T> // : IPollingService
     {
         protected CancellationTokenSource cancellationTokenSource = null;
         protected readonly ILogger<PollingServiceBase<T>> _logger;
@@ -41,7 +40,8 @@ namespace QIQO.Monitor.Service.Polling
             cancellationTokenSource.Cancel();
             cancellationTokenSource.Dispose();
         }
-        public virtual void StartPolling() { }
+        public abstract void StartPolling();
+        public abstract void StartPolling(Server server, Service service);
         public abstract PollingMonitorResult BuildMonitorResult(IEnumerable<T> blockingData);
         protected void CreateContext(string connectionString)
         {

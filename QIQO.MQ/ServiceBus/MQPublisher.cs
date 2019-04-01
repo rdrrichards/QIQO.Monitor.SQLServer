@@ -1,5 +1,4 @@
-﻿
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 
 namespace QIQO.MQ
 {
@@ -11,14 +10,8 @@ namespace QIQO.MQ
     public class MQPublisher : Publisher, IMQPublisher
     {
         public MQPublisher(IConfiguration configuration) : base(configuration) { }
-        public void Send(object thing, string routingKey)
-        {
-            SendMessage(thing, routingKey);
-        }
-        public void Send(object thing, string exchangeName, string queueName, string routingKey)
-        {
-            SendMessage(thing, exchangeName, queueName, routingKey);
-        }
+        public void Send(object thing, string routingKey) => SendMessage(thing, routingKey);
+        public void Send(object thing, string exchangeName, string queueName, string routingKey) => SendMessage(thing, exchangeName, queueName, routingKey);
     }
 
     //public interface IMQConsumer

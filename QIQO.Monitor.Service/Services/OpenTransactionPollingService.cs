@@ -22,7 +22,7 @@ namespace QIQO.Monitor.Service.Services
         {
             _hubClientService = hubClientService;
         }
-        public void StartPolling(Server server, Service service)
+        public override void StartPolling(Server server, Service service)
         {
             Server = server;
             Service = service;

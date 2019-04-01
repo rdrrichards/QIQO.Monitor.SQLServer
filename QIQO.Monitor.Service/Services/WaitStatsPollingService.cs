@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using QIQO.Monitor.Domain;
 using QIQO.Monitor.Service.Polling;
 using QIQO.Monitor.SQLServer.Data;
+using QIQO.MQ;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,16 +16,20 @@ namespace QIQO.Monitor.Service.Services
     public class WaitStatsPollingService : PollingServiceBase<WaitStatsData>, IWaitStatsPollingService
     {
         private readonly IHubClientService _hubClientService;
+        private readonly IConfiguration _configuration;
+        private readonly IMQPublisher _qPublisher;
 
         public WaitStatsPollingService(ILogger<WaitStatsPollingService> logger, IDbContextFactory dbContextFactory,
             IDataRepositoryFactory dataRepositoryFactory, IHubClientService hubClientService, IHealthService healthService,
-            IConfiguration configuration)
+            IConfiguration configuration, IMQPublisher qPublisher)
             : base(logger, dbContextFactory, dataRepositoryFactory, healthService)
         {
             _hubClientService = hubClientService;
-            PollingInterval = int.TryParse(configuration["Polling:WaitStatsPollingInterval"], out int interval) ? interval : (1000 * 60 * 5);
+            _configuration = configuration;
+            PollingInterval = int.TryParse(_configuration["Polling:WaitStatsPollingInterval"], out int interval) ? interval : (1000 * 60 * 5);
+            _qPublisher = qPublisher;
         }
-        public void StartPolling(Server server, Service service)
+        public override void StartPolling(Server server, Service service)
         {
             Server = server;
             Service = service;
@@ -50,6 +55,8 @@ namespace QIQO.Monitor.Service.Services
                         if (waitStatsData.Count > 0)
                         {
                             // Save the data for later analysis
+                            _qPublisher.Send(waitStatsData, _configuration["QueueConfig:Monitor:Exchange"],
+                                _configuration["QueueConfig:Monitor:AddQueue"], "WaitStats");
                             // Wais stats isn't an alertable thing without analysis of the data over time
                         }
                     }
