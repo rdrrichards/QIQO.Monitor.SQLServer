@@ -5,8 +5,8 @@ using System;
 
 namespace QIQO.Monitor.Api.Services
 {
-    public interface IOpenTranactionEntityService : IEntityService<OpenTransaction, OpenTransactionData> { }
-    public class OpenTranactionEntityService : IOpenTranactionEntityService
+    public interface IOpenTransactionEntityService : IEntityService<OpenTransaction, OpenTransactionData> { }
+    public class OpenTransactionEntityService : IOpenTransactionEntityService
     {
         public OpenTransaction Map(OpenTransactionData ent) => new OpenTransaction(ent.SessionId, ent.HostName, ent.LoginName,
                 ent.TransactionID, ent.TransactionName, ent.TransactionBegan, ent.DatabaseId, ent.DatabaseName);
