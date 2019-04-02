@@ -44,23 +44,29 @@ namespace QIQO.Monitor.Api.Services
 
             return services;
         }
-        public Service AddService(ServiceAdd environment)
+        public Service AddService(ServiceAdd service)
         {
-            var endData = new ServiceData { ServiceName = environment.ServiceName };
+            var endData = new ServiceData { ServiceName = service.ServiceName };
             _serviceRepository.Insert(endData);
             _cacheService.RefreshCache();
-            return GetServices().FirstOrDefault(e => e.ServiceName == environment.ServiceName);
+            return GetServices().FirstOrDefault(e => e.ServiceName == service.ServiceName);
         }
-        public Service UpdateService(int environmentKey, ServiceUpdate environment)
+        public Service UpdateService(int serviceKey, ServiceUpdate service)
         {
-            var endData = new ServiceData { ServiceKey = environmentKey, ServiceName = environment.ServiceName };
+            var endData = new ServiceData { ServiceKey = serviceKey,
+                ServiceName = service.ServiceName,
+                InstanceName = service.InstanceName,
+                ServiceSource = service.ServiceSource,
+                ServiceTypeKey = service.ServiceTypeKey,
+                ServerKey = service.ServerKey
+            };
             _serviceRepository.Save(endData);
             _cacheService.RefreshCache();
-            return GetServices().FirstOrDefault(e => e.ServiceKey == environmentKey);
+            return GetServices().FirstOrDefault(e => e.ServiceKey == serviceKey);
         }
-        public void DeleteService(int environmentKey)
+        public void DeleteService(int serviceKey)
         {
-            var endData = new ServiceData { ServiceKey = environmentKey };
+            var endData = new ServiceData { ServiceKey = serviceKey };
             _serviceRepository.Delete(endData);
             _cacheService.RefreshCache();
         }

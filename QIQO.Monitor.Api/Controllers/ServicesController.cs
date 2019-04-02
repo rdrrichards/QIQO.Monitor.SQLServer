@@ -80,7 +80,7 @@ namespace QIQO.Monitor.Api.Controllers
         /// </summary>
         /// <returns>200 - Ok</returns>
         [HttpDelete("{id}")]
-        public ActionResult<Environment> Delete(int id)
+        public ActionResult Delete(int id)
         {
             if (id == 0) return BadRequest("Invalid id parameter");
 

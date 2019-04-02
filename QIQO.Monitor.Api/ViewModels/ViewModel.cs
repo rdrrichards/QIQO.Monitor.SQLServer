@@ -34,6 +34,8 @@ namespace QIQO.Monitor.Api
         public string ServiceName { get; set; }
         public string InstanceName { get; set; }
         public string ServiceSource { get; set; }
+        public int ServiceTypeKey { get; set; }
+        public int ServerKey { get; set; }
     }
     public class EnvironmentUpdate
     {

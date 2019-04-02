@@ -49,23 +49,23 @@ namespace QIQO.Monitor.Api.Services
 
             return servers;
         }
-        public Server AddServer(ServerAdd environment)
+        public Server AddServer(ServerAdd server)
         {
-            var endData = new ServerData { ServerName = environment.ServerName };
+            var endData = new ServerData { ServerName = server.ServerName };
             _serverRepository.Insert(endData);
             _cacheService.RefreshCache();
-            return GetServers().FirstOrDefault(e => e.ServerName == environment.ServerName);
+            return GetServers().FirstOrDefault(e => e.ServerName == server.ServerName);
         }
-        public Server UpdateServer(int environmentKey, ServerUpdate environment)
+        public Server UpdateServer(int serverKey, ServerUpdate server)
         {
-            var endData = new ServerData { ServerKey = environmentKey, ServerName = environment.ServerName };
+            var endData = new ServerData { ServerKey = serverKey, ServerName = server.ServerName };
             _serverRepository.Save(endData);
             _cacheService.RefreshCache();
-            return GetServers().FirstOrDefault(e => e.ServerKey == environmentKey);
+            return GetServers().FirstOrDefault(e => e.ServerKey == serverKey);
         }
-        public void DeleteServer(int environmentKey)
+        public void DeleteServer(int serverKey)
         {
-            var endData = new ServerData { ServerKey = environmentKey };
+            var endData = new ServerData { ServerKey = serverKey };
             _serverRepository.Delete(endData);
             _cacheService.RefreshCache();
         }
