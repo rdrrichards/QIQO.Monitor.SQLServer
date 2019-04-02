@@ -32,12 +32,13 @@ namespace QIQO.Monitor.Tests
             var cache = new Mock<ICoreCacheService>();
             var qm = new Mock<IQueryEntityService>();
             var em = new Mock<IEnvironmentEntityService>();
+            var repo = new Mock<IServiceRepository>();
             var envData = new List<ServiceData> { new ServiceData { ServiceKey = 1, ServiceName = "Test", InstanceName = "I1",
                 ServerKey = 1, ServiceSource = "Test", ServiceTypeKey = 1 } };
             cache.Setup(m => m.GetServices()).Returns(envData);
 
             // Act
-            var sut = new ServiceManager(cache.Object, qm.Object, em.Object);
+            var sut = new ServiceManager(cache.Object, qm.Object, em.Object, repo.Object);
             var envs = sut.GetServices();
 
             // Assert

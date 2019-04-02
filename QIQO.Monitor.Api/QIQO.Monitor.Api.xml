@@ -88,5 +88,11 @@
             </summary>
             <returns>200 - Ok</returns>
         </member>
+        <member name="M:QIQO.Monitor.Api.Controllers.ServicesController.Delete(System.Int32)">
+            <summary>
+            Delete an existing Service being managed
+            </summary>
+            <returns>200 - Ok</returns>
+        </member>
     </members>
 </doc>

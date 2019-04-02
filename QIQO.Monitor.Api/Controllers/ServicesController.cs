@@ -50,11 +50,13 @@ namespace QIQO.Monitor.Api.Controllers
         [HttpPost()]
         public ActionResult<Service> Post([FromBody] ServiceAdd service)
         {
-            // var service = _serviceManager.GetServices().FirstOrDefault(s => s.ServiceKey == id);
-            if (service != null)
-                return Ok(service);
+            if (service == null) return BadRequest("Invalid server parameter");
+
+            var newEnv = _serviceManager.AddService(service);
+            if (newEnv != null)
+                return Created("", newEnv);
             else
-                return NotFound();
+                return BadRequest();
         }
 
         /// <summary>
@@ -64,11 +66,26 @@ namespace QIQO.Monitor.Api.Controllers
         [HttpPut("{id}")]
         public ActionResult<Service> Put(int id, [FromBody] ServiceUpdate service)
         {
-            // var service = _serviceManager.GetServices().FirstOrDefault(s => s.ServiceKey == id);
-            if (service != null)
-                return Ok(service);
+            if (service == null) return BadRequest("Invalid service parameter");
+
+            var newEnv = _serviceManager.UpdateService(id, service);
+            if (newEnv != null)
+                return Created("", newEnv);
             else
-                return NotFound();
+                return BadRequest();
+        }
+
+        /// <summary>
+        /// Delete an existing Service being managed
+        /// </summary>
+        /// <returns>200 - Ok</returns>
+        [HttpDelete("{id}")]
+        public ActionResult<Environment> Delete(int id)
+        {
+            if (id == 0) return BadRequest("Invalid id parameter");
+
+            _serviceManager.DeleteService(id);
+            return NoContent();
         }
     }
 }

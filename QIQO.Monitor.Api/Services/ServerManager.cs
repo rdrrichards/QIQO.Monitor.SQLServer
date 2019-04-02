@@ -18,7 +18,6 @@ namespace QIQO.Monitor.Api.Services
         private readonly IQueryEntityService _queryEntityService;
         private readonly IEnvironmentEntityService _environmentEntityService;
         private readonly IServerRepository _serverRepository;
-        private readonly IServerEntityService _serverEntityService;
 
         public ServerManager(ICoreCacheService cacheService, IQueryEntityService queryEntityService,
             IEnvironmentEntityService environmentEntityService, IServerRepository serverRepository)

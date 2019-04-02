@@ -50,7 +50,6 @@ namespace QIQO.Monitor.Api.Controllers
         [HttpPost()]
         public ActionResult<Server> Post([FromBody] ServerAdd server)
         {
-
             if (server == null) return BadRequest("Invalid server parameter");
 
             var newEnv = _serverManager.AddServer(server);
