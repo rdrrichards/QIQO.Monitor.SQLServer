@@ -15,12 +15,11 @@ namespace QIQO.Monitor.Tests
             // Arrange
             var cache = new Mock<ICoreCacheService>();
             var repo = new Mock<IEnvironmentRepository>();
-            var entity = new Mock<IEnvironmentEntityService>();
             var envData = new List<EnvironmentData> { new EnvironmentData { EnvironmentKey = 1, EnvironmentName = "Test" } };
             cache.Setup(m => m.GetEnviroments()).Returns(envData);
 
             // Act
-            var sut = new EnvironmentManager(cache.Object, repo.Object, entity.Object);
+            var sut = new EnvironmentManager(cache.Object, repo.Object);
             var envs = sut.GetEnvironments();
 
             // Assert
@@ -51,11 +50,12 @@ namespace QIQO.Monitor.Tests
             var cache = new Mock<ICoreCacheService>();
             var qm = new Mock<IQueryEntityService>();
             var em = new Mock<IEnvironmentEntityService>();
+            var repo = new Mock<IServerRepository>();
             var envData = new List<ServerData> { new ServerData { ServerKey = 1, ServerName = "Test" } };
             cache.Setup(m => m.GetServers()).Returns(envData);
 
             // Act
-            var sut = new ServerManager(cache.Object, qm.Object, em.Object);
+            var sut = new ServerManager(cache.Object, qm.Object, em.Object, repo.Object);
             var envs = sut.GetServers();
 
             // Assert

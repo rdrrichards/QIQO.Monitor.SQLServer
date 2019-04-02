@@ -8,18 +8,25 @@ namespace QIQO.Monitor.Api.Services
     public interface IServerManager
     {
         List<Server> GetServers();
+        Server AddServer(ServerAdd environment);
+        Server UpdateServer(int environmentKey, ServerUpdate environment);
+        void DeleteServer(int environmentKey);
     }
     public class ServerManager : IServerManager
     {
         private readonly ICoreCacheService _cacheService;
         private readonly IQueryEntityService _queryEntityService;
         private readonly IEnvironmentEntityService _environmentEntityService;
+        private readonly IServerRepository _serverRepository;
+        private readonly IServerEntityService _serverEntityService;
 
-        public ServerManager(ICoreCacheService cacheService, IQueryEntityService queryEntityService, IEnvironmentEntityService environmentEntityService)
+        public ServerManager(ICoreCacheService cacheService, IQueryEntityService queryEntityService,
+            IEnvironmentEntityService environmentEntityService, IServerRepository serverRepository)
         {
             _cacheService = cacheService;
             _queryEntityService = queryEntityService;
             _environmentEntityService = environmentEntityService;
+            _serverRepository = serverRepository;
         }
         public List<Server> GetServers()
         {
@@ -42,6 +49,26 @@ namespace QIQO.Monitor.Api.Services
             });
 
             return servers;
+        }
+        public Server AddServer(ServerAdd environment)
+        {
+            var endData = new ServerData { ServerName = environment.ServerName };
+            _serverRepository.Insert(endData);
+            _cacheService.RefreshCache();
+            return GetServers().FirstOrDefault(e => e.ServerName == environment.ServerName);
+        }
+        public Server UpdateServer(int environmentKey, ServerUpdate environment)
+        {
+            var endData = new ServerData { ServerKey = environmentKey, ServerName = environment.ServerName };
+            _serverRepository.Save(endData);
+            _cacheService.RefreshCache();
+            return GetServers().FirstOrDefault(e => e.ServerKey == environmentKey);
+        }
+        public void DeleteServer(int environmentKey)
+        {
+            var endData = new ServerData { ServerKey = environmentKey };
+            _serverRepository.Delete(endData);
+            _cacheService.RefreshCache();
         }
     }
 }

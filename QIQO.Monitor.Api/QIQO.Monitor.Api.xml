@@ -30,7 +30,7 @@
         </member>
         <member name="M:QIQO.Monitor.Api.Controllers.EnvironmentsController.Delete(System.Int32)">
             <summary>
-            Update an existing Environment being managed
+            Delete an existing Environment being managed
             </summary>
             <returns>200 - Ok</returns>
         </member>
@@ -55,6 +55,12 @@
         <member name="M:QIQO.Monitor.Api.Controllers.ServersController.Put(System.Int32,QIQO.Monitor.Api.ServerUpdate)">
             <summary>
             Update an existing Server being managed
+            </summary>
+            <returns>200 - Ok</returns>
+        </member>
+        <member name="M:QIQO.Monitor.Api.Controllers.ServersController.Delete(System.Int32)">
+            <summary>
+            Delete an existing Server being managed
             </summary>
             <returns>200 - Ok</returns>
         </member>

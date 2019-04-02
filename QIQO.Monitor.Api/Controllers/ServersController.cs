@@ -50,11 +50,14 @@ namespace QIQO.Monitor.Api.Controllers
         [HttpPost()]
         public ActionResult<Server> Post([FromBody] ServerAdd server)
         {
-            // var server = _serverManager.GetServers().FirstOrDefault(s => s.ServerKey == id);
-            if (server != null)
-                return Ok(server);
+
+            if (server == null) return BadRequest("Invalid server parameter");
+
+            var newEnv = _serverManager.AddServer(server);
+            if (newEnv != null)
+                return Created("", newEnv);
             else
-                return NotFound();
+                return BadRequest();
         }
 
         /// <summary>
@@ -64,11 +67,26 @@ namespace QIQO.Monitor.Api.Controllers
         [HttpPut("{id}")]
         public ActionResult<Server> Put(int id, [FromBody] ServerUpdate server)
         {
-            // var server = _serverManager.GetServers().FirstOrDefault(s => s.ServerKey == id);
-            if (server != null)
-                return Ok(server);
+            if (server == null) return BadRequest("Invalid server parameter");
+
+            var newEnv = _serverManager.UpdateServer(id, server);
+            if (newEnv != null)
+                return Created("", newEnv);
             else
-                return NotFound();
+                return BadRequest();
+        }
+
+        /// <summary>
+        /// Delete an existing Server being managed
+        /// </summary>
+        /// <returns>200 - Ok</returns>
+        [HttpDelete("{id}")]
+        public ActionResult<Environment> Delete(int id)
+        {
+            if (id == 0) return BadRequest("Invalid id parameter");
+
+            _serverManager.DeleteServer(id);
+            return NoContent();
         }
     }
 }

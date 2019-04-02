@@ -15,14 +15,11 @@ namespace QIQO.Monitor.Api.Services
     {
         private readonly ICoreCacheService _cacheService;
         private readonly IEnvironmentRepository _environmentRepository;
-        private readonly IEnvironmentEntityService _environmentEntityService;
 
-        public EnvironmentManager(ICoreCacheService cacheService, IEnvironmentRepository environmentRepository,
-            IEnvironmentEntityService environmentEntityService)
+        public EnvironmentManager(ICoreCacheService cacheService, IEnvironmentRepository environmentRepository)
         {
             _cacheService = cacheService;
             _environmentRepository = environmentRepository;
-            _environmentEntityService = environmentEntityService;
         }
         public List<Environment> GetEnvironments()
         {

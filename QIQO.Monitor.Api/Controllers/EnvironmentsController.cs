@@ -75,7 +75,7 @@ namespace QIQO.Monitor.Api.Controllers
         }
 
         /// <summary>
-        /// Update an existing Environment being managed
+        /// Delete an existing Environment being managed
         /// </summary>
         /// <returns>200 - Ok</returns>
         [HttpDelete("{id}")]
