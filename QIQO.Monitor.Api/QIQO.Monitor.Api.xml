@@ -28,6 +28,12 @@
             </summary>
             <returns>200 - Ok</returns>
         </member>
+        <member name="M:QIQO.Monitor.Api.Controllers.EnvironmentsController.Delete(System.Int32)">
+            <summary>
+            Update an existing Environment being managed
+            </summary>
+            <returns>200 - Ok</returns>
+        </member>
         <member name="M:QIQO.Monitor.Api.Controllers.ServersController.Get">
             <summary>
             Get a collection of all Servers being managed

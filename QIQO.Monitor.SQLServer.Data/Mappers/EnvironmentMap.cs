@@ -28,13 +28,13 @@ namespace QIQO.Monitor.SQLServer.Data
             {
                 BuildParam("@environment_key", entity.EnvironmentKey),
                 BuildParam("@environment_name", entity.EnvironmentName),
-                GetOutParam()
+                // GetOutParam()
             };
 
         public List<SqlParameter> MapParamsForDelete(EnvironmentData entity) => new List<SqlParameter>
             {
                 BuildParam("@environment_key", entity.EnvironmentKey),
-                GetOutParam()
+                // GetOutParam()
             };
 
         public List<SqlParameter> MapParamsForDelete(int category_key) => throw new NotImplementedException();

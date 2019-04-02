@@ -14,11 +14,13 @@ namespace QIQO.Monitor.Tests
         {
             // Arrange
             var cache = new Mock<ICoreCacheService>();
+            var repo = new Mock<IEnvironmentRepository>();
+            var entity = new Mock<IEnvironmentEntityService>();
             var envData = new List<EnvironmentData> { new EnvironmentData { EnvironmentKey = 1, EnvironmentName = "Test" } };
             cache.Setup(m => m.GetEnviroments()).Returns(envData);
 
             // Act
-            var sut = new EnvironmentManager(cache.Object);
+            var sut = new EnvironmentManager(cache.Object, repo.Object, entity.Object);
             var envs = sut.GetEnvironments();
 
             // Assert

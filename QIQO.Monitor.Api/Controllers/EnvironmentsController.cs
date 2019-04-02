@@ -49,11 +49,13 @@ namespace QIQO.Monitor.Api.Controllers
         [HttpPost()]
         public ActionResult<Environment> Post([FromBody] EnvironmentAdd environment)
         {
-            // var environment = _environmentManager.GetEnvironments().FirstOrDefault(s => s.EnvironmentKey == id);
-            if (environment != null)
-                return Ok(environment);
+            if (environment == null) return BadRequest("Invalid environment parameter");
+
+            var newEnv = _environmentManager.AddEnvironment(environment);
+            if (newEnv != null)
+                return Created("", newEnv);
             else
-                return NotFound();
+                return BadRequest();
         }
 
         /// <summary>
@@ -63,11 +65,26 @@ namespace QIQO.Monitor.Api.Controllers
         [HttpPut("{id}")]
         public ActionResult<Environment> Put(int id, [FromBody] EnvironmentUpdate environment)
         {
-            // var environment = _environmentManager.GetEnvironments().FirstOrDefault(s => s.EnvironmentKey == id);
-            if (environment != null)
-                return Ok(environment);
+            if (environment == null) return BadRequest("Invalid environment parameter");
+
+            var newEnv = _environmentManager.UpdateEnvironment(id, environment);
+            if (newEnv != null)
+                return Created("", newEnv);
             else
-                return NotFound();
+                return BadRequest();
+        }
+
+        /// <summary>
+        /// Update an existing Environment being managed
+        /// </summary>
+        /// <returns>200 - Ok</returns>
+        [HttpDelete("{id}")]
+        public ActionResult<Environment> Delete(int id)
+        {
+            if (id == 0) return BadRequest("Invalid id parameter");
+
+            _environmentManager.DeleteEnvironment(id);
+            return NoContent();
         }
     }
 }

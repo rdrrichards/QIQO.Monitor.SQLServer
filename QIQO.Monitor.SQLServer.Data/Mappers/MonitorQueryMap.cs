@@ -28,14 +28,14 @@ namespace QIQO.Monitor.SQLServer.Data
             {
                 BuildParam("@monitor_key", entity.MonitorKey),
                 BuildParam("@query_key", entity.QueryKey),
-                GetOutParam()
+                // GetOutParam()
             };
 
         public List<SqlParameter> MapParamsForDelete(MonitorQueryData entity) => new List<SqlParameter>
             {
                 BuildParam("@monitor_key", entity.MonitorKey),
                 BuildParam("@query_key", entity.QueryKey),
-                GetOutParam()
+                // GetOutParam()
             };
 
         public List<SqlParameter> MapParamsForDelete(int category_key) => throw new NotImplementedException();

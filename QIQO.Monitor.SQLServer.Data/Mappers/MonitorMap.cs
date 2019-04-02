@@ -34,7 +34,7 @@ namespace QIQO.Monitor.SQLServer.Data
                 BuildParam("@monitor_name", entity.MonitorName),
                 BuildParam("@level_key", entity.LevelKey),
                 BuildParam("@category_key", entity.CategoryKey),
-                GetOutParam()
+                // GetOutParam()
             };
 
         public List<SqlParameter> MapParamsForDelete(MonitorData entity) => MapParamsForDelete(entity.MonitorKey);
@@ -42,7 +42,7 @@ namespace QIQO.Monitor.SQLServer.Data
         public List<SqlParameter> MapParamsForDelete(int category_key) => new List<SqlParameter>
             {
                 BuildParam("@monitor_key", category_key),
-                GetOutParam()
+                // GetOutParam()
             };
     }
 }

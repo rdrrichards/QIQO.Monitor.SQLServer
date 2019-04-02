@@ -28,7 +28,7 @@ namespace QIQO.Monitor.SQLServer.Data
             {
                 BuildParam("@level_key", entity.LevelKey),
                 BuildParam("@level_name", entity.LevelName),
-                GetOutParam()
+                // GetOutParam()
             };
 
         public List<SqlParameter> MapParamsForDelete(LevelData entity) => MapParamsForDelete(entity.LevelKey);
@@ -36,7 +36,7 @@ namespace QIQO.Monitor.SQLServer.Data
         public List<SqlParameter> MapParamsForDelete(int level_key) => new List<SqlParameter>
             {
                 BuildParam("@level_key", level_key),
-                GetOutParam()
+                // GetOutParam()
             };
     }
 }

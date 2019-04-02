@@ -4,6 +4,7 @@ namespace QIQO.Monitor.SQLServer.Data
 {
     public interface ICoreCacheService
     {
+        void RefreshCache();
         IEnumerable<ServerData> GetServers();
         ServerData GetServer(int serverKey);
         IEnumerable<QueryData> GetQueries();

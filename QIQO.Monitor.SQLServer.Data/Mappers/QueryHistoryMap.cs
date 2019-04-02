@@ -34,7 +34,7 @@ namespace QIQO.Monitor.SQLServer.Data
                 BuildParam("@query_key", entity.QueryKey),
                 BuildParam("@service_key", entity.ServiceKey),
                 BuildParam("@result_text", entity.ResultText),
-                GetOutParam()
+                // GetOutParam()
             };
 
         public List<SqlParameter> MapParamsForDelete(QueryHistoryData entity) => MapParamsForDelete(entity.QueryHistoryKey);
@@ -42,7 +42,7 @@ namespace QIQO.Monitor.SQLServer.Data
         public List<SqlParameter> MapParamsForDelete(int category_key) => new List<SqlParameter>
             {
                 BuildParam("@category_key", category_key),
-                GetOutParam()
+                // GetOutParam()
             };
     }
 }

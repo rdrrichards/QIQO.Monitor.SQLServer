@@ -28,7 +28,7 @@ namespace QIQO.Monitor.SQLServer.Data
             {
                 BuildParam("@service_type_key", entity.ServiceTypeKey),
                 BuildParam("@service_type_name", entity.ServiceTypeName),
-                GetOutParam()
+                // GetOutParam()
             };
 
         public List<SqlParameter> MapParamsForDelete(ServiceTypeData entity) => MapParamsForDelete(entity.ServiceTypeKey);
@@ -36,7 +36,7 @@ namespace QIQO.Monitor.SQLServer.Data
         public List<SqlParameter> MapParamsForDelete(int service_type_key) => new List<SqlParameter>
             {
                 BuildParam("@service_type_key", service_type_key),
-                GetOutParam()
+                // GetOutParam()
             };
     }
 }
