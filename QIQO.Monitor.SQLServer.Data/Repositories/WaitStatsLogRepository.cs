@@ -43,10 +43,15 @@ namespace QIQO.Monitor.SQLServer.Data
         {
             using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_wait_stats_log_ins", Mapper.MapParamsForUpsert(entity));
         }
-        public override IEnumerable<WaitStatsLogData> GetAll() => throw new NotImplementedException();
-        public override void Delete(WaitStatsLogData entity) => throw new NotImplementedException();
-        public override void DeleteByID(int entity_key) => throw new NotImplementedException();
-        public override WaitStatsLogData GetByID(int entity_key) => throw new NotImplementedException();
-        public override void Save(WaitStatsLogData entity) => throw new NotImplementedException();
+        public override IEnumerable<WaitStatsLogData> GetAll() =>
+            throw new NotAllowedException("Selecting all wait stats log data with this method is not allowed. Use Get(string queryText) instead.");
+        public override void Delete(WaitStatsLogData entity) =>
+            throw new NotAllowedException("Updating wait stats data cannot be deleted");
+        public override void DeleteByID(int entity_key) =>
+            throw new NotAllowedException("Updating wait stats data cannot be deleted");
+        public override WaitStatsLogData GetByID(int entity_key) =>
+            throw new NotAllowedException("Selecting wait stats data with this method is not allowed. Use Get(string queryText) instead.");
+        public override void Save(WaitStatsLogData entity) =>
+            throw new NotAllowedException("Updating wait stats data with is not allowed. Use Insert method instead.");
     }
 }

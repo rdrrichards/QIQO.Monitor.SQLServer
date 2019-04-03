@@ -14,7 +14,8 @@ namespace QIQO.Monitor.SQLServer.Data
         {
             entityContext = dbc;
         }
-        public override IEnumerable<OpenTransactionData> Get() => throw new NotImplementedException();
+        public override IEnumerable<OpenTransactionData> Get() =>
+            throw new NotAllowedException("Selecting all open transaction data with this method is not allowed. Use Get(string queryText) instead.");
         public IEnumerable<OpenTransactionData> Get(string queryText)
         {
             // Log.LogInformation("Accessing OpenTranactionRepository Get function");

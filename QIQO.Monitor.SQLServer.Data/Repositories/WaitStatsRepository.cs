@@ -15,7 +15,8 @@ namespace QIQO.Monitor.SQLServer.Data
             entityContext = dbc;
             // _cacheService = cacheService;
         }
-        public override IEnumerable<WaitStatsData> Get() => throw new NotImplementedException();
+        public override IEnumerable<WaitStatsData> Get() =>
+            throw new NotAllowedException("Selecting all wait stats data with this method is not allowed. Use Get(string queryText) instead.");
         public IEnumerable<WaitStatsData> Get(string queryText)
         {
             // Log.LogInformation("Accessing BlockingRepository Get(queryText) function");

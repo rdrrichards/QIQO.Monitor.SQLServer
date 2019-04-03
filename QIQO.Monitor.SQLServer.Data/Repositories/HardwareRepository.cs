@@ -17,7 +17,8 @@ namespace QIQO.Monitor.SQLServer.Data
             _cacheService = cacheService;
         }
 
-        public override IEnumerable<HardwareData> Get() => throw new NotImplementedException();
+        public override IEnumerable<HardwareData> Get() =>
+            throw new NotAllowedException("Selecting all hardware data with this method is not allowed. Use Get(string queryText) instead.");
         public IEnumerable<HardwareData> Get(string queryText)
         {
             Log.LogInformation("Accessing OpenTranactionRepository Get function");
