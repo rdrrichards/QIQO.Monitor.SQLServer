@@ -78,7 +78,7 @@ namespace QIQO.Monitor.Service.Services
             var monRes = new WaitStatsResult();
             blockingData.ToList().ForEach(bd =>
             {
-                monRes.Results.Add(new WaitStats(bd.WaitType, bd.WaitPercentage, bd.AvgWaitSec,
+                monRes.Results.Add(new WaitStats(bd.BatchNo ,bd.WaitType, bd.WaitTypeKey, bd.WaitPercentage, bd.AvgWaitSec,
                     bd.AvgResSec, bd.AvgSigSec, bd.WaitSec, bd.ResourceSec,
                     bd.SignalSec, bd.WaitCount));
             });

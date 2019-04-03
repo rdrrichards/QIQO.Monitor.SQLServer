@@ -12,7 +12,9 @@ namespace QIQO.Monitor.SQLServer.Data
             {
                 return new WaitStatsData()
                 {
+                    BatchNo = NullCheck<long>(record["BatchNo"]),
                     WaitType = NullCheck<string>(record["WaitType"]),
+                    WaitTypeKey = NullCheck<long>(record["WaitTypeKey"]),
                     WaitPercentage = NullCheck<decimal>(record["WaitPercentage"]),
                     AvgWaitSec = NullCheck<decimal>(record["AvgWaitSec"]),
                     AvgResSec = NullCheck<decimal>(record["AvgResSec"]),

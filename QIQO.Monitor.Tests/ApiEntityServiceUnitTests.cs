@@ -193,14 +193,18 @@ namespace QIQO.Monitor.Tests
                 WaitCount = 1,
                 WaitPercentage = 1,
                 WaitSec = 1,
-                WaitType = "Test"
+                WaitType = "Test",
+                BatchNo = 1,
+                WaitTypeKey = 1
             };
-            var model = new WaitStats("Test", 1, 1, 1, 1, 1, 1, 1, 1);
+            var model = new WaitStats(1, "Test", 1, 1, 1, 1, 1, 1, 1, 1, 1);
             // Act
             var es = new WaitStatsEntityService();
             var newModel = es.Map(data);
 
             // Assert
+            Assert.True(newModel.BatchNo == 1);
+            Assert.True(newModel.WaitTypeKey == 1);
             Assert.True(newModel.AvgResSec == 1);
             Assert.True(newModel.AvgSigSec == 1);
             Assert.True(newModel.AvgWaitSec == 1);

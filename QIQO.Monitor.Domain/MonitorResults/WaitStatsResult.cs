@@ -9,11 +9,13 @@ namespace QIQO.Monitor.Domain
     }
     public partial class WaitStats : IModel
     {
-        public WaitStats(string waitType, decimal waitPercentage, decimal avgWaitSec,
+        public WaitStats(long batchNo, string waitType, long waitTypeKey, decimal waitPercentage, decimal avgWaitSec,
             decimal avgResSec, decimal avgSigSec, decimal waitSec, decimal resourceSec,
             decimal signalSec, long waitCount)
         {
+            BatchNo = batchNo;
             WaitType = waitType;
+            WaitTypeKey = waitTypeKey;
             WaitPercentage = waitPercentage;
             AvgWaitSec = avgWaitSec;
             AvgResSec = avgResSec;
@@ -23,7 +25,9 @@ namespace QIQO.Monitor.Domain
             SignalSec = signalSec;
             WaitCount = waitCount;
         }
+        public long BatchNo { get; }
         public string WaitType { get; }
+        public long WaitTypeKey { get; }
         public decimal WaitPercentage { get; }
         public decimal AvgWaitSec { get; }
         public decimal AvgResSec { get; }

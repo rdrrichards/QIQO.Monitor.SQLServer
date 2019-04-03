@@ -2,7 +2,9 @@
 {
     public class WaitStatsData : CommonData
     {
+        public long BatchNo { get; set; }
         public string WaitType { get; set; }
+        public long WaitTypeKey { get; set; }
         public decimal WaitPercentage { get; set; }
         public decimal AvgWaitSec { get; set; }
         public decimal AvgResSec { get; set; }
