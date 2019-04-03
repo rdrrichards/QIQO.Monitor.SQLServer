@@ -14,15 +14,17 @@ namespace QIQO.MQ
         public void Send(object thing, string exchangeName, string queueName, string routingKey) => SendMessage(thing, exchangeName, queueName, routingKey);
     }
 
-    //public interface IMQConsumer
-    //{
-    //    void Pull(string routingKey);
-    //}
-    //public class MQConsumer : Consumer, IMQConsumer
-    //{
-    //    public void Pull(string routingKey)
-    //    {
-    //        ReceiveMessage();
-    //    }
-    //}
+    public interface IMQConsumer
+    {
+        void Pull(string exchangeName, string queueName, string routingKey);
+    }
+    public class MQConsumer : Consumer, IMQConsumer
+    {
+        public MQConsumer(IConfiguration configuration) : base(configuration) { }
+
+        public void Pull(string exchangeName, string queueName, string routingKey)
+        {
+            ReceiveMessages(exchangeName, queueName, routingKey);
+        }
+    }
 }

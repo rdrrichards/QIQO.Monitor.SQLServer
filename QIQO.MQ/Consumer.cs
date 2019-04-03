@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using RabbitMQ.Client;
 using RabbitMQ.Client.MessagePatterns;
 
@@ -16,9 +17,17 @@ namespace QIQO.MQ
         private IConnection _connection;
         private CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
-        public void ReceiveMessages(string exchgName, string qName, string rtKey)
+        private readonly IConfiguration _configuration;
+
+        public Consumer(IConfiguration configuration)
         {
-            //ProcessMessages();
+            _configuration = configuration;
+        }
+
+        public void ReceiveMessages(string exchangeName, string queueName, string routingKey)
+        {
+            ProcessMessages(_configuration["QueueConfig:Server"], _configuration["QueueConfig:User"],
+                _configuration["QueueConfig:Password"], exchangeName, queueName, routingKey);
         }
 
         public void StopRecieving()

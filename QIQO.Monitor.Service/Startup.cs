@@ -17,6 +17,7 @@ namespace QIQO.Monitor.Service
             services.AddDataAccess();
             services.AddPollers();
             services.AddTransient<IMQPublisher, MQPublisher>();
+            services.AddTransient<IMQConsumer, MQConsumer>();
             services.AddSingleton<IServerManager, ServerManager>();
             services.AddSignalR();
             services.AddTransient<IHubClientService, HubClientService>();
