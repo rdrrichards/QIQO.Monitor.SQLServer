@@ -13,18 +13,4 @@ namespace QIQO.MQ
         public void Send(object thing, string routingKey) => SendMessage(thing, routingKey);
         public void Send(object thing, string exchangeName, string queueName, string routingKey) => SendMessage(thing, exchangeName, queueName, routingKey);
     }
-
-    public interface IMQConsumer
-    {
-        void Pull(string exchangeName, string queueName, string routingKey);
-    }
-    public class MQConsumer : Consumer, IMQConsumer
-    {
-        public MQConsumer(IConfiguration configuration) : base(configuration) { }
-
-        public void Pull(string exchangeName, string queueName, string routingKey)
-        {
-            ReceiveMessages(exchangeName, queueName, routingKey);
-        }
-    }
 }
