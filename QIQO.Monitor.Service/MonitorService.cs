@@ -54,6 +54,9 @@ namespace QIQO.Monitor.Service
                         case MonitorCategory.OpenTranactions:
                             _pollingServiceFactory.GetPollingService<IOpenTransactionPollingService>().StartPolling(server, service);
                             break;
+                        case MonitorCategory.WaitStats:
+                            _pollingServiceFactory.GetPollingService<IWaitStatsPollingService>().StartPolling(server, service);
+                            break;
                         default:
                             break;
                     }

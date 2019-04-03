@@ -42,7 +42,6 @@ namespace QIQO.Monitor.SQLServer.Data
             {
                 BuildParam("@BatchNo", entity.BatchNo),
                 BuildParam("@WaitType", entity.WaitType),
-                BuildParam("@WaitTypeKey", entity.WaitTypeKey),
                 BuildParam("@WaitPercentage", entity.WaitPercentage),
                 BuildParam("@AvgWaitSec", entity.AvgWaitSec),
                 BuildParam("@AvgResSec", entity.AvgResSec),

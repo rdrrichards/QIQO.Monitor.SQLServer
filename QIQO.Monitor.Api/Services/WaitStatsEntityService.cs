@@ -8,7 +8,7 @@ namespace QIQO.Monitor.Api.Services
     public interface IWaitStatsEntityService : IEntityService<WaitStats, WaitStatsData> { }
     public class WaitStatsEntityService : IWaitStatsEntityService
     {
-        public WaitStats Map(WaitStatsData ent) => new WaitStats(ent.BatchNo, ent.WaitType, ent.WaitTypeKey, ent.WaitPercentage, ent.AvgWaitSec,
+        public WaitStats Map(WaitStatsData ent) => new WaitStats(ent.BatchNo, ent.WaitType, ent.WaitPercentage, ent.AvgWaitSec,
                 ent.AvgResSec, ent.AvgSigSec, ent.WaitSec, ent.ResourceSec,
                 ent.SignalSec, ent.WaitCount);
 

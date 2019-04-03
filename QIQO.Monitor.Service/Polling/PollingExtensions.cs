@@ -10,7 +10,7 @@ namespace QIQO.Monitor.Service.Polling
             services.AddSingleton<IPollingServiceFactory>(new PollingServiceFactory(services))
                 .AddScoped<IBlockingPollingService, BlockingPollingService>()
                 .AddScoped<IOpenTransactionPollingService, OpenTransactionPollingService>()
-                // .AddScoped<IWaitStatsPollingService, WaitStatsPollingService>()
+                .AddScoped<IWaitStatsPollingService, WaitStatsPollingService>()
                 ;
             return services;
         }

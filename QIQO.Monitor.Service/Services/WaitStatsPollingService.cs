@@ -55,7 +55,7 @@ namespace QIQO.Monitor.Service.Services
                         if (waitStatsData.Count > 0)
                         {
                             // Save the data for later analysis
-                            _qPublisher.Send(waitStatsData, _configuration["QueueConfig:Monitor:Exchange"],
+                            _qPublisher.Send(PrepData(waitStatsData, Service), _configuration["QueueConfig:Monitor:Exchange"],
                                 _configuration["QueueConfig:Monitor:AddQueue"], "WaitStats");
                             // Wais stats isn't an alertable thing without analysis of the data over time
                         }
@@ -78,13 +78,33 @@ namespace QIQO.Monitor.Service.Services
             var monRes = new WaitStatsResult();
             blockingData.ToList().ForEach(bd =>
             {
-                monRes.Results.Add(new WaitStats(bd.BatchNo ,bd.WaitType, bd.WaitTypeKey, bd.WaitPercentage, bd.AvgWaitSec,
+                monRes.Results.Add(new WaitStats(bd.BatchNo ,bd.WaitType, bd.WaitPercentage, bd.AvgWaitSec,
                     bd.AvgResSec, bd.AvgSigSec, bd.WaitSec, bd.ResourceSec,
                     bd.SignalSec, bd.WaitCount));
             });
             return new PollingMonitorResult(Server, Service, Monitor, monRes);
         }
-
+        private IEnumerable<WaitStatsLogData> PrepData(List<WaitStatsData> waitStatsData, Service service)
+        {
+            var logs = new List<WaitStatsLogData>();
+            waitStatsData.ForEach(d => {
+                logs.Add(new WaitStatsLogData {
+                    AvgResSec = d.AvgResSec,
+                    AvgSigSec = d.AvgSigSec,
+                    AvgWaitSec = d.AvgWaitSec,
+                    BatchNo = d.BatchNo,
+                    ResourceSec = d.ResourceSec,
+                    ServiceKey = service.ServiceKey,
+                    SignalSec = d.SignalSec,
+                    WaitCount = d.WaitCount,
+                    WaitPercentage = d.WaitPercentage,
+                    WaitSec = d.WaitSec,
+                    WaitType = d.WaitType,
+                    // WaitTypeKey = d.WaitTypeKey
+                });
+            });
+            return logs;
+        }
         ~WaitStatsPollingService()
         {
             _logger.LogInformation("WaitStats Poller stopping");

@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using QIQO.Monitor.Service.Polling;
 using QIQO.Monitor.SQLServer.Data;
+using QIQO.MQ;
 
 namespace QIQO.Monitor.Service
 {
@@ -15,6 +16,7 @@ namespace QIQO.Monitor.Service
             services.AddEntityServices();
             services.AddDataAccess();
             services.AddPollers();
+            services.AddTransient<IMQPublisher, MQPublisher>();
             services.AddSingleton<IServerManager, ServerManager>();
             services.AddSignalR();
             services.AddTransient<IHubClientService, HubClientService>();
