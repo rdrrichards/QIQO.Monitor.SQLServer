@@ -54,4 +54,7 @@ namespace QIQO.Monitor.SQLServer.Data
     {
         IEnumerable<WaitStatsData> Get(string queryText);
     }
+
+    public interface IWaitStatsLogMap : IMapper<WaitStatsLogData> { }
+    public interface IWaitStatsLogRepository : IRepository<WaitStatsLogData> { }
 }
