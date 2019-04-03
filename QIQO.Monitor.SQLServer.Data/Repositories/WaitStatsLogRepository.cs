@@ -35,7 +35,7 @@ namespace QIQO.Monitor.SQLServer.Data
             var pcol = new List<SqlParameter>() {
                 Mapper.BuildParam("@service_key", serviceKey),
                 Mapper.BuildParam("@start_date", startDate),
-                Mapper.BuildParam("@end_date", startDate)
+                Mapper.BuildParam("@end_date", endDate)
             };
             using (entityContext) return MapRows(entityContext.ExecuteProcedureAsSqlDataReader("usp_wait_stats_log_get", pcol));
         }

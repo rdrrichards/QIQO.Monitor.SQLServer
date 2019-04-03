@@ -1,4 +1,5 @@
 ﻿using QIQO.Monitor.Core.Contracts;
+using System;
 using System.Collections.Generic;
 
 namespace QIQO.Monitor.SQLServer.Data
@@ -56,5 +57,9 @@ namespace QIQO.Monitor.SQLServer.Data
     }
 
     public interface IWaitStatsLogMap : IMapper<WaitStatsLogData> { }
-    public interface IWaitStatsLogRepository : IRepository<WaitStatsLogData> { }
+    public interface IWaitStatsLogRepository : IRepository<WaitStatsLogData> {
+        IEnumerable<WaitStatsLogData> Get(int serviceKey);
+        IEnumerable<WaitStatsLogData> Get(int serviceKey, int sampleCount);
+        IEnumerable<WaitStatsLogData> Get(int serviceKey, DateTime startDate, DateTime endDate);
+    }
 }
