@@ -56,7 +56,7 @@ namespace QIQO.Monitor.Service.Services
                         {
                             // Save the data for later analysis
                             _qPublisher.Send(PrepData(waitStatsData, Service), _configuration["QueueConfig:Monitor:Exchange"],
-                                _configuration["QueueConfig:Monitor:AddQueue"], "WaitStats");
+                                _configuration["QueueConfig:Monitor:AddQueue"], MonitorConstants.WaitStats);
                             // Wais stats isn't an alertable thing without analysis of the data over time
                         }
                     }
