@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using RabbitMQ.Client;
+using System.Collections.Generic;
 
 namespace QIQO.MQ
 {
@@ -49,12 +50,16 @@ namespace QIQO.MQ
                 UserName = _configuration["QueueConfig:User"],
                 Password = _configuration["QueueConfig:Password"]
             };
-
+            var queueArgs = new Dictionary<string, object>
+            {
+                {"x-dead-letter-exchange", _configuration["QueueConfig:Monitor:DeadLetterExchange"]},
+                // {"x-expires", 30000}
+            };
             _connection = _factory.CreateConnection();
             _model = _connection.CreateModel();
             _model.ExchangeDeclare(exchangeName, "topic");
 
-            _model.QueueDeclare(queueName, true, false, false, null);
+            _model.QueueDeclare(queueName, true, false, false, queueArgs);
 
             _model.QueueBind(queueName, exchangeName, routingKey);
         }

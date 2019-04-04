@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
 using RabbitMQ.Client;
 using RabbitMQ.Client.MessagePatterns;
@@ -51,12 +52,16 @@ namespace QIQO.MQ
         }
         private void ProcessMessages(string exchangeName, string queueName, string routingKey, Func<string, string, bool> action)
         {
+            var queueArgs = new Dictionary<string, object>
+            {
+                {"x-dead-letter-exchange", _configuration["QueueConfig:Monitor:DeadLetterExchange"]}
+            };
             using (var _connection = _factory.CreateConnection())
             {
                 using (var channel = _connection.CreateModel())
                 {
                     channel.ExchangeDeclare(exchangeName, "topic");
-                    channel.QueueDeclare(queueName, true, false, false, null);
+                    channel.QueueDeclare(queueName, true, false, false, queueArgs);
                     channel.QueueBind(queueName, exchangeName, routingKey);
 
                     channel.BasicQos(0, 10, false);
