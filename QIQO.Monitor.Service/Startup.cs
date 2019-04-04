@@ -22,8 +22,10 @@ namespace QIQO.Monitor.Service
             services.AddSignalR();
             services.AddTransient<IHubClientService, HubClientService>();
             services.AddSingleton<IMonitorService, MonitorService>();
+            services.AddSingleton<IMonitorDataProcessorService, MonitorDataProcessorService>();
             services.AddSingleton<IHealthService, HealthService>();
             services.AddSingleton<IHostedService, MonitorStarter>();
+            services.AddSingleton<IHostedService, MonitorDataProcessorStarter>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

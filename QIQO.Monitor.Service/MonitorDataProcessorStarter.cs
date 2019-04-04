@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace QIQO.Monitor.Service
 {
-    public class MonitorStarter : IHostedService
+    public class MonitorDataProcessorStarter : IHostedService
     {
         private readonly IServiceProvider _serviceProvider;
 
-        public MonitorStarter(IServiceProvider serviceProvider)
+        public MonitorDataProcessorStarter(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
         }
@@ -20,7 +20,7 @@ namespace QIQO.Monitor.Service
             {
                 var monitorService =
                     scope.ServiceProvider
-                        .GetRequiredService<IMonitorService>();
+                        .GetRequiredService<IMonitorDataProcessorService>();
             }
             return Task.CompletedTask;
         }
