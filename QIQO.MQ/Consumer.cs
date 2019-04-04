@@ -7,27 +7,51 @@ namespace QIQO.MQ
 {
     public class Consumer
     {
-        private ConnectionFactory _factory;
-        private IConnection _connection;
-
+        private readonly ConnectionFactory _factory;
         private readonly IConfiguration _configuration;
 
         public Consumer(IConfiguration configuration)
         {
             _configuration = configuration;
+            _factory = new ConnectionFactory {
+                HostName = _configuration["QueueConfig:Server"],
+                UserName = _configuration["QueueConfig:User"],
+                Password = _configuration["QueueConfig:Password"]
+            };
         }
-
         public void ReceiveMessages(string exchangeName, string queueName, string routingKey, Action<string, string> action)
         {
-            ProcessMessages(_configuration["QueueConfig:Server"], _configuration["QueueConfig:User"],
-                _configuration["QueueConfig:Password"], exchangeName, queueName, routingKey, action);
+            ProcessMessages(exchangeName, queueName, routingKey, action);
         }
-
-        private void ProcessMessages(string hostName, string userName, string password,
-            string exchangeName, string queueName, string routingKey, Action<string, string> action)
+        public void ReceiveMessages(string exchangeName, string queueName, string routingKey, Func<string, string, bool> action)
         {
-            _factory = new ConnectionFactory { HostName = hostName, UserName = userName, Password = password };
-            using (_connection = _factory.CreateConnection())
+            ProcessMessages(exchangeName, queueName, routingKey, action);
+        }
+        private void ProcessMessages(string exchangeName, string queueName, string routingKey, Action<string, string> action)
+        {
+            using (var _connection = _factory.CreateConnection())
+            {
+                using (var channel = _connection.CreateModel())
+                {
+                    channel.ExchangeDeclare(exchangeName, "topic");
+                    channel.QueueDeclare(queueName, true, false, false, null);
+                    channel.QueueBind(queueName, exchangeName, routingKey);
+                    channel.BasicQos(0, 10, false);
+                    var subscription = new Subscription(channel, queueName, false);
+
+                    while (true)
+                    {
+                        var deliveryArguments = subscription.Next();
+                        var message = deliveryArguments.Body.DeSerializeText();
+                        action.Invoke(deliveryArguments.RoutingKey, message);
+                        subscription.Ack(deliveryArguments);
+                    }
+                }
+            }
+        }
+        private void ProcessMessages(string exchangeName, string queueName, string routingKey, Func<string, string, bool> action)
+        {
+            using (var _connection = _factory.CreateConnection())
             {
                 using (var channel = _connection.CreateModel())
                 {
@@ -42,9 +66,11 @@ namespace QIQO.MQ
                     {
                         var deliveryArguments = subscription.Next();
                         var message = deliveryArguments.Body.DeSerializeText();
-                        action.Invoke(deliveryArguments.RoutingKey, message);
-                        // Console.WriteLine("Message Received '{0}'", message);
-                        subscription.Ack(deliveryArguments);
+                        var ret = action.Invoke(deliveryArguments.RoutingKey, message);
+                        if (ret)
+                            subscription.Ack(deliveryArguments);
+                        else
+                            subscription.Nack(deliveryArguments, false, false);
                     }
                 }
             }

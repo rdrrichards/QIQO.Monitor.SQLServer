@@ -24,11 +24,18 @@ namespace QIQO.Monitor.Service
         {
             _logger.LogInformation("Monitor Data Processor Service started");
             _qConsumer.Pull(_configuration["QueueConfig:Monitor:Exchange"],
-                                _configuration["QueueConfig:Monitor:AddQueue"], "#", ProcessMonitorData);
+                                _configuration["QueueConfig:Monitor:AddQueue"], "#", ProcessMonitorDataF);
         }
         private void ProcessMonitorData(string monitorDataType, string dataJSON)
         {
             _logger.LogDebug($"{monitorDataType}: {dataJSON}");
+        }
+        private bool ProcessMonitorDataF(string monitorDataType, string dataJSON)
+        {
+            var success = true;
+            _logger.LogDebug($"{monitorDataType}: {dataJSON}");
+
+            return success;
         }
     }
 }
