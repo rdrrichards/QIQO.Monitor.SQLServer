@@ -34,6 +34,66 @@
             </summary>
             <returns>200 - Ok</returns>
         </member>
+        <member name="M:QIQO.Monitor.Api.Controllers.MonitorsController.Get">
+            <summary>
+            Get a collection of all Monitors being managed
+            </summary>
+            <returns>200 - Ok</returns>
+        </member>
+        <member name="M:QIQO.Monitor.Api.Controllers.MonitorsController.Get(System.Int32)">
+            <summary>
+            Get a Monitor being managed
+            </summary>
+            <returns>200 - Ok</returns>
+        </member>
+        <member name="M:QIQO.Monitor.Api.Controllers.MonitorsController.Post(QIQO.Monitor.Api.MonitorAdd)">
+            <summary>
+            Add a new Monitor to be managed
+            </summary>
+            <returns>200 - Ok</returns>
+        </member>
+        <member name="M:QIQO.Monitor.Api.Controllers.MonitorsController.Put(System.Int32,QIQO.Monitor.Api.MonitorUpdate)">
+            <summary>
+            Update an existing Monitor being managed
+            </summary>
+            <returns>200 - Ok</returns>
+        </member>
+        <member name="M:QIQO.Monitor.Api.Controllers.MonitorsController.Delete(System.Int32)">
+            <summary>
+            Delete an existing Monitor being managed
+            </summary>
+            <returns>200 - Ok</returns>
+        </member>
+        <member name="M:QIQO.Monitor.Api.Controllers.QueriesController.Get">
+            <summary>
+            Get a collection of all Querys being managed
+            </summary>
+            <returns>200 - Ok</returns>
+        </member>
+        <member name="M:QIQO.Monitor.Api.Controllers.QueriesController.Get(System.Int32)">
+            <summary>
+            Get a Query being managed
+            </summary>
+            <returns>200 - Ok</returns>
+        </member>
+        <member name="M:QIQO.Monitor.Api.Controllers.QueriesController.Post(QIQO.Monitor.Api.QueryAdd)">
+            <summary>
+            Add a new Query to be managed
+            </summary>
+            <returns>200 - Ok</returns>
+        </member>
+        <member name="M:QIQO.Monitor.Api.Controllers.QueriesController.Put(System.Int32,QIQO.Monitor.Api.QueryUpdate)">
+            <summary>
+            Update an existing Query being managed
+            </summary>
+            <returns>200 - Ok</returns>
+        </member>
+        <member name="M:QIQO.Monitor.Api.Controllers.QueriesController.Delete(System.Int32)">
+            <summary>
+            Delete an existing Query being managed
+            </summary>
+            <returns>200 - Ok</returns>
+        </member>
         <member name="M:QIQO.Monitor.Api.Controllers.ServersController.Get">
             <summary>
             Get a collection of all Servers being managed

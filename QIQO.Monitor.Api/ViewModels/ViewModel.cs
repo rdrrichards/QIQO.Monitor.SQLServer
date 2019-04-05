@@ -21,6 +21,18 @@ namespace QIQO.Monitor.Api
     {
         public string EnvironmentName { get; set; }
     }
+    public class MonitorAdd
+    {
+        public string MonitorName { get; set; }
+        public MonitorType MonitorType { get; set; }
+        public MonitorLevel MonitorLevel { get; set; }
+        public MonitorCategory MonitorCategory { get; set; }
+    }
+    public class QueryAdd
+    {
+        public string Name { get; set; }
+        public string QueryText { get; set; }
+    }
     public class ServerUpdate
     {
         public int ServerKey { get; set; }
@@ -41,5 +53,19 @@ namespace QIQO.Monitor.Api
     {
         public int EnvironmentKey { get; set; }
         public string EnvironmentName { get; set; }
+    }
+    public class MonitorUpdate
+    {
+        public int MonitorKey { get; set; }
+        public string MonitorName { get; set; }
+        public MonitorType MonitorType { get; set; }
+        public MonitorLevel MonitorLevel { get; set; }
+        public MonitorCategory MonitorCategory { get; set; }
+    }
+    public class QueryUpdate
+    {
+        public int QueryKey { get; set; }
+        public string Name { get; set; }
+        public string QueryText { get; set; }
     }
 }

@@ -8,51 +8,51 @@ namespace QIQO.Monitor.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class QueriesController : ControllerBase
+    public class MonitorsController : ControllerBase
     {
-        private readonly IQueryManager _serverManager;
+        private readonly IMonitorManager _serviceManager;
 
-        public QueriesController(IQueryManager serverManager)
+        public MonitorsController(IMonitorManager serviceManager)
         {
-            _serverManager = serverManager;
+            _serviceManager = serviceManager;
         }
 
         /// <summary>
-        /// Get a collection of all Querys being managed
+        /// Get a collection of all Monitors being managed
         /// </summary>
         /// <returns>200 - Ok</returns>
         [HttpGet]
-        public ActionResult<IEnumerable<Query>> Get()
+        public ActionResult<IEnumerable<Monitor>> Get()
         {
-            return Ok(_serverManager.GetQueries());
+            return Ok(_serviceManager.GetMonitors());
         }
 
 
         /// <summary>
-        /// Get a Query being managed
+        /// Get a Monitor being managed
         /// </summary>
         /// <returns>200 - Ok</returns>
         [HttpGet("{id}")]
-        public ActionResult<Query> Get(int id)
+        public ActionResult<Monitor> Get(int id)
         {
-            var server = _serverManager.GetQueries().FirstOrDefault(s => s.QueryKey == id);
-            if (server != null)
-                return Ok(server);
+            var service = _serviceManager.GetMonitors().FirstOrDefault(s => s.MonitorKey == id);
+            if (service != null)
+                return Ok(service);
             else
                 return NotFound();
         }
 
 
         /// <summary>
-        /// Add a new Query to be managed
+        /// Add a new Monitor to be managed
         /// </summary>
         /// <returns>200 - Ok</returns>
         [HttpPost()]
-        public ActionResult<Query> Post([FromBody] QueryAdd server)
+        public ActionResult<Monitor> Post([FromBody] MonitorAdd service)
         {
-            if (server == null) return BadRequest("Invalid server parameter");
+            if (service == null) return BadRequest("Invalid server parameter");
 
-            var newEnv = _serverManager.AddQuery(server);
+            var newEnv = _serviceManager.AddMonitor(service);
             if (newEnv != null)
                 return Created("", newEnv);
             else
@@ -60,15 +60,15 @@ namespace QIQO.Monitor.Api.Controllers
         }
 
         /// <summary>
-        /// Update an existing Query being managed
+        /// Update an existing Monitor being managed
         /// </summary>
         /// <returns>200 - Ok</returns>
         [HttpPut("{id}")]
-        public ActionResult<Query> Put(int id, [FromBody] QueryUpdate server)
+        public ActionResult<Monitor> Put(int id, [FromBody] MonitorUpdate service)
         {
-            if (server == null) return BadRequest("Invalid server parameter");
+            if (service == null) return BadRequest("Invalid service parameter");
 
-            var newEnv = _serverManager.UpdateQuery(id, server);
+            var newEnv = _serviceManager.UpdateMonitor(id, service);
             if (newEnv != null)
                 return Created("", newEnv);
             else
@@ -76,7 +76,7 @@ namespace QIQO.Monitor.Api.Controllers
         }
 
         /// <summary>
-        /// Delete an existing Query being managed
+        /// Delete an existing Monitor being managed
         /// </summary>
         /// <returns>200 - Ok</returns>
         [HttpDelete("{id}")]
@@ -84,7 +84,7 @@ namespace QIQO.Monitor.Api.Controllers
         {
             if (id == 0) return BadRequest("Invalid id parameter");
 
-            _serverManager.DeleteQuery(id);
+            _serviceManager.DeleteMonitor(id);
             return NoContent();
         }
     }

@@ -33,7 +33,7 @@ namespace QIQO.Monitor.Api.Controllers
         /// </summary>
         /// <returns>200 - Ok</returns>
         [HttpGet("{id}")]
-        public ActionResult<ServerData> Get(int id)
+        public ActionResult<Server> Get(int id)
         {
             var server = _serverManager.GetServers().FirstOrDefault(s => s.ServerKey == id);
             if (server != null)

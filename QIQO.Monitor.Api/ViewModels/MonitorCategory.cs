@@ -5,6 +5,7 @@
         Version = 1,
         SQLServerHardware,
         DetectBlocking,
-        OpenTranactions
+        OpenTranactions,
+        WaitStatistics
     }
 }
