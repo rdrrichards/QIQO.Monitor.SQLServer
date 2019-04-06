@@ -38,7 +38,7 @@ namespace QIQO.Monitor.Api.Services
                 _cacheService.GetServices(server.ServerKey).ToList().ForEach(service =>
                 {
                     var monitors = new List<Monitor>();
-                    _cacheService.GetMonitors(service.ServiceTypeKey).ToList().ForEach(monitor =>
+                    _cacheService.GetServiceMonitors(service.ServiceKey).ToList().ForEach(monitor =>
                     {
                         monitors.Add(new Monitor(monitor, _queryEntityService.Map(_cacheService.GetQueries(monitor.MonitorKey))));
                     });

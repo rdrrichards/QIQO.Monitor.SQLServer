@@ -50,6 +50,7 @@ namespace QIQO.Monitor.SQLServer.Data
             GetServices();
             GetMonitors();
             GetMonitorQueries();
+            GetServiceMonitors();
         }
         public void RefreshCache()
         {
@@ -143,6 +144,9 @@ namespace QIQO.Monitor.SQLServer.Data
         }
 
         public IEnumerable<MonitorData> GetServiceMonitors(int serviceKey) => GetMonitors().Join(GetServiceMonitors()
+            .Where(s => s.ServiceKey == serviceKey), m => m.MonitorKey, x => x.MonitorKey, (m, x) => m);
+        public IEnumerable<MonitorData> GetActiveServiceMonitors(int serviceKey) => GetMonitors()
+            .Join(GetServiceMonitors().Where(m => m.Enabled)
             .Where(s => s.ServiceKey == serviceKey), m => m.MonitorKey, x => x.MonitorKey, (m, x) => m);
     }
 }

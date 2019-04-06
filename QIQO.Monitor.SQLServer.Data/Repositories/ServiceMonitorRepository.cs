@@ -25,7 +25,7 @@ namespace QIQO.Monitor.SQLServer.Data
         public IEnumerable<ServiceMonitorData> GetAll(int service_key, int monitor_key)
         {
             Log.LogInformation("Accessing ServiceMonitorRepository GetAll function");
-            using (entityContext) return MapRows(entityContext.ExecuteProcedureAsSqlDataReader("usp_service_monitor_all"));
+            using (entityContext) return MapRows(entityContext.ExecuteProcedureAsSqlDataReader("usp_service_monitor_get"));
         }
         public override void Insert(ServiceMonitorData entity)
         {
