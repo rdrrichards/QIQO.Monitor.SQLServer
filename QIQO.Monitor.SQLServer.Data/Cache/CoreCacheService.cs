@@ -17,12 +17,13 @@ namespace QIQO.Monitor.SQLServer.Data
         private readonly IEnvironmentRepository _environmentRepository;
         private readonly IEnvironmentServerRepository _environmentServerRepository;
         private readonly IEnvironmentServiceRepository _environmentServiceRepository;
+        private readonly IServiceMonitorRepository _serviceMonitorRepository;
         private readonly ILogger<CoreCacheService> _logger;
 
         public CoreCacheService(IMemoryCache memoryCache, IServerRepository serverRepository, IServiceRepository serviceRepository,
             IQueryRepository queryRepository, IMonitorRepository monitorRepository, IMonitorQueryRepository monitorQueryRepository,
             IEnvironmentRepository environmentRepository, IEnvironmentServerRepository environmentServerRepository,
-            IEnvironmentServiceRepository environmentServiceRepository,
+            IEnvironmentServiceRepository environmentServiceRepository, IServiceMonitorRepository serviceMonitorRepository,
             ILogger<CoreCacheService> logger)
         {
             _cache = memoryCache;
@@ -34,6 +35,7 @@ namespace QIQO.Monitor.SQLServer.Data
             _environmentRepository = environmentRepository;
             _environmentServerRepository = environmentServerRepository;
             _environmentServiceRepository = environmentServiceRepository;
+            _serviceMonitorRepository = serviceMonitorRepository;
             _logger = logger;
             InitializeCache();
         }
@@ -60,12 +62,12 @@ namespace QIQO.Monitor.SQLServer.Data
             _cache.Set(CoreCacheKeys.MonitorQueries, _monitorQueryRepository.GetAll(), GetMemoryCacheEntryOptions());
             _cache.Set(CoreCacheKeys.EnvironmentServers, _environmentServerRepository.GetAll(), GetMemoryCacheEntryOptions());
             _cache.Set(CoreCacheKeys.EnvironmentServices, _environmentServiceRepository.GetAll(), GetMemoryCacheEntryOptions());
+            _cache.Set(CoreCacheKeys.ServiceMonitors, _serviceMonitorRepository.GetAll(), GetMemoryCacheEntryOptions());
         }
         public IEnumerable<ServerData> GetServers()
         {
             if (!_cache.TryGetValue(CoreCacheKeys.Servers, out IEnumerable<ServerData> servers))
                 servers = _cache.Set(CoreCacheKeys.Servers, _serverRepository.GetAll(), GetMemoryCacheEntryOptions());
-
             return servers;
         }
         public ServerData GetServer(int serverKey) => GetServers().FirstOrDefault(s => s.ServerKey == serverKey);
@@ -73,7 +75,6 @@ namespace QIQO.Monitor.SQLServer.Data
         {
             if (!_cache.TryGetValue(CoreCacheKeys.Queries, out IEnumerable<QueryData> queries))
                 queries = _cache.Set(CoreCacheKeys.Queries, _queryRepository.GetAll(), GetMemoryCacheEntryOptions());
-
             return queries;
         }
         public IEnumerable<QueryData> GetQueries(int monitorKey) => GetQueries().Join(GetMonitorQueries().Where(s => s.MonitorKey == monitorKey), q => q.QueryKey, m => m.QueryKey, (q, m) => q);
@@ -85,7 +86,6 @@ namespace QIQO.Monitor.SQLServer.Data
         {
             if (!_cache.TryGetValue(CoreCacheKeys.Services, out IEnumerable<ServiceData> services))
                 services = _cache.Set(CoreCacheKeys.Services, _serviceRepository.GetAll(), GetMemoryCacheEntryOptions());
-
             return services;
         }
         public ServiceData GetService(int serviceKey) => GetServices().FirstOrDefault(s => s.ServiceKey == serviceKey);
@@ -99,7 +99,6 @@ namespace QIQO.Monitor.SQLServer.Data
         {
             if (!_cache.TryGetValue(CoreCacheKeys.Monitors, out IEnumerable<MonitorData> monitors))
                 monitors = _cache.Set(CoreCacheKeys.Monitors, _monitorRepository.GetAll(), GetMemoryCacheEntryOptions());
-
             return monitors;
         }
         public IEnumerable<MonitorData> GetMonitors(int serviceType) => GetMonitors().Where(s => s.MonitorTypeKey == serviceType);
@@ -108,7 +107,6 @@ namespace QIQO.Monitor.SQLServer.Data
         {
             if (!_cache.TryGetValue(CoreCacheKeys.MonitorQueries, out IEnumerable<MonitorQueryData> monitorQueries))
                 monitorQueries = _cache.Set(CoreCacheKeys.MonitorQueries, _monitorQueryRepository.GetAll(), GetMemoryCacheEntryOptions());
-
             return monitorQueries;
         }
 
@@ -116,7 +114,6 @@ namespace QIQO.Monitor.SQLServer.Data
         {
             if (!_cache.TryGetValue(CoreCacheKeys.Environments, out IEnumerable<EnvironmentData> environments))
                 environments = _cache.Set(CoreCacheKeys.Environments, _environmentRepository.GetAll(), GetMemoryCacheEntryOptions());
-
             return environments;
         }
 
@@ -124,7 +121,6 @@ namespace QIQO.Monitor.SQLServer.Data
         {
             if (!_cache.TryGetValue(CoreCacheKeys.EnvironmentServers, out IEnumerable<EnvironmentServerData> environments))
                 environments = _cache.Set(CoreCacheKeys.EnvironmentServers, _environmentServerRepository.GetAll(), GetMemoryCacheEntryOptions());
-
             return environments;
         }
 
@@ -132,12 +128,21 @@ namespace QIQO.Monitor.SQLServer.Data
         {
             if (!_cache.TryGetValue(CoreCacheKeys.EnvironmentServices, out IEnumerable<EnvironmentServiceData> environments))
                 environments = _cache.Set(CoreCacheKeys.EnvironmentServices, _environmentServiceRepository.GetAll(), GetMemoryCacheEntryOptions());
-
             return environments;
         }
         public IEnumerable<EnvironmentData> GetServerEnvironments(int serverKey) => GetEnviroments().Join(GetEnvironmentServers()
-            .Where(s => s.ServerKey == serverKey), q => q.EnvironmentKey, m => m.EnvironmentKey, (q, m) => q);
+            .Where(s => s.ServerKey == serverKey), e => e.EnvironmentKey, x => x.EnvironmentKey, (e, x) => e);
         public IEnumerable<EnvironmentData> GetServiceEnvironments(int serviceKey) => GetEnviroments().Join(GetEnvironmentServices()
-            .Where(s => s.ServiceKey == serviceKey), q => q.EnvironmentKey, m => m.EnvironmentKey, (q, m) => q);
+            .Where(s => s.ServiceKey == serviceKey), e => e.EnvironmentKey, x => x.EnvironmentKey, (e, x) => e);
+
+        public IEnumerable<ServiceMonitorData> GetServiceMonitors()
+        {
+            if (!_cache.TryGetValue(CoreCacheKeys.ServiceMonitors, out IEnumerable<ServiceMonitorData> monitors))
+                monitors = _cache.Set(CoreCacheKeys.ServiceMonitors, _serviceMonitorRepository.GetAll(), GetMemoryCacheEntryOptions());
+            return monitors;
+        }
+
+        public IEnumerable<MonitorData> GetServiceMonitors(int serviceKey) => GetMonitors().Join(GetServiceMonitors()
+            .Where(s => s.ServiceKey == serviceKey), m => m.MonitorKey, x => x.MonitorKey, (m, x) => m);
     }
 }

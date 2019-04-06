@@ -23,5 +23,8 @@ namespace QIQO.Monitor.SQLServer.Data
         IEnumerable<EnvironmentServiceData> GetEnvironmentServices();
         IEnumerable<EnvironmentData> GetServerEnvironments(int serverKey);
         IEnumerable<EnvironmentData> GetServiceEnvironments(int serviceKey);
+
+        IEnumerable<ServiceMonitorData> GetServiceMonitors();
+        IEnumerable<MonitorData> GetServiceMonitors(int serviceKey);
     }
 }

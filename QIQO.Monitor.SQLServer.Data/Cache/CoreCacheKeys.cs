@@ -10,5 +10,6 @@
         public static string Environments { get { return "_Environments"; } }
         public static string EnvironmentServices { get { return "_EnvironmentServices"; } }
         public static string EnvironmentServers { get { return "_EnvironmentServers"; } }
+        public static string ServiceMonitors { get { return "_ServiceMonitors"; } }
     }
 }
