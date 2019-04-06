@@ -142,6 +142,8 @@ namespace QIQO.Monitor.SQLServer.Data
                 monitors = _cache.Set(CoreCacheKeys.ServiceMonitors, _serviceMonitorRepository.GetAll(), GetMemoryCacheEntryOptions());
             return monitors;
         }
+        public ServiceMonitorData GetServiceMonitors(int serviceKey, int monitorKey) => GetServiceMonitors()
+            .FirstOrDefault(sm => sm.ServiceKey == serviceKey && sm.MonitorKey == monitorKey);
 
         public IEnumerable<MonitorData> GetServiceMonitors(int serviceKey) => GetMonitors().Join(GetServiceMonitors()
             .Where(s => s.ServiceKey == serviceKey), m => m.MonitorKey, x => x.MonitorKey, (m, x) => m);
