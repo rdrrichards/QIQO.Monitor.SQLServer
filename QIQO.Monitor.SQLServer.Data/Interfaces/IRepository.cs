@@ -17,6 +17,9 @@ namespace QIQO.Monitor.SQLServer.Data
     public interface IEnvironmentRepository : IRepository<EnvironmentData> { }
     public interface IEnvironmentServerRepository : IRepository<EnvironmentServerData> { }
     public interface IEnvironmentServiceRepository : IRepository<EnvironmentServiceData> { }
+    public interface IServiceMonitorRepository : IRepository<ServiceMonitorData> {
+        IEnumerable<ServiceMonitorData> GetAll(int service_key, int monitor_key);
+    }
 
 
     public interface IServerMap : IMapper<ServerData> { }
@@ -29,6 +32,7 @@ namespace QIQO.Monitor.SQLServer.Data
     public interface IQueryHistoryMap : IMapper<QueryHistoryData> { }
     public interface IServiceMap : IMapper<ServiceData> { }
     public interface IServiceTypeMap : IMapper<ServiceTypeData> { }
+    public interface IServiceMonitorMap : IMapper<ServiceMonitorData> { }
 
     // Monitor results related interfaces
     public interface IVersionRepository : IReadRepository<VersionData> { }

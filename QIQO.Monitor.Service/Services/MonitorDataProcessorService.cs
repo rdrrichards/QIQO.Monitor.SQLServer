@@ -41,7 +41,7 @@ namespace QIQO.Monitor.Service
         {
             try
             {
-                _logger.LogDebug($"{monitorDataType}: {dataJSON}");
+                // _logger.LogDebug($"{monitorDataType}: {dataJSON}");
                 switch (monitorDataType)
                 {
                     case MonitorConstants.WaitStats:
