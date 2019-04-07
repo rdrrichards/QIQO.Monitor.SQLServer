@@ -22,18 +22,25 @@ namespace QIQO.Monitor.Api.Controllers
         [HttpGet("{id}")]
         public ActionResult<IEnumerable<OpenTransactionData>> Get(int id)
         {
-            var server = _serviceManager.GetServices().FirstOrDefault(s => s.ServiceKey == id);
-            if (server != null)
+            try
             {
-                var monitor = server.Monitors.FirstOrDefault(m => m.MonitorType == MonitorType.SqlServer &&
-                    m.MonitorCategory == MonitorCategory.OpenTranactions);
-                var query = monitor.Queries.FirstOrDefault();
-                CreateContext(server.ServiceSource);
-                var repo = _repositoryFactory.GetDataRepository<IOpenTransactionRepository>();
-                var transOpen = repo.Get(query.QueryText);
-                return Ok(transOpen);
+                var server = _serviceManager.GetServices().FirstOrDefault(s => s.ServiceKey == id);
+                if (server != null)
+                {
+                    var monitor = server.Monitors.FirstOrDefault(m => m.MonitorType == MonitorType.SqlServer &&
+                        m.MonitorCategory == MonitorCategory.OpenTranactions);
+                    var query = monitor.Queries.FirstOrDefault();
+                    CreateContext(server.ServiceSource);
+                    var repo = _repositoryFactory.GetDataRepository<IOpenTransactionRepository>();
+                    var transOpen = repo.Get(query.QueryText);
+                    return Ok(transOpen);
+                }
+                return NotFound();
             }
-            return NotFound();
+            catch (System.Exception)
+            {
+                return StatusCode(500);
+            }
         }
     }
 }

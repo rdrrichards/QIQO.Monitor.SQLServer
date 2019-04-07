@@ -21,15 +21,22 @@ namespace QIQO.Monitor.Api.Controllers
         [HttpGet("{id}")]
         public ActionResult<string> Get(int id)
         {
-            var server = _serviceManager.GetServices().FirstOrDefault(s => s.ServiceKey == id);
-            if (server != null)
+            try
             {
-                CreateContext(server.ServiceSource);
-                var repo = _repositoryFactory.GetDataRepository<IVersionRepository>();
-                var version = repo.Get().ToArray()[0].VersionText;
-                return Ok(version);
+                var server = _serviceManager.GetServices().FirstOrDefault(s => s.ServiceKey == id);
+                if (server != null)
+                {
+                    CreateContext(server.ServiceSource);
+                    var repo = _repositoryFactory.GetDataRepository<IVersionRepository>();
+                    var version = repo.Get().ToArray()[0].VersionText;
+                    return Ok(version);
+                }
+                return NotFound();
             }
-            return NotFound();
+            catch (System.Exception)
+            {
+                return StatusCode(500);
+            }
         }
     }
 }
