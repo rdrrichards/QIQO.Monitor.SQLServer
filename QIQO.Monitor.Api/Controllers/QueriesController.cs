@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using QIQO.Monitor.Api.Services;
-using QIQO.Monitor.SQLServer.Data;
 
 namespace QIQO.Monitor.Api.Controllers
 {
@@ -10,21 +10,29 @@ namespace QIQO.Monitor.Api.Controllers
     [ApiController]
     public class QueriesController : ControllerBase
     {
-        private readonly IQueryManager _serverManager;
+        private readonly IQueryManager _queryManager;
 
-        public QueriesController(IQueryManager serverManager)
+        public QueriesController(IQueryManager queryManager)
         {
-            _serverManager = serverManager;
+            _queryManager = queryManager;
         }
 
         /// <summary>
         /// Get a collection of all Querys being managed
         /// </summary>
         /// <returns>200 - Ok</returns>
+        /// <returns>500 - Internal Error</returns>
         [HttpGet]
         public ActionResult<IEnumerable<Query>> Get()
         {
-            return Ok(_serverManager.GetQueries());
+            try
+            {
+                return Ok(_queryManager.GetQueries());
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
 
@@ -32,60 +40,95 @@ namespace QIQO.Monitor.Api.Controllers
         /// Get a Query being managed
         /// </summary>
         /// <returns>200 - Ok</returns>
+        /// <returns>404 - Not Found</returns>
+        /// <returns>500 - Internal Error</returns>
         [HttpGet("{id}")]
         public ActionResult<Query> Get(int id)
         {
-            var server = _serverManager.GetQueries().FirstOrDefault(s => s.QueryKey == id);
-            if (server != null)
-                return Ok(server);
-            else
-                return NotFound();
+            try
+            {
+                var query = _queryManager.GetQueries().FirstOrDefault(s => s.QueryKey == id);
+                if (query != null)
+                    return Ok(query);
+                else
+                    return NotFound();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
 
         /// <summary>
         /// Add a new Query to be managed
         /// </summary>
-        /// <returns>200 - Ok</returns>
+        /// <returns>201 - Created</returns>
+        /// <returns>400 - Bad Request</returns>
+        /// <returns>500 - Internal Error</returns>
         [HttpPost()]
-        public ActionResult<Query> Post([FromBody] QueryAdd server)
+        public ActionResult<Query> Post([FromBody] QueryAdd query)
         {
-            if (server == null) return BadRequest("Invalid server parameter");
-
-            var newEnv = _serverManager.AddQuery(server);
-            if (newEnv != null)
-                return Created("", newEnv);
-            else
-                return BadRequest();
+            if (query == null) return BadRequest("Invalid query parameter");
+            try
+            {
+                var newEnv = _queryManager.AddQuery(query);
+                if (newEnv != null)
+                    return Created("", newEnv);
+                else
+                    return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
         /// <summary>
         /// Update an existing Query being managed
         /// </summary>
-        /// <returns>200 - Ok</returns>
+        /// <returns>202 - Accepted</returns>
+        /// <returns>400 - Bad Request</returns>
+        /// <returns>500 - Internal Error</returns>
         [HttpPut("{id}")]
-        public ActionResult<Query> Put(int id, [FromBody] QueryUpdate server)
+        public ActionResult<Query> Put(int id, [FromBody] QueryUpdate query)
         {
-            if (server == null) return BadRequest("Invalid server parameter");
+            if (query == null) return BadRequest("Invalid query parameter");
 
-            var newEnv = _serverManager.UpdateQuery(id, server);
-            if (newEnv != null)
-                return Created("", newEnv);
-            else
-                return BadRequest();
+            try
+            {
+                var newEnv = _queryManager.UpdateQuery(id, query);
+                if (newEnv != null)
+                    return Created("", newEnv);
+                else
+                    return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
         /// <summary>
         /// Delete an existing Query being managed
         /// </summary>
-        /// <returns>200 - Ok</returns>
+        /// <returns>204 - No Content</returns>
+        /// <returns>400 - Bad Request</returns>
+        /// <returns>500 - Internal Error</returns>
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
             if (id == 0) return BadRequest("Invalid id parameter");
 
-            _serverManager.DeleteQuery(id);
-            return NoContent();
+            try
+            {
+                _queryManager.DeleteQuery(id);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
     }
 }

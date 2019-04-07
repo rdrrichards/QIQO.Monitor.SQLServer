@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using QIQO.Monitor.Api.Services;
-using QIQO.Monitor.SQLServer.Data;
 
 namespace QIQO.Monitor.Api.Controllers
 {
@@ -10,21 +10,29 @@ namespace QIQO.Monitor.Api.Controllers
     [ApiController]
     public class MonitorsController : ControllerBase
     {
-        private readonly IMonitorManager _serviceManager;
+        private readonly IMonitorManager _monitorManager;
 
-        public MonitorsController(IMonitorManager serviceManager)
+        public MonitorsController(IMonitorManager monitorManager)
         {
-            _serviceManager = serviceManager;
+            _monitorManager = monitorManager;
         }
 
         /// <summary>
         /// Get a collection of all Monitors being managed
         /// </summary>
         /// <returns>200 - Ok</returns>
+        /// <returns>500 - Internal Error</returns>
         [HttpGet]
         public ActionResult<IEnumerable<Monitor>> Get()
         {
-            return Ok(_serviceManager.GetMonitors());
+            try
+            {
+                return Ok(_monitorManager.GetMonitors());
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
 
@@ -32,60 +40,96 @@ namespace QIQO.Monitor.Api.Controllers
         /// Get a Monitor being managed
         /// </summary>
         /// <returns>200 - Ok</returns>
+        /// <returns>404 - Not Found</returns>
+        /// <returns>500 - Internal Error</returns>
         [HttpGet("{id}")]
         public ActionResult<Monitor> Get(int id)
         {
-            var service = _serviceManager.GetMonitors().FirstOrDefault(s => s.MonitorKey == id);
-            if (service != null)
-                return Ok(service);
-            else
-                return NotFound();
+            try
+            {
+                var monitor = _monitorManager.GetMonitors().FirstOrDefault(s => s.MonitorKey == id);
+                if (monitor != null)
+                    return Ok(monitor);
+                else
+                    return NotFound();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
 
         /// <summary>
         /// Add a new Monitor to be managed
         /// </summary>
-        /// <returns>200 - Ok</returns>
+        /// <returns>201 - Created</returns>
+        /// <returns>400 - Bad Request</returns>
+        /// <returns>500 - Internal Error</returns>
         [HttpPost()]
-        public ActionResult<Monitor> Post([FromBody] MonitorAdd service)
+        public ActionResult<Monitor> Post([FromBody] MonitorAdd monitor)
         {
-            if (service == null) return BadRequest("Invalid server parameter");
+            if (monitor == null) return BadRequest("Invalid server parameter");
 
-            var newEnv = _serviceManager.AddMonitor(service);
-            if (newEnv != null)
-                return Created("", newEnv);
-            else
-                return BadRequest();
+            try
+            {
+                var newEnv = _monitorManager.AddMonitor(monitor);
+                if (newEnv != null)
+                    return Created("", newEnv);
+                else
+                    return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
         /// <summary>
         /// Update an existing Monitor being managed
         /// </summary>
-        /// <returns>200 - Ok</returns>
+        /// <returns>202 - Accepted</returns>
+        /// <returns>400 - Bad Request</returns>
+        /// <returns>500 - Internal Error</returns>
         [HttpPut("{id}")]
-        public ActionResult<Monitor> Put(int id, [FromBody] MonitorUpdate service)
+        public ActionResult<Monitor> Put(int id, [FromBody] MonitorUpdate monitor)
         {
-            if (service == null) return BadRequest("Invalid service parameter");
+            if (monitor == null) return BadRequest("Invalid monitor parameter");
 
-            var newEnv = _serviceManager.UpdateMonitor(id, service);
-            if (newEnv != null)
-                return Created("", newEnv);
-            else
-                return BadRequest();
+            try
+            {
+                var newEnv = _monitorManager.UpdateMonitor(id, monitor);
+                if (newEnv != null)
+                    return Created("", newEnv);
+                else
+                    return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
         /// <summary>
         /// Delete an existing Monitor being managed
         /// </summary>
-        /// <returns>200 - Ok</returns>
+        /// <returns>204 - No Content</returns>
+        /// <returns>400 - Bad Request</returns>
+        /// <returns>500 - Internal Error</returns>
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
             if (id == 0) return BadRequest("Invalid id parameter");
 
-            _serviceManager.DeleteMonitor(id);
-            return NoContent();
+            try
+            {
+                _monitorManager.DeleteMonitor(id);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
     }
 }

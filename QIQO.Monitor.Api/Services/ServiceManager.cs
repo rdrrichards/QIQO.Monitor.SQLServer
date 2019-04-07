@@ -1,4 +1,5 @@
-﻿using QIQO.Monitor.Core.Contracts;
+﻿using Microsoft.Extensions.Logging;
+using QIQO.Monitor.Core.Contracts;
 using QIQO.Monitor.SQLServer.Data;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,15 +13,15 @@ namespace QIQO.Monitor.Api.Services
         Service UpdateService(int environmentKey, ServiceUpdate environment);
         void DeleteService(int environmentKey);
     }
-    public class ServiceManager : IServiceManager
+    public class ServiceManager : ManagerBase, IServiceManager
     {
         private readonly ICoreCacheService _cacheService;
         private readonly IQueryEntityService _queryEntityService;
         private readonly IEnvironmentEntityService _environmentEntityService;
         private readonly IServiceRepository _serviceRepository;
 
-        public ServiceManager(ICoreCacheService cacheService, IQueryEntityService queryEntityService,
-            IEnvironmentEntityService environmentEntityService, IServiceRepository serviceRepository)
+        public ServiceManager(ILogger<ServiceManager> logger, ICoreCacheService cacheService, IQueryEntityService queryEntityService,
+            IEnvironmentEntityService environmentEntityService, IServiceRepository serviceRepository) : base(logger)
         {
             _cacheService = cacheService;
             _queryEntityService = queryEntityService;
@@ -29,47 +30,61 @@ namespace QIQO.Monitor.Api.Services
         }
         public List<Service> GetServices()
         {
-            var services = new List<Service>();
-            var servicesToMonitor = _cacheService.GetServices().ToList();
-
-            servicesToMonitor.ForEach(service =>
+            return ExecuteOperation(() =>
             {
-                var monitors = new List<Monitor>();
-                _cacheService.GetServiceMonitors(service.ServiceKey).ToList().ForEach(monitor =>
-                {
-                    var monEnabled = _cacheService.GetServiceMonitors(service.ServiceKey, monitor.MonitorKey).Enabled;
-                    monitors.Add(new Monitor(monitor, _queryEntityService.Map(_cacheService.GetQueries(monitor.MonitorKey)), monEnabled));
-                });
-                services.Add(new Service(service, monitors, _environmentEntityService.Map(_cacheService.GetServiceEnvironments(service.ServiceKey))));
-            });
+                var services = new List<Service>();
+                var servicesToMonitor = _cacheService.GetServices().ToList();
 
-            return services;
+                servicesToMonitor.ForEach(service =>
+                {
+                    var monitors = new List<Monitor>();
+                    _cacheService.GetServiceMonitors(service.ServiceKey).ToList().ForEach(monitor =>
+                    {
+                        var monEnabled = _cacheService.GetServiceMonitors(service.ServiceKey, monitor.MonitorKey).Enabled;
+                        monitors.Add(new Monitor(monitor, _queryEntityService.Map(_cacheService.GetQueries(monitor.MonitorKey)), monEnabled));
+                    });
+                    services.Add(new Service(service, monitors, _environmentEntityService.Map(_cacheService.GetServiceEnvironments(service.ServiceKey))));
+                });
+
+                return services;
+            });
         }
         public Service AddService(ServiceAdd service)
         {
-            var endData = new ServiceData { ServiceName = service.ServiceName };
-            _serviceRepository.Insert(endData);
-            _cacheService.RefreshCache();
-            return GetServices().FirstOrDefault(e => e.ServiceName == service.ServiceName);
+            return ExecuteOperation(() =>
+            {
+                var endData = new ServiceData { ServiceName = service.ServiceName };
+                _serviceRepository.Insert(endData);
+                _cacheService.RefreshCache();
+                return GetServices().FirstOrDefault(e => e.ServiceName == service.ServiceName);
+            });
         }
         public Service UpdateService(int serviceKey, ServiceUpdate service)
         {
-            var endData = new ServiceData { ServiceKey = serviceKey,
-                ServiceName = service.ServiceName,
-                InstanceName = service.InstanceName,
-                ServiceSource = service.ServiceSource,
-                ServiceTypeKey = service.ServiceTypeKey,
-                ServerKey = service.ServerKey
-            };
-            _serviceRepository.Save(endData);
-            _cacheService.RefreshCache();
-            return GetServices().FirstOrDefault(e => e.ServiceKey == serviceKey);
+            return ExecuteOperation(() =>
+            {
+                var endData = new ServiceData
+                {
+                    ServiceKey = serviceKey,
+                    ServiceName = service.ServiceName,
+                    InstanceName = service.InstanceName,
+                    ServiceSource = service.ServiceSource,
+                    ServiceTypeKey = service.ServiceTypeKey,
+                    ServerKey = service.ServerKey
+                };
+                _serviceRepository.Save(endData);
+                _cacheService.RefreshCache();
+                return GetServices().FirstOrDefault(e => e.ServiceKey == serviceKey);
+            });
         }
         public void DeleteService(int serviceKey)
         {
-            var endData = new ServiceData { ServiceKey = serviceKey };
-            _serviceRepository.Delete(endData);
-            _cacheService.RefreshCache();
+            ExecuteOperation(() =>
+            {
+                var endData = new ServiceData { ServiceKey = serviceKey };
+                _serviceRepository.Delete(endData);
+                _cacheService.RefreshCache();
+            });
         }
     }
 }

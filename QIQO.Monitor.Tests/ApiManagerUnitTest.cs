@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using Microsoft.Extensions.Logging;
+using Moq;
 using QIQO.Monitor.Api;
 using QIQO.Monitor.Api.Services;
 using QIQO.Monitor.SQLServer.Data;
@@ -15,11 +16,12 @@ namespace QIQO.Monitor.Tests
             // Arrange
             var cache = new Mock<ICoreCacheService>();
             var repo = new Mock<IEnvironmentRepository>();
+            var logger = new Mock<ILogger<EnvironmentManager>>();
             var envData = new List<EnvironmentData> { new EnvironmentData { EnvironmentKey = 1, EnvironmentName = "Test" } };
             cache.Setup(m => m.GetEnviroments()).Returns(envData);
 
             // Act
-            var sut = new EnvironmentManager(cache.Object, repo.Object);
+            var sut = new EnvironmentManager(logger.Object, cache.Object, repo.Object);
             var envs = sut.GetEnvironments();
 
             // Assert
@@ -33,12 +35,13 @@ namespace QIQO.Monitor.Tests
             var qm = new Mock<IQueryEntityService>();
             var em = new Mock<IEnvironmentEntityService>();
             var repo = new Mock<IServiceRepository>();
+            var logger = new Mock<ILogger<ServiceManager>>();
             var envData = new List<ServiceData> { new ServiceData { ServiceKey = 1, ServiceName = "Test", InstanceName = "I1",
                 ServerKey = 1, ServiceSource = "Test", ServiceTypeKey = 1 } };
             cache.Setup(m => m.GetServices()).Returns(envData);
 
             // Act
-            var sut = new ServiceManager(cache.Object, qm.Object, em.Object, repo.Object);
+            var sut = new ServiceManager(logger.Object, cache.Object, qm.Object, em.Object, repo.Object);
             var envs = sut.GetServices();
 
             // Assert
@@ -52,11 +55,12 @@ namespace QIQO.Monitor.Tests
             var qm = new Mock<IQueryEntityService>();
             var em = new Mock<IEnvironmentEntityService>();
             var repo = new Mock<IServerRepository>();
+            var logger = new Mock<ILogger<ServerManager>>();
             var envData = new List<ServerData> { new ServerData { ServerKey = 1, ServerName = "Test" } };
             cache.Setup(m => m.GetServers()).Returns(envData);
 
             // Act
-            var sut = new ServerManager(cache.Object, qm.Object, em.Object, repo.Object);
+            var sut = new ServerManager(logger.Object, cache.Object, qm.Object, em.Object, repo.Object);
             var envs = sut.GetServers();
 
             // Assert

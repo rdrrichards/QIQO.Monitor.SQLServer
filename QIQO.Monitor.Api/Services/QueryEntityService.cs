@@ -1,5 +1,4 @@
 ﻿using QIQO.Monitor.SQLServer.Data;
-using System;
 
 namespace QIQO.Monitor.Api
 {
