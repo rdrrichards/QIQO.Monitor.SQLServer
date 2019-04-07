@@ -4,6 +4,7 @@
     {
         Unknown,
         Blocking,
-        OpenTransaction
+        OpenTransaction,
+        WaitStats
     }
 }
