@@ -2,7 +2,6 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using QIQO.Monitor.Api.Services;
-using QIQO.Monitor.SQLServer.Data;
 
 namespace QIQO.Monitor.Api.Controllers
 {
@@ -56,7 +55,7 @@ namespace QIQO.Monitor.Api.Controllers
             if (newEnv != null)
                 return Created("", newEnv);
             else
-                return BadRequest();
+                return StatusCode(500, service);
         }
 
         /// <summary>
@@ -70,9 +69,9 @@ namespace QIQO.Monitor.Api.Controllers
 
             var newEnv = _serviceManager.UpdateService(id, service);
             if (newEnv != null)
-                return Created("", newEnv);
+                return Accepted(newEnv);
             else
-                return BadRequest();
+                return StatusCode(500, service);
         }
 
         /// <summary>

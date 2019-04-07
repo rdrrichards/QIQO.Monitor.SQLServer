@@ -48,6 +48,8 @@ namespace QIQO.Monitor.Api
         public string ServiceSource { get; set; }
         public int ServiceTypeKey { get; set; }
         public int ServerKey { get; set; }
+        public int[] Environments { get; set; }
+        public int[] Monitors { get; set; }
     }
     public class EnvironmentUpdate
     {
