@@ -9,150 +9,195 @@
             Get a collection of all Environments being managed
             </summary>
             <returns>200 - Ok</returns>
+            <returns>500 - Internal Error</returns>
         </member>
         <member name="M:QIQO.Monitor.Api.Controllers.EnvironmentsController.Get(System.Int32)">
             <summary>
             Get a Environment being managed
             </summary>
             <returns>200 - Ok</returns>
+            <returns>404 - Not Found</returns>
+            <returns>500 - Internal Error</returns>
         </member>
         <member name="M:QIQO.Monitor.Api.Controllers.EnvironmentsController.Post(QIQO.Monitor.Api.EnvironmentAdd)">
             <summary>
             Add a new Environment to be managed
             </summary>
-            <returns>200 - Ok</returns>
+            <returns>201 - Created</returns>
+            <returns>400 - Bad Request</returns>
+            <returns>500 - Internal Error</returns>
         </member>
         <member name="M:QIQO.Monitor.Api.Controllers.EnvironmentsController.Put(System.Int32,QIQO.Monitor.Api.EnvironmentUpdate)">
             <summary>
             Update an existing Environment being managed
             </summary>
-            <returns>200 - Ok</returns>
+            <returns>202 - Accepted</returns>
+            <returns>400 - Bad Request</returns>
+            <returns>500 - Internal Error</returns>
         </member>
         <member name="M:QIQO.Monitor.Api.Controllers.EnvironmentsController.Delete(System.Int32)">
             <summary>
             Delete an existing Environment being managed
             </summary>
-            <returns>200 - Ok</returns>
+            <returns>204 - No Content</returns>
+            <returns>400 - Bad Request</returns>
+            <returns>500 - Internal Error</returns>
         </member>
         <member name="M:QIQO.Monitor.Api.Controllers.MonitorsController.Get">
             <summary>
             Get a collection of all Monitors being managed
             </summary>
             <returns>200 - Ok</returns>
+            <returns>500 - Internal Error</returns>
         </member>
         <member name="M:QIQO.Monitor.Api.Controllers.MonitorsController.Get(System.Int32)">
             <summary>
             Get a Monitor being managed
             </summary>
             <returns>200 - Ok</returns>
+            <returns>404 - Not Found</returns>
+            <returns>500 - Internal Error</returns>
         </member>
         <member name="M:QIQO.Monitor.Api.Controllers.MonitorsController.Post(QIQO.Monitor.Api.MonitorAdd)">
             <summary>
             Add a new Monitor to be managed
             </summary>
-            <returns>200 - Ok</returns>
+            <returns>201 - Created</returns>
+            <returns>400 - Bad Request</returns>
+            <returns>500 - Internal Error</returns>
         </member>
         <member name="M:QIQO.Monitor.Api.Controllers.MonitorsController.Put(System.Int32,QIQO.Monitor.Api.MonitorUpdate)">
             <summary>
             Update an existing Monitor being managed
             </summary>
-            <returns>200 - Ok</returns>
+            <returns>202 - Accepted</returns>
+            <returns>400 - Bad Request</returns>
+            <returns>500 - Internal Error</returns>
         </member>
         <member name="M:QIQO.Monitor.Api.Controllers.MonitorsController.Delete(System.Int32)">
             <summary>
             Delete an existing Monitor being managed
             </summary>
-            <returns>200 - Ok</returns>
+            <returns>204 - No Content</returns>
+            <returns>400 - Bad Request</returns>
+            <returns>500 - Internal Error</returns>
         </member>
         <member name="M:QIQO.Monitor.Api.Controllers.QueriesController.Get">
             <summary>
             Get a collection of all Querys being managed
             </summary>
             <returns>200 - Ok</returns>
+            <returns>500 - Internal Error</returns>
         </member>
         <member name="M:QIQO.Monitor.Api.Controllers.QueriesController.Get(System.Int32)">
             <summary>
             Get a Query being managed
             </summary>
             <returns>200 - Ok</returns>
+            <returns>404 - Not Found</returns>
+            <returns>500 - Internal Error</returns>
         </member>
         <member name="M:QIQO.Monitor.Api.Controllers.QueriesController.Post(QIQO.Monitor.Api.QueryAdd)">
             <summary>
             Add a new Query to be managed
             </summary>
-            <returns>200 - Ok</returns>
+            <returns>201 - Created</returns>
+            <returns>400 - Bad Request</returns>
+            <returns>500 - Internal Error</returns>
         </member>
         <member name="M:QIQO.Monitor.Api.Controllers.QueriesController.Put(System.Int32,QIQO.Monitor.Api.QueryUpdate)">
             <summary>
             Update an existing Query being managed
             </summary>
-            <returns>200 - Ok</returns>
+            <returns>202 - Accepted</returns>
+            <returns>400 - Bad Request</returns>
+            <returns>500 - Internal Error</returns>
         </member>
         <member name="M:QIQO.Monitor.Api.Controllers.QueriesController.Delete(System.Int32)">
             <summary>
             Delete an existing Query being managed
             </summary>
-            <returns>200 - Ok</returns>
+            <returns>204 - No Content</returns>
+            <returns>400 - Bad Request</returns>
+            <returns>500 - Internal Error</returns>
         </member>
         <member name="M:QIQO.Monitor.Api.Controllers.ServersController.Get">
             <summary>
             Get a collection of all Servers being managed
             </summary>
             <returns>200 - Ok</returns>
+            <returns>500 - Internal Error</returns>
         </member>
         <member name="M:QIQO.Monitor.Api.Controllers.ServersController.Get(System.Int32)">
             <summary>
             Get a Server being managed
             </summary>
             <returns>200 - Ok</returns>
+            <returns>404 - Not Found</returns>
+            <returns>500 - Internal Error</returns>
         </member>
         <member name="M:QIQO.Monitor.Api.Controllers.ServersController.Post(QIQO.Monitor.Api.ServerAdd)">
             <summary>
             Add a new Server to be managed
             </summary>
-            <returns>200 - Ok</returns>
+            <returns>201 - Created</returns>
+            <returns>400 - Bad Request</returns>
+            <returns>500 - Internal Error</returns>
         </member>
         <member name="M:QIQO.Monitor.Api.Controllers.ServersController.Put(System.Int32,QIQO.Monitor.Api.ServerUpdate)">
             <summary>
             Update an existing Server being managed
             </summary>
-            <returns>200 - Ok</returns>
+            <returns>202 - Accepted</returns>
+            <returns>400 - Bad Request</returns>
+            <returns>500 - Internal Error</returns>
         </member>
         <member name="M:QIQO.Monitor.Api.Controllers.ServersController.Delete(System.Int32)">
             <summary>
             Delete an existing Server being managed
             </summary>
-            <returns>200 - Ok</returns>
+            <returns>204 - No Content</returns>
+            <returns>400 - Bad Request</returns>
+            <returns>500 - Internal Error</returns>
         </member>
         <member name="M:QIQO.Monitor.Api.Controllers.ServicesController.Get">
             <summary>
             Get a collection of all Services being managed
             </summary>
             <returns>200 - Ok</returns>
+            <returns>500 - Internal Error</returns>
         </member>
         <member name="M:QIQO.Monitor.Api.Controllers.ServicesController.Get(System.Int32)">
             <summary>
             Get a Service being managed
             </summary>
             <returns>200 - Ok</returns>
+            <returns>404 - Not Found</returns>
+            <returns>500 - Internal Error</returns>
         </member>
         <member name="M:QIQO.Monitor.Api.Controllers.ServicesController.Post(QIQO.Monitor.Api.ServiceAdd)">
             <summary>
             Add a new Service to be managed
             </summary>
-            <returns>200 - Ok</returns>
+            <returns>201 - Created</returns>
+            <returns>400 - Bad Request</returns>
+            <returns>500 - Internal Error</returns>
         </member>
         <member name="M:QIQO.Monitor.Api.Controllers.ServicesController.Put(System.Int32,QIQO.Monitor.Api.ServiceUpdate)">
             <summary>
             Update an existing Service being managed
             </summary>
-            <returns>200 - Ok</returns>
+            <returns>202 - Accepted</returns>
+            <returns>400 - Bad Request</returns>
+            <returns>500 - Internal Error</returns>
         </member>
         <member name="M:QIQO.Monitor.Api.Controllers.ServicesController.Delete(System.Int32)">
             <summary>
             Delete an existing Service being managed
             </summary>
-            <returns>200 - Ok</returns>
+            <returns>204 - No Content</returns>
+            <returns>400 - Bad Request</returns>
+            <returns>500 - Internal Error</returns>
         </member>
     </members>
 </doc>
