@@ -8,11 +8,11 @@ namespace QIQO.Monitor.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class OpenTranactionController : QIQOControllerBase
+    public class OpenTransactionController : QIQOControllerBase
     {
         private readonly IServiceManager _serviceManager;
 
-        public OpenTranactionController(IDbContextFactory dbContextFactory, 
+        public OpenTransactionController(IDbContextFactory dbContextFactory, 
             IDataRepositoryFactory repositoryFactory, IServiceManager serviceManager) : base(dbContextFactory, repositoryFactory)
         {
             _serviceManager = serviceManager;

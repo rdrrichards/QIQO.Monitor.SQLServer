@@ -8,7 +8,7 @@ using Xunit;
 
 namespace QIQO.Monitor.Tests
 {
-    public class ApiManagerUnitTest
+    public class ApiManagerUnitTests
     {
         [Fact]
         public void EnvironmentManagerTest()
@@ -62,6 +62,42 @@ namespace QIQO.Monitor.Tests
             // Act
             var sut = new ServerManager(logger.Object, cache.Object, qm.Object, em.Object, repo.Object);
             var envs = sut.GetServers();
+
+            // Assert
+            Assert.True(envs.Count == 1);
+        }
+        [Fact]
+        public void QueryManagerTest()
+        {
+            // Arrange
+            var cache = new Mock<ICoreCacheService>();
+            var qm = new Mock<IQueryEntityService>();
+            var repo = new Mock<IQueryRepository>();
+            var logger = new Mock<ILogger<QueryManager>>();
+            var envData = new List<QueryData> { new QueryData { QueryKey = 1, Name = "Test" } };
+            cache.Setup(m => m.GetQueries()).Returns(envData);
+
+            // Act
+            var sut = new QueryManager(logger.Object, cache.Object, qm.Object, repo.Object);
+            var envs = sut.GetQueries();
+
+            // Assert
+            Assert.True(envs.Count == 1);
+        }
+        [Fact]
+        public void MonitorManagerTest()
+        {
+            // Arrange
+            var cache = new Mock<ICoreCacheService>();
+            var qm = new Mock<IMonitorEntityService>();
+            var repo = new Mock<IMonitorRepository>();
+            var logger = new Mock<ILogger<MonitorManager>>();
+            var envData = new List<MonitorData> { new MonitorData { MonitorKey = 1, MonitorName = "Test" } };
+            cache.Setup(m => m.GetMonitors()).Returns(envData);
+
+            // Act
+            var sut = new MonitorManager(logger.Object, cache.Object, qm.Object, repo.Object);
+            var envs = sut.GetMonitors();
 
             // Assert
             Assert.True(envs.Count == 1);
