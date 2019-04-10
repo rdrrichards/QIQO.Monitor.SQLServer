@@ -28,5 +28,6 @@ namespace QIQO.Monitor.SQLServer.Data
         IEnumerable<MonitorData> GetServiceMonitors(int serviceKey);
         IEnumerable<MonitorData> GetActiveServiceMonitors(int serviceKey);
         ServiceMonitorData GetServiceMonitors(int serviceKey, int monitorKey);
+        IEnumerable<CategoryData> GetCategories();
     }
 }

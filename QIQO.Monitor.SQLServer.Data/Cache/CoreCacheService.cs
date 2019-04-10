@@ -18,13 +18,14 @@ namespace QIQO.Monitor.SQLServer.Data
         private readonly IEnvironmentServerRepository _environmentServerRepository;
         private readonly IEnvironmentServiceRepository _environmentServiceRepository;
         private readonly IServiceMonitorRepository _serviceMonitorRepository;
+        private readonly ICategoryRepository _categoryRepository;
         private readonly ILogger<CoreCacheService> _logger;
 
         public CoreCacheService(IMemoryCache memoryCache, IServerRepository serverRepository, IServiceRepository serviceRepository,
             IQueryRepository queryRepository, IMonitorRepository monitorRepository, IMonitorQueryRepository monitorQueryRepository,
             IEnvironmentRepository environmentRepository, IEnvironmentServerRepository environmentServerRepository,
             IEnvironmentServiceRepository environmentServiceRepository, IServiceMonitorRepository serviceMonitorRepository,
-            ILogger<CoreCacheService> logger)
+            ICategoryRepository categoryRepository, ILogger<CoreCacheService> logger)
         {
             _cache = memoryCache;
             _serverRepository = serverRepository;
@@ -36,6 +37,7 @@ namespace QIQO.Monitor.SQLServer.Data
             _environmentServerRepository = environmentServerRepository;
             _environmentServiceRepository = environmentServiceRepository;
             _serviceMonitorRepository = serviceMonitorRepository;
+            _categoryRepository = categoryRepository;
             _logger = logger;
             InitializeCache();
         }
@@ -51,6 +53,7 @@ namespace QIQO.Monitor.SQLServer.Data
             GetMonitors();
             GetMonitorQueries();
             GetServiceMonitors();
+            GetCategories();
         }
         public void RefreshCache()
         {
@@ -64,6 +67,7 @@ namespace QIQO.Monitor.SQLServer.Data
             _cache.Set(CoreCacheKeys.EnvironmentServers, _environmentServerRepository.GetAll(), GetMemoryCacheEntryOptions());
             _cache.Set(CoreCacheKeys.EnvironmentServices, _environmentServiceRepository.GetAll(), GetMemoryCacheEntryOptions());
             _cache.Set(CoreCacheKeys.ServiceMonitors, _serviceMonitorRepository.GetAll(), GetMemoryCacheEntryOptions());
+            _cache.Set(CoreCacheKeys.MonitorCategories, _categoryRepository.GetAll(), GetMemoryCacheEntryOptions());
         }
         public IEnumerable<ServerData> GetServers()
         {
@@ -150,5 +154,12 @@ namespace QIQO.Monitor.SQLServer.Data
         public IEnumerable<MonitorData> GetActiveServiceMonitors(int serviceKey) => GetMonitors()
             .Join(GetServiceMonitors().Where(m => m.Enabled)
             .Where(s => s.ServiceKey == serviceKey), m => m.MonitorKey, x => x.MonitorKey, (m, x) => m);
+
+        public IEnumerable<CategoryData> GetCategories()
+        {
+            if (!_cache.TryGetValue(CoreCacheKeys.MonitorCategories, out IEnumerable<CategoryData> monitorCategories))
+                monitorCategories = _cache.Set(CoreCacheKeys.MonitorCategories, _categoryRepository.GetAll(), GetMemoryCacheEntryOptions());
+            return monitorCategories;
+        }
     }
 }

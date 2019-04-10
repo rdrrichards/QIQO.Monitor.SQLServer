@@ -82,6 +82,13 @@
             <returns>400 - Bad Request</returns>
             <returns>500 - Internal Error</returns>
         </member>
+        <member name="M:QIQO.Monitor.Api.Controllers.MonitorsController.Categories">
+            <summary>
+            Get a collection of all MonitorCategories
+            </summary>
+            <returns>200 - Ok</returns>
+            <returns>500 - Internal Error</returns>
+        </member>
         <member name="M:QIQO.Monitor.Api.Controllers.QueriesController.Get">
             <summary>
             Get a collection of all Querys being managed

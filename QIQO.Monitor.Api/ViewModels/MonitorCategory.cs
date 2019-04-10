@@ -8,4 +8,9 @@
         OpenTranactions,
         WaitStatistics
     }
+    public class MonitorCategoryVM
+    {
+        public int CategoryKey { get; set; }
+        public string CategoryName { get; set; }
+    }
 }

@@ -35,7 +35,6 @@ namespace QIQO.Monitor.Api.Controllers
             }
         }
 
-
         /// <summary>
         /// Get a Monitor being managed
         /// </summary>
@@ -125,6 +124,24 @@ namespace QIQO.Monitor.Api.Controllers
             {
                 _monitorManager.DeleteMonitor(id);
                 return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Get a collection of all MonitorCategories
+        /// </summary>
+        /// <returns>200 - Ok</returns>
+        /// <returns>500 - Internal Error</returns>
+        [HttpGet("categories")]
+        public ActionResult<IEnumerable<MonitorCategoryVM>> Categories()
+        {
+            try
+            {
+                return Ok(_monitorManager.GetMonitorCategories());
             }
             catch (Exception ex)
             {
