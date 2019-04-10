@@ -89,14 +89,15 @@ namespace QIQO.Monitor.Tests
         {
             // Arrange
             var cache = new Mock<ICoreCacheService>();
-            var qm = new Mock<IMonitorEntityService>();
+            var es = new Mock<IMonitorEntityService>();
+            var qm = new Mock<IQueryManager>();
             var repo = new Mock<IMonitorRepository>();
             var logger = new Mock<ILogger<MonitorManager>>();
             var envData = new List<MonitorData> { new MonitorData { MonitorKey = 1, MonitorName = "Test" } };
             cache.Setup(m => m.GetMonitors()).Returns(envData);
 
             // Act
-            var sut = new MonitorManager(logger.Object, cache.Object, qm.Object, repo.Object);
+            var sut = new MonitorManager(logger.Object, cache.Object, es.Object, repo.Object, qm.Object);
             var envs = sut.GetMonitors();
 
             // Assert

@@ -19,15 +19,27 @@ namespace QIQO.Monitor.Api.Services
         private readonly ICoreCacheService _cacheService;
         private readonly IMonitorEntityService _monitorEntityService;
         private readonly IMonitorRepository _monitorRepository;
+        private readonly IQueryManager _queryManager;
 
         public MonitorManager(ILogger<MonitorManager> logger, ICoreCacheService cacheService,
-            IMonitorEntityService monitorEntityService, IMonitorRepository monitorRepository) : base(logger)
+            IMonitorEntityService monitorEntityService, IMonitorRepository monitorRepository,
+            IQueryManager queryManager) : base(logger)
         {
             _cacheService = cacheService;
             _monitorEntityService = monitorEntityService;
             _monitorRepository = monitorRepository;
+            _queryManager = queryManager;
         }
-        public List<Monitor> GetMonitors() => new List<Monitor>(_monitorEntityService.Map(_cacheService.GetMonitors().ToList()));
+        public List<Monitor> GetMonitors()
+        {
+            var monitorData = _cacheService.GetMonitors().ToList();
+            var monitors = new List<Monitor>();
+            monitorData.ForEach(m => {
+                var queries = _queryManager.GetQueries(m.MonitorKey);
+                monitors.Add(new Monitor(m, queries));
+            });
+            return monitors;
+        }
         public Monitor AddMonitor(MonitorAdd monitor)
         {
             return ExecuteOperation(() =>

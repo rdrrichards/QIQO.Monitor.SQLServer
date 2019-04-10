@@ -9,6 +9,7 @@ namespace QIQO.Monitor.Api.Services
     public interface IQueryManager
     {
         List<Query> GetQueries();
+        List<Query> GetQueries(int monitorKey);
         Query AddQuery(QueryAdd environment);
         Query UpdateQuery(int environmentKey, QueryUpdate environment);
         void DeleteQuery(int environmentKey);
@@ -27,6 +28,7 @@ namespace QIQO.Monitor.Api.Services
             _queryRepository = queryRepository;
         }
         public List<Query> GetQueries() => new List<Query>(_queryEntityService.Map(_cacheService.GetQueries().ToList()));
+        public List<Query> GetQueries(int monitorKey) => new List<Query>(_queryEntityService.Map(_cacheService.GetQueries(monitorKey).ToList()));
         public Query AddQuery(QueryAdd query)
         {
             return ExecuteOperation(() =>
