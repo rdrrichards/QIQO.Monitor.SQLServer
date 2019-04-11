@@ -100,7 +100,7 @@ namespace QIQO.Monitor.Api.Controllers
             {
                 var newEnv = _serverManager.UpdateServer(id, server);
                 if (newEnv != null)
-                    return Created("", newEnv);
+                    return Accepted("", newEnv);
                 else
                     return BadRequest();
             }

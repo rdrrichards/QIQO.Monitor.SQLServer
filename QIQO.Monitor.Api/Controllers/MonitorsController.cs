@@ -99,7 +99,7 @@ namespace QIQO.Monitor.Api.Controllers
             {
                 var newEnv = _monitorManager.UpdateMonitor(id, monitor);
                 if (newEnv != null)
-                    return Created("", newEnv);
+                    return Accepted("", newEnv);
                 else
                     return BadRequest();
             }
