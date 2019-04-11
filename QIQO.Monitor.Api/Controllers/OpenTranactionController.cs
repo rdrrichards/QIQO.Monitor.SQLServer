@@ -28,7 +28,7 @@ namespace QIQO.Monitor.Api.Controllers
                 if (server != null)
                 {
                     var monitor = server.Monitors.FirstOrDefault(m => m.MonitorType == MonitorType.SqlServer &&
-                        m.MonitorCategory == MonitorCategory.OpenTranactions);
+                        m.MonitorCategory == MonitorCategories.OpenTranactions);
                     var query = monitor.Queries.FirstOrDefault();
                     CreateContext(server.ServiceSource);
                     var repo = _repositoryFactory.GetDataRepository<IOpenTransactionRepository>();

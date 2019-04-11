@@ -25,7 +25,7 @@
         public string MonitorName { get; set; }
         public MonitorType MonitorType { get; set; }
         public MonitorLevel MonitorLevel { get; set; }
-        public MonitorCategory MonitorCategory { get; set; }
+        public MonitorCategories MonitorCategory { get; set; }
     }
     public class QueryAdd
     {
@@ -61,7 +61,7 @@
         public string MonitorName { get; set; }
         public MonitorType MonitorType { get; set; }
         public MonitorLevel MonitorLevel { get; set; }
-        public MonitorCategory MonitorCategory { get; set; }
+        public MonitorCategories MonitorCategory { get; set; }
     }
     public class QueryUpdate
     {

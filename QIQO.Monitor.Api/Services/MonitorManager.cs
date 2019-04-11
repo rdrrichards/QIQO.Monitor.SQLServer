@@ -12,7 +12,7 @@ namespace QIQO.Monitor.Api.Services
         Monitor AddMonitor(MonitorAdd environment);
         Monitor UpdateMonitor(int environmentKey, MonitorUpdate environment);
         void DeleteMonitor(int environmentKey);
-        List<MonitorCategoryVM> GetMonitorCategories();
+        List<MonitorCategory> GetMonitorCategories();
     }
     public class MonitorManager : ManagerBase, IMonitorManager
     {
@@ -82,13 +82,13 @@ namespace QIQO.Monitor.Api.Services
                 _cacheService.RefreshCache();
             });
         }
-        public List<MonitorCategoryVM> GetMonitorCategories()
+        public List<MonitorCategory> GetMonitorCategories()
         {
-            var catVMs = new List<MonitorCategoryVM>();
+            var catVMs = new List<MonitorCategory>();
             var cats = _cacheService.GetCategories().ToList();
             cats.ForEach(c =>
             {
-                catVMs.Add(new MonitorCategoryVM { CategoryKey = c.CategoryKey, CategoryName = c.CategoryName });
+                catVMs.Add(new MonitorCategory { CategoryKey = c.CategoryKey, CategoryName = c.CategoryName });
             });
             return catVMs;
         }

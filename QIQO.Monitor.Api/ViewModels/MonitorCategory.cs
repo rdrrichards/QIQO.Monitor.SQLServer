@@ -1,6 +1,6 @@
 ﻿namespace QIQO.Monitor.Api
 {
-    public enum MonitorCategory
+    public enum MonitorCategories
     {
         Version = 1,
         SQLServerHardware,
@@ -8,7 +8,7 @@
         OpenTranactions,
         WaitStatistics
     }
-    public class MonitorCategoryVM
+    public class MonitorCategory
     {
         public int CategoryKey { get; set; }
         public string CategoryName { get; set; }

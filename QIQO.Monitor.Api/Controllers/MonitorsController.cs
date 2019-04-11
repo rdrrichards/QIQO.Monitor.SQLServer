@@ -99,7 +99,7 @@ namespace QIQO.Monitor.Api.Controllers
             {
                 var newEnv = _monitorManager.UpdateMonitor(id, monitor);
                 if (newEnv != null)
-                    return Accepted("", newEnv);
+                    return Created("", newEnv);
                 else
                     return BadRequest();
             }
@@ -137,7 +137,7 @@ namespace QIQO.Monitor.Api.Controllers
         /// <returns>200 - Ok</returns>
         /// <returns>500 - Internal Error</returns>
         [HttpGet("categories")]
-        public ActionResult<IEnumerable<MonitorCategoryVM>> Categories()
+        public ActionResult<IEnumerable<MonitorCategory>> Categories()
         {
             try
             {
