@@ -37,19 +37,30 @@ namespace QIQO.Monitor.Service
         }
         private async Task<bool> AssessmentChangedAsync(HealthStatus healthStatus, Server server, Service service, Monitor monitor)
         {
+            // _logger.LogInformation($"***AssessmentChangedAsync: Hash: {server.ServerKey}_{service.ServiceKey}_{monitor.MonitorKey} new health update to {healthStatus}");
             return await Task.Run(() => {
                 var newAssessment = new Assessment(server.ServerKey, service.ServiceKey, monitor.MonitorKey, healthStatus);
-                var existAssessment = assessments.GetOrAdd(newAssessment.Hash, newAssessment);
+                var existAssessment = assessments.GetValueOrDefault(newAssessment.Hash);
                 //_logger.LogInformation($"AssessmentChanged new: Hash: {newAssessment.Hash}; HealthStatus: {newAssessment.HealthStatus}; Date: {newAssessment.AssessmentDateTime}");
                 //_logger.LogInformation($"AssessmentChanged exist: Hash: {existAssessment.Hash}; HealthStatus: {existAssessment.HealthStatus}; Date: {existAssessment.AssessmentDateTime}");
-                if (newAssessment.AssessmentDateTime > existAssessment.AssessmentDateTime &&
+                if (existAssessment == null)
+                {
+                    // _logger.LogInformation($"***AssessmentChangedAsync NEW true: Hash: {server.ServerKey}_{service.ServiceKey}_{monitor.MonitorKey} new health update to {healthStatus}");
+                    assessments.AddOrUpdate(newAssessment.Hash, newAssessment, (k, v) => newAssessment);
+                    return true;
+                }
+                else if (existAssessment != null && newAssessment.AssessmentDateTime > existAssessment.AssessmentDateTime &&
                     newAssessment.HealthStatus != existAssessment.HealthStatus)
                 {
+                    // _logger.LogInformation($"***AssessmentChangedAsync EXISTS true: Hash: {server.ServerKey}_{service.ServiceKey}_{monitor.MonitorKey} new health update to {healthStatus}");
                     assessments.AddOrUpdate(existAssessment.Hash, newAssessment, (k, v) => newAssessment);
                     return true;
                 }
                 else
+                {
+                    // _logger.LogInformation($"***AssessmentChangedAsync false: Hash: {server.ServerKey}_{service.ServiceKey}_{monitor.MonitorKey} new health update to {healthStatus}");
                     return false;
+                }
 
             });
         }
