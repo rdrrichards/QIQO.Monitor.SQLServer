@@ -27,13 +27,13 @@ namespace QIQO.Monitor.Service
             // _logger.LogInformation(healthStatus.ToString());
 
             // Really need to see if the prior health assessment was different than this one, and only send the notification out if they are
-            if (await AssessmentChangedAsync(healthStatus, server, service, monitor))
-            {
+            // if (await AssessmentChangedAsync(healthStatus, server, service, monitor))
+            //{
                 // _logger.LogInformation($"***Assess: Hash: {server.ServerKey}_{service.ServiceKey}_{monitor.MonitorKey} new health update to {healthStatus}");
                 var healthResult = new HealthResult();
                 healthResult.Results.Add(new Health(healthStatus));
                 await _hubClientService.SendResult(ResultType.Health, new PollingMonitorResult(server, service, monitor, healthResult));
-            }
+            //}
         }
         private async Task<bool> AssessmentChangedAsync(HealthStatus healthStatus, Server server, Service service, Monitor monitor)
         {
