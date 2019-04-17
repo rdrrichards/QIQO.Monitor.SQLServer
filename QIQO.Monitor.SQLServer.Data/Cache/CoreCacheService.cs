@@ -19,13 +19,18 @@ namespace QIQO.Monitor.SQLServer.Data
         private readonly IEnvironmentServiceRepository _environmentServiceRepository;
         private readonly IServiceMonitorRepository _serviceMonitorRepository;
         private readonly ICategoryRepository _categoryRepository;
+        private readonly IAttributeTypeRepository _attributeTypeRepository;
+        private readonly IAttributeDataTypeRepository _attributeDataTypeRepository;
+        private readonly IServiceMonitorAttributeRepository _serviceMonitorAttributeRepository;
         private readonly ILogger<CoreCacheService> _logger;
 
         public CoreCacheService(IMemoryCache memoryCache, IServerRepository serverRepository, IServiceRepository serviceRepository,
             IQueryRepository queryRepository, IMonitorRepository monitorRepository, IMonitorQueryRepository monitorQueryRepository,
             IEnvironmentRepository environmentRepository, IEnvironmentServerRepository environmentServerRepository,
             IEnvironmentServiceRepository environmentServiceRepository, IServiceMonitorRepository serviceMonitorRepository,
-            ICategoryRepository categoryRepository, ILogger<CoreCacheService> logger)
+            ICategoryRepository categoryRepository, IAttributeTypeRepository attributeTypeRepository,
+            IAttributeDataTypeRepository attributeDataTypeRepository, IServiceMonitorAttributeRepository serviceMonitorAttributeRepository,
+            ILogger<CoreCacheService> logger)
         {
             _cache = memoryCache;
             _serverRepository = serverRepository;
@@ -38,6 +43,9 @@ namespace QIQO.Monitor.SQLServer.Data
             _environmentServiceRepository = environmentServiceRepository;
             _serviceMonitorRepository = serviceMonitorRepository;
             _categoryRepository = categoryRepository;
+            _attributeTypeRepository = attributeTypeRepository;
+            _attributeDataTypeRepository = attributeDataTypeRepository;
+            _serviceMonitorAttributeRepository = serviceMonitorAttributeRepository;
             _logger = logger;
             InitializeCache();
         }
@@ -53,6 +61,9 @@ namespace QIQO.Monitor.SQLServer.Data
             GetMonitors();
             GetMonitorQueries();
             GetServiceMonitors();
+            GetAttributeTypes();
+            GetAttributeDataTypes();
+            GetServiceMonitorAttributes();
             GetCategories();
         }
         public void RefreshCache()
@@ -68,6 +79,9 @@ namespace QIQO.Monitor.SQLServer.Data
             _cache.Set(CoreCacheKeys.EnvironmentServices, _environmentServiceRepository.GetAll(), GetMemoryCacheEntryOptions());
             _cache.Set(CoreCacheKeys.ServiceMonitors, _serviceMonitorRepository.GetAll(), GetMemoryCacheEntryOptions());
             _cache.Set(CoreCacheKeys.MonitorCategories, _categoryRepository.GetAll(), GetMemoryCacheEntryOptions());
+            _cache.Set(CoreCacheKeys.AttributeTypes, _attributeTypeRepository.GetAll(), GetMemoryCacheEntryOptions());
+            _cache.Set(CoreCacheKeys.AttributeDataTypes, _attributeDataTypeRepository.GetAll(), GetMemoryCacheEntryOptions());
+            _cache.Set(CoreCacheKeys.ServiceMonitorAttributes, _serviceMonitorAttributeRepository.GetAll(), GetMemoryCacheEntryOptions());
         }
         public IEnumerable<ServerData> GetServers()
         {
@@ -160,6 +174,27 @@ namespace QIQO.Monitor.SQLServer.Data
             if (!_cache.TryGetValue(CoreCacheKeys.MonitorCategories, out IEnumerable<CategoryData> monitorCategories))
                 monitorCategories = _cache.Set(CoreCacheKeys.MonitorCategories, _categoryRepository.GetAll(), GetMemoryCacheEntryOptions());
             return monitorCategories;
+        }
+
+        public IEnumerable<AttributeTypeData> GetAttributeTypes()
+        {
+            if (!_cache.TryGetValue(CoreCacheKeys.AttributeTypes, out IEnumerable<AttributeTypeData> attributeTypes))
+                attributeTypes = _cache.Set(CoreCacheKeys.AttributeTypes, _attributeTypeRepository.GetAll(), GetMemoryCacheEntryOptions());
+            return attributeTypes;
+        }
+
+        public IEnumerable<AttributeDataTypeData> GetAttributeDataTypes()
+        {
+            if (!_cache.TryGetValue(CoreCacheKeys.AttributeDataTypes, out IEnumerable<AttributeDataTypeData> attributeDataTypes))
+                attributeDataTypes = _cache.Set(CoreCacheKeys.AttributeDataTypes, _attributeDataTypeRepository.GetAll(), GetMemoryCacheEntryOptions());
+            return attributeDataTypes;
+        }
+
+        public IEnumerable<ServiceMonitorAttributeData> GetServiceMonitorAttributes()
+        {
+            if (!_cache.TryGetValue(CoreCacheKeys.ServiceMonitorAttributes, out IEnumerable<ServiceMonitorAttributeData> serviceMonitorAttributes))
+                serviceMonitorAttributes = _cache.Set(CoreCacheKeys.ServiceMonitorAttributes, _serviceMonitorAttributeRepository.GetAll(), GetMemoryCacheEntryOptions());
+            return serviceMonitorAttributes;
         }
     }
 }

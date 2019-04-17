@@ -12,5 +12,8 @@
         public static string EnvironmentServers { get { return "_EnvironmentServers"; } }
         public static string ServiceMonitors { get { return "_ServiceMonitors"; } }
         public static string MonitorCategories { get { return "_MonitorCategories"; } }
+        public static string AttributeTypes { get { return "_AttributeTypes"; } }
+        public static string AttributeDataTypes { get { return "_AttributeDataTypes"; } }
+        public static string ServiceMonitorAttributes { get { return "_ServiceMonitorAttributes"; } }
     }
 }
