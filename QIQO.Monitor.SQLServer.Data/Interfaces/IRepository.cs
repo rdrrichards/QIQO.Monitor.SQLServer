@@ -20,6 +20,12 @@ namespace QIQO.Monitor.SQLServer.Data
     public interface IServiceMonitorRepository : IRepository<ServiceMonitorData> {
         IEnumerable<ServiceMonitorData> GetAll(int service_key, int monitor_key);
     }
+    public interface IServiceMonitorAttributeRepository : IRepository<ServiceMonitorAttributeData>
+    {
+        IEnumerable<ServiceMonitorAttributeData> GetAll(int service_key, int monitor_key);
+    }
+    public interface IAttributeTypeRepository : IRepository<AttributeTypeData> { }
+    public interface IAttributeDataTypeRepository : IRepository<AttributeDataTypeData> { }
 
 
     public interface IServerMap : IMapper<ServerData> { }
@@ -33,6 +39,9 @@ namespace QIQO.Monitor.SQLServer.Data
     public interface IServiceMap : IMapper<ServiceData> { }
     public interface IServiceTypeMap : IMapper<ServiceTypeData> { }
     public interface IServiceMonitorMap : IMapper<ServiceMonitorData> { }
+    public interface IServiceMonitorAttributeMap : IMapper<ServiceMonitorAttributeData> { }
+    public interface IAttributeTypeMap : IMapper<AttributeTypeData> { }
+    public interface IAttributeDataTypeMap : IMapper<AttributeDataTypeData> { }
 
     // Monitor results related interfaces
     public interface IVersionRepository : IReadRepository<VersionData> { }

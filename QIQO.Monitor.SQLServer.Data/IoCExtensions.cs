@@ -36,6 +36,14 @@ namespace QIQO.Monitor.SQLServer.Data
             services.AddTransient<IServiceMonitorMap, ServiceMonitorMap>();
             services.AddTransient<IServiceMonitorRepository, ServiceMonitorRepository>();
 
+
+            services.AddTransient<IServiceMonitorAttributeMap, ServiceMonitorAttributeMap>();
+            services.AddTransient<IServiceMonitorAttributeRepository, ServiceMonitorAttributeRepository>();
+            services.AddTransient<IAttributeTypeMap, AttributeTypeMap>();
+            services.AddTransient<IAttributeTypeRepository, AttributeTypeRepository>();
+            services.AddTransient<IAttributeDataTypeMap, AttributeDataTypeMap>();
+            services.AddTransient<IAttributeDataTypeRepository, AttributeDataTypeRepository>();
+
             services.AddTransient<IVersionMap, VersionMap>();
             services.AddTransient<IVersionRepository, VersionRepository>();
             services.AddTransient<IHardwareMap, HardwareMap>();

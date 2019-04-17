@@ -63,4 +63,5 @@ namespace QIQO.Monitor.SQLServer.Data
             using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_monitor_type_ups", Mapper.MapParamsForUpsert(entity));
         }
     }
+
 }
