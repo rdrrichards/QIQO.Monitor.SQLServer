@@ -16,7 +16,6 @@ namespace QIQO.Monitor.SQLServer.Data
                 {
                     ServiceKey = NullCheck<int>(record["service_key"]),
                     MonitorKey = NullCheck<int>(record["monitor_key"]),
-                    Enabled = NullCheck<bool>(record["enabled"]),
                 };
             }
             catch (Exception ex)
@@ -29,7 +28,6 @@ namespace QIQO.Monitor.SQLServer.Data
             {
                 BuildParam("@service_key", entity.ServiceKey),
                 BuildParam("@monitor_key", entity.MonitorKey),
-                BuildParam("@enabled", entity.Enabled),
                 // GetOutParam()
             };
 

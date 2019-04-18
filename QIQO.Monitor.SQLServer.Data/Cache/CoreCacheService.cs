@@ -166,8 +166,8 @@ namespace QIQO.Monitor.SQLServer.Data
         public IEnumerable<MonitorData> GetServiceMonitors(int serviceKey) => GetMonitors().Join(GetServiceMonitors()
             .Where(s => s.ServiceKey == serviceKey), m => m.MonitorKey, x => x.MonitorKey, (m, x) => m);
         public IEnumerable<MonitorData> GetActiveServiceMonitors(int serviceKey) => GetMonitors()
-            .Join(GetServiceMonitors().Where(m => m.Enabled)
-            .Where(s => s.ServiceKey == serviceKey), m => m.MonitorKey, x => x.MonitorKey, (m, x) => m);
+            .Join(GetServiceMonitorAttributes()
+            .Where(s => s.ServiceKey == serviceKey && s.AttributeTypeKey == 1 && s.AttributeValue == "1"), m => m.MonitorKey, x => x.MonitorKey, (m, x) => m);
 
         public IEnumerable<CategoryData> GetCategories()
         {

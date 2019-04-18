@@ -43,7 +43,8 @@ namespace QIQO.Monitor.Api.Services
                         var monitors = new List<Monitor>();
                         _cacheService.GetServiceMonitors(service.ServiceKey).ToList().ForEach(monitor =>
                         {
-                            monitors.Add(new Monitor(monitor, _queryEntityService.Map(_cacheService.GetQueries(monitor.MonitorKey))));
+                            monitors.Add(new Monitor(monitor, _queryEntityService.Map(_cacheService.GetQueries(monitor.MonitorKey)),
+                                GetMonitorProperties(service.ServiceKey, monitor.MonitorKey)));
                         });
                         services.Add(new Service(service, monitors, _environmentEntityService.Map(_cacheService.GetServiceEnvironments(service.ServiceKey))));
                     });
@@ -81,6 +82,14 @@ namespace QIQO.Monitor.Api.Services
                 _serverRepository.Delete(endData);
                 _cacheService.RefreshCache();
             });
+        }
+        private List<MonitorProperty> GetMonitorProperties(int serviceKey, int monitorKey)
+        {
+            return _cacheService.GetServiceMonitorAttributes(serviceKey, monitorKey).ToList()
+                .Join(_cacheService.GetAttributeTypes(), a => a.AttributeTypeKey, t => t.AttributeTypeKey, (a, t)
+                    => new { PropertyType = t.AttributeTypeName, PropertyValue = a.AttributeValue, t.AttributeDataTypeKey })
+                    .Join(_cacheService.GetAttributeDataTypes(), n => n.AttributeDataTypeKey, d => d.AttributeDataTypeKey, (n, d)
+                    => new MonitorProperty(n.PropertyType, d.AttributeDataTypeName, n.PropertyValue)).ToList();
         }
     }
 }
