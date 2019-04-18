@@ -15,13 +15,13 @@ namespace QIQO.Monitor.Api
             MonitorCategory = (MonitorCategories)monitorData.CategoryKey;
         }
         public Monitor(MonitorData monitorData, List<Query> queries) : this(monitorData) => Queries = queries;
-        public Monitor(MonitorData monitorData, List<Query> queries, bool enabled) : this(monitorData, queries) => Enabled = enabled;
+        public Monitor(MonitorData monitorData, List<Query> queries, List<MonitorProperty> props) : this(monitorData, queries) => MonitorProperties = props;
         public int MonitorKey { get; }
         public string MonitorName { get; }
         public MonitorType MonitorType { get; }
         public MonitorLevel MonitorLevel { get; }
         public MonitorCategories MonitorCategory { get; }
-        public bool Enabled { get; } = true;
         public List<Query> Queries { get; } = new List<Query>();
+        public List<MonitorProperty> MonitorProperties { get; } = new List<MonitorProperty>();
     }
 }

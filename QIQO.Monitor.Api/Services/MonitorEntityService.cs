@@ -14,4 +14,13 @@ namespace QIQO.Monitor.Api
             LevelKey = (int)ent.MonitorLevel
         };
     }
+    //public class MonitorPropertiesEntityService : IMonitorPropertiesEntityService
+    //{
+    //    public MonitorProperty Map(ServiceMonitorAttributeData serviceMonitorAttributeData,
+    //        AttributeTypeData attributeTypeData, AttributeDataTypeData attributeDataTypeData)
+    //    {
+    //        return new MonitorProperty(attributeTypeData.AttributeTypeName,
+    //            attributeDataTypeData.AttributeDataTypeName, serviceMonitorAttributeData.AttributeValue);
+    //    }
+    //}
 }
