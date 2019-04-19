@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using QIQO.Monitor.SQLServer.Data;
+using QIQO.Monitor.Core.Contracts;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,6 +9,8 @@ namespace QIQO.Monitor.Api.Services
     public interface IEnvironmentManager
     {
         List<Environment> GetEnvironments();
+        List<Environment> GetServiceEnvironments(int serviceKey);
+        List<Environment> GetServerEnvironments(int serviceKey);
         Environment AddEnvironment(EnvironmentAdd environment);
         Environment UpdateEnvironment(int environmentKey, EnvironmentUpdate environment);
         void DeleteEnvironment(int environmentKey);
@@ -16,25 +19,31 @@ namespace QIQO.Monitor.Api.Services
     {
         private readonly ICoreCacheService _cacheService;
         private readonly IEnvironmentRepository _environmentRepository;
+        private readonly IEnvironmentEntityService _environmentEntityService;
 
         public EnvironmentManager(ILogger<EnvironmentManager> logger, ICoreCacheService cacheService,
-            IEnvironmentRepository environmentRepository) : base(logger)
+            IEnvironmentRepository environmentRepository, IEnvironmentEntityService environmentEntityService) : base(logger)
         {
             _cacheService = cacheService;
             _environmentRepository = environmentRepository;
+            _environmentEntityService = environmentEntityService;
         }
         public List<Environment> GetEnvironments()
         {
             return ExecuteOperation(() => {
-                var environments = new List<Environment>();
-                var environmentsToMonitor = _cacheService.GetEnviroments().ToList();
-
-                environmentsToMonitor.ForEach(environment =>
-                {
-                    environments.Add(new Environment(environment));
-                });
-
-                return environments;
+                return _environmentEntityService.Map(_cacheService.GetEnvironments());
+            });
+        }
+        public List<Environment> GetServiceEnvironments(int serviceKey)
+        {
+            return ExecuteOperation(() => {
+                return _environmentEntityService.Map(_cacheService.GetServiceEnvironments(serviceKey));
+            });
+        }
+        public List<Environment> GetServerEnvironments(int serviceKey)
+        {
+            return ExecuteOperation(() => {
+                return _environmentEntityService.Map(_cacheService.GetServiceEnvironments(serviceKey));
             });
         }
         public Environment AddEnvironment(EnvironmentAdd environment)

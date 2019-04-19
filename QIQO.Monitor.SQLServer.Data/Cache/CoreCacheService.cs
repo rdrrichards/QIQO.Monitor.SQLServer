@@ -52,7 +52,7 @@ namespace QIQO.Monitor.SQLServer.Data
         private void InitializeCache()
         {
             _logger.LogInformation($"Initializing {nameof(CoreCacheService)}");
-            GetEnviroments();
+            GetEnvironments();
             GetEnvironmentServers();
             GetEnvironmentServices();
             GetServers();
@@ -129,7 +129,7 @@ namespace QIQO.Monitor.SQLServer.Data
             return monitorQueries;
         }
 
-        public IEnumerable<EnvironmentData> GetEnviroments()
+        public IEnumerable<EnvironmentData> GetEnvironments()
         {
             if (!_cache.TryGetValue(CoreCacheKeys.Environments, out IEnumerable<EnvironmentData> environments))
                 environments = _cache.Set(CoreCacheKeys.Environments, _environmentRepository.GetAll(), GetMemoryCacheEntryOptions());
@@ -149,9 +149,9 @@ namespace QIQO.Monitor.SQLServer.Data
                 environments = _cache.Set(CoreCacheKeys.EnvironmentServices, _environmentServiceRepository.GetAll(), GetMemoryCacheEntryOptions());
             return environments;
         }
-        public IEnumerable<EnvironmentData> GetServerEnvironments(int serverKey) => GetEnviroments().Join(GetEnvironmentServers()
+        public IEnumerable<EnvironmentData> GetServerEnvironments(int serverKey) => GetEnvironments().Join(GetEnvironmentServers()
             .Where(s => s.ServerKey == serverKey), e => e.EnvironmentKey, x => x.EnvironmentKey, (e, x) => e);
-        public IEnumerable<EnvironmentData> GetServiceEnvironments(int serviceKey) => GetEnviroments().Join(GetEnvironmentServices()
+        public IEnumerable<EnvironmentData> GetServiceEnvironments(int serviceKey) => GetEnvironments().Join(GetEnvironmentServices()
             .Where(s => s.ServiceKey == serviceKey), e => e.EnvironmentKey, x => x.EnvironmentKey, (e, x) => e);
 
         public IEnumerable<ServiceMonitorData> GetServiceMonitors()

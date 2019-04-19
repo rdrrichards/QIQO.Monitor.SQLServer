@@ -9,6 +9,7 @@ namespace QIQO.Monitor.Api.Services
     public interface IServiceManager
     {
         List<Service> GetServices();
+        List<Service> GetServices(int serverKey);
         Service AddService(ServiceAdd environment);
         Service UpdateService(int environmentKey, ServiceUpdate environment);
         void DeleteService(int environmentKey);
@@ -16,17 +17,17 @@ namespace QIQO.Monitor.Api.Services
     public class ServiceManager : ManagerBase, IServiceManager
     {
         private readonly ICoreCacheService _cacheService;
-        private readonly IQueryEntityService _queryEntityService;
-        private readonly IEnvironmentEntityService _environmentEntityService;
         private readonly IServiceRepository _serviceRepository;
+        private readonly IEnvironmentManager _environmentManager;
+        private readonly IMonitorManager _monitorManager;
 
-        public ServiceManager(ILogger<ServiceManager> logger, ICoreCacheService cacheService, IQueryEntityService queryEntityService,
-            IEnvironmentEntityService environmentEntityService, IServiceRepository serviceRepository) : base(logger)
+        public ServiceManager(ILogger<ServiceManager> logger, ICoreCacheService cacheService, IServiceRepository serviceRepository,
+            IMonitorManager monitorManager, IEnvironmentManager environmentManager) : base(logger)
         {
             _cacheService = cacheService;
-            _queryEntityService = queryEntityService;
-            _environmentEntityService = environmentEntityService;
             _serviceRepository = serviceRepository;
+            _monitorManager = monitorManager;
+            _environmentManager = environmentManager;
         }
         public List<Service> GetServices()
         {
@@ -37,14 +38,24 @@ namespace QIQO.Monitor.Api.Services
 
                 servicesToMonitor.ForEach(service =>
                 {
-                    var monitors = new List<Monitor>();
-                    _cacheService.GetServiceMonitors(service.ServiceKey).ToList().ForEach(monitor =>
-                    {
-                        // var monEnabled = _cacheService.GetServiceMonitors(service.ServiceKey, monitor.MonitorKey).Enabled;
-                        monitors.Add(new Monitor(monitor, _queryEntityService.Map(_cacheService.GetQueries(monitor.MonitorKey)),
-                            GetMonitorProperties(service.ServiceKey, monitor.MonitorKey)));
-                    });
-                    services.Add(new Service(service, monitors, _environmentEntityService.Map(_cacheService.GetServiceEnvironments(service.ServiceKey))));
+                    services.Add(new Service(service, _monitorManager.GetMonitors(service.ServiceKey),
+                        _environmentManager.GetServiceEnvironments(service.ServiceKey)));
+                });
+
+                return services;
+            });
+        }
+        public List<Service> GetServices(int serverKey)
+        {
+            return ExecuteOperation(() =>
+            {
+                var services = new List<Service>();
+                var servicesToMonitor = _cacheService.GetServices(serverKey).ToList();
+
+                servicesToMonitor.ForEach(service =>
+                {
+                    services.Add(new Service(service, _monitorManager.GetMonitors(service.ServiceKey),
+                        _environmentManager.GetServiceEnvironments(service.ServiceKey)));
                 });
 
                 return services;
@@ -86,14 +97,6 @@ namespace QIQO.Monitor.Api.Services
                 _serviceRepository.Delete(endData);
                 _cacheService.RefreshCache();
             });
-        }
-        private List<MonitorProperty> GetMonitorProperties(int serviceKey, int monitorKey)
-        {
-            return _cacheService.GetServiceMonitorAttributes(serviceKey, monitorKey).ToList()
-                .Join(_cacheService.GetAttributeTypes(), a => a.AttributeTypeKey, t => t.AttributeTypeKey, (a, t) 
-                    => new { PropertyType = t.AttributeTypeName, PropertyValue = a.AttributeValue, t.AttributeDataTypeKey })
-                    .Join(_cacheService.GetAttributeDataTypes(), n => n.AttributeDataTypeKey, d => d.AttributeDataTypeKey, (n, d)
-                    => new MonitorProperty(n.PropertyType, d.AttributeDataTypeName, n.PropertyValue)).ToList();
         }
     }
 }

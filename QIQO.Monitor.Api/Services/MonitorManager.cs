@@ -9,6 +9,7 @@ namespace QIQO.Monitor.Api.Services
     public interface IMonitorManager
     {
         List<Monitor> GetMonitors();
+        List<Monitor> GetMonitors(int serviceKey);
         Monitor AddMonitor(MonitorAdd environment);
         Monitor UpdateMonitor(int environmentKey, MonitorUpdate environment);
         void DeleteMonitor(int environmentKey);
@@ -37,6 +38,16 @@ namespace QIQO.Monitor.Api.Services
             monitorData.ForEach(m => {
                 var queries = _queryManager.GetQueries(m.MonitorKey);
                 monitors.Add(new Monitor(m, queries));
+            });
+            return monitors;
+        }
+        public List<Monitor> GetMonitors(int serviceKey)
+        {
+            var monitorData = _cacheService.GetServiceMonitors(serviceKey).ToList();
+            var monitors = new List<Monitor>();
+            monitorData.ForEach(m => {
+                var queries = _queryManager.GetQueries(m.MonitorKey);
+                monitors.Add(new Monitor(m, queries, GetMonitorProperties(serviceKey, m.MonitorKey)));
             });
             return monitors;
         }
@@ -91,6 +102,14 @@ namespace QIQO.Monitor.Api.Services
                 catVMs.Add(new MonitorCategory { CategoryKey = c.CategoryKey, CategoryName = c.CategoryName });
             });
             return catVMs;
+        }
+        private List<MonitorProperty> GetMonitorProperties(int serviceKey, int monitorKey)
+        {
+            return _cacheService.GetServiceMonitorAttributes(serviceKey, monitorKey).ToList()
+                .Join(_cacheService.GetAttributeTypes(), a => a.AttributeTypeKey, t => t.AttributeTypeKey, (a, t)
+                    => new { PropertyType = t.AttributeTypeName, PropertyValue = a.AttributeValue, t.AttributeDataTypeKey })
+                    .Join(_cacheService.GetAttributeDataTypes(), n => n.AttributeDataTypeKey, d => d.AttributeDataTypeKey, (n, d)
+                    => new MonitorProperty(n.PropertyType, d.AttributeDataTypeName, n.PropertyValue)).ToList();
         }
     }
 }

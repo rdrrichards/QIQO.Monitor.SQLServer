@@ -1,5 +1,4 @@
 ﻿using QIQO.Monitor.SQLServer.Data;
-using QIQO.Monitor.Core.Contracts;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Logging;
@@ -16,17 +15,17 @@ namespace QIQO.Monitor.Api.Services
     public class ServerManager : ManagerBase, IServerManager
     {
         private readonly ICoreCacheService _cacheService;
-        private readonly IQueryEntityService _queryEntityService;
-        private readonly IEnvironmentEntityService _environmentEntityService;
+        private readonly IEnvironmentManager _environmentManager;
         private readonly IServerRepository _serverRepository;
+        private readonly IServiceManager _serviceManager;
 
-        public ServerManager(ILogger<ServerManager> logger, ICoreCacheService cacheService, IQueryEntityService queryEntityService,
-            IEnvironmentEntityService environmentEntityService, IServerRepository serverRepository) : base(logger)
+        public ServerManager(ILogger<ServerManager> logger, ICoreCacheService cacheService, 
+            IEnvironmentManager environmentManager, IServerRepository serverRepository, IServiceManager serviceManager) : base(logger)
         {
             _cacheService = cacheService;
-            _queryEntityService = queryEntityService;
-            _environmentEntityService = environmentEntityService;
+            _environmentManager = environmentManager;
             _serverRepository = serverRepository;
+            _serviceManager = serviceManager;
         }
         public List<Server> GetServers()
         {
@@ -37,18 +36,8 @@ namespace QIQO.Monitor.Api.Services
 
                 serversToMonitor.ForEach(server =>
                 {
-                    var services = new List<Service>();
-                    _cacheService.GetServices(server.ServerKey).ToList().ForEach(service =>
-                    {
-                        var monitors = new List<Monitor>();
-                        _cacheService.GetServiceMonitors(service.ServiceKey).ToList().ForEach(monitor =>
-                        {
-                            monitors.Add(new Monitor(monitor, _queryEntityService.Map(_cacheService.GetQueries(monitor.MonitorKey)),
-                                GetMonitorProperties(service.ServiceKey, monitor.MonitorKey)));
-                        });
-                        services.Add(new Service(service, monitors, _environmentEntityService.Map(_cacheService.GetServiceEnvironments(service.ServiceKey))));
-                    });
-                    servers.Add(new Server(server, services, _environmentEntityService.Map(_cacheService.GetServerEnvironments(server.ServerKey))));
+                    servers.Add(new Server(server, _serviceManager.GetServices(server.ServerKey),
+                        _environmentManager.GetServerEnvironments(server.ServerKey)));
                 });
 
                 return servers;
@@ -82,14 +71,6 @@ namespace QIQO.Monitor.Api.Services
                 _serverRepository.Delete(endData);
                 _cacheService.RefreshCache();
             });
-        }
-        private List<MonitorProperty> GetMonitorProperties(int serviceKey, int monitorKey)
-        {
-            return _cacheService.GetServiceMonitorAttributes(serviceKey, monitorKey).ToList()
-                .Join(_cacheService.GetAttributeTypes(), a => a.AttributeTypeKey, t => t.AttributeTypeKey, (a, t)
-                    => new { PropertyType = t.AttributeTypeName, PropertyValue = a.AttributeValue, t.AttributeDataTypeKey })
-                    .Join(_cacheService.GetAttributeDataTypes(), n => n.AttributeDataTypeKey, d => d.AttributeDataTypeKey, (n, d)
-                    => new MonitorProperty(n.PropertyType, d.AttributeDataTypeName, n.PropertyValue)).ToList();
         }
     }
 }
