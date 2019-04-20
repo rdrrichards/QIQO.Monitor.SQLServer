@@ -30,7 +30,7 @@ namespace QIQO.Monitor.Service
         public void StartProcessing()
         {
             _logger.LogInformation("Monitor Data Processor Service started");
-            _qConsumer.Pull(_configuration["QueueConfig:Monitor:Exchange"],
+            _qConsumer.Dequeue(_configuration["QueueConfig:Monitor:Exchange"],
                                 _configuration["QueueConfig:Monitor:AddQueue"], "#", ProcessMonitorData);
         }
         private void ProcessMonitorDataA(string monitorDataType, string dataJSON)
