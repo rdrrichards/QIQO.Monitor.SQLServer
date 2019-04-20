@@ -55,7 +55,7 @@ namespace QIQO.Monitor.Service.Services
                         if (waitStatsData.Count > 0)
                         {
                             // Save the data for later analysis
-                            _qPublisher.Send(PrepData(waitStatsData, Service), _configuration["QueueConfig:Monitor:Exchange"],
+                            _qPublisher.Enqueue(PrepData(waitStatsData, Service), _configuration["QueueConfig:Monitor:Exchange"],
                                 _configuration["QueueConfig:Monitor:AddQueue"], MonitorConstants.WaitStats);
                             // Wais stats isn't an alertable thing without analysis of the data over time
                         }
