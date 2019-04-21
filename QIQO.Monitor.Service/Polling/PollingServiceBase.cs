@@ -14,17 +14,17 @@ namespace QIQO.Monitor.Service.Polling
     }
     public abstract class PollingServiceBase<T> // : IPollingService
     {
-        protected CancellationTokenSource cancellationTokenSource = null;
+        protected CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
         protected readonly ILogger<PollingServiceBase<T>> _logger;
         protected readonly IDbContextFactory _dbContextFactory;
         protected readonly IDataRepositoryFactory _dataRepositoryFactory;
         protected readonly IHealthService _healthService;
 
         protected int PollingInterval { get; set; } = 30000;
-        protected Service Service { get; set; }
-        protected Server Server { get; set; }
-        protected Monitor Monitor { get; set; }
-        protected Query Query { get; set; }
+        protected Service Service { get; set; } = new Service(new ServiceData { InstanceName = string.Empty, ServerKey = 0, ServiceKey = 0, ServiceName = string.Empty, ServiceSource = string.Empty, ServiceTypeKey = 0 });
+        protected Server Server { get; set; } = new Server(new ServerData { ServerKey = 0, ServerName = string.Empty });
+        protected Monitor Monitor { get; set; } = new Monitor(new MonitorData { CategoryKey = 0, LevelKey = 0, MonitorKey = 0, MonitorName = string.Empty, MonitorTypeKey = 0 });
+        protected Query Query { get; set; } = new Query(new QueryData { Name = string.Empty, QueryKey = 0, QueryText = string.Empty });
         public PollingServiceBase(ILogger<PollingServiceBase<T>> logger, IDbContextFactory dbContextFactory,
             IDataRepositoryFactory dataRepositoryFactory, IHealthService healthService)
         {
@@ -32,7 +32,6 @@ namespace QIQO.Monitor.Service.Polling
             _dbContextFactory = dbContextFactory;
             _dataRepositoryFactory = dataRepositoryFactory;
             _healthService = healthService;
-            cancellationTokenSource = new CancellationTokenSource();
         }
 
         public virtual void StopPolling()
