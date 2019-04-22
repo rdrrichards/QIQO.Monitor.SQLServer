@@ -65,21 +65,16 @@ namespace QIQO.Monitor.Service
                     logging.SetMinimumLevel(LogLevel.Information);
                 })
                 .UseNLog()
-                //.ConfigureAppConfiguration((context, config) =>
-                //{
-                //    // Configure the app here.
-                //})
                 .UseStartup<Startup>()
                 .ConfigureKestrel((context, options) =>
                 {
                     options.ListenAnyIP(7377, listenOptions =>
                     {
+                        var signingCertificate = new X509Certificate2(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "qiqo-cert.pfx"),
+                            string.Empty, X509KeyStorageFlags.MachineKeySet | X509KeyStorageFlags.PersistKeySet | X509KeyStorageFlags.Exportable);
                         listenOptions.UseHttps(httpsOptions =>
                         {
-                            var localhostCert = CertificateLoader.LoadFromStoreCert(
-                                "localhost", "My", StoreLocation.CurrentUser,
-                                allowInvalid: true);
-                            httpsOptions.ServerCertificateSelector = (connectionContext, name) => localhostCert;
+                            httpsOptions.ServerCertificate = signingCertificate;
                         });
                     });
                 });
