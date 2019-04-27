@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting.WindowsServices;
 using Microsoft.AspNetCore.Server.Kestrel.Https.Internal;
 using Microsoft.Extensions.Logging;
 using NLog.Web;
@@ -26,6 +27,7 @@ namespace QIQO.Monitor.Service
                     var pathToExe = Process.GetCurrentProcess().MainModule.FileName;
                     var pathToContentRoot = Path.GetDirectoryName(pathToExe);
                     Directory.SetCurrentDirectory(pathToContentRoot);
+                    logger.Debug($"SetCurrentDirectory in main application: {pathToContentRoot}");
                 }
 
                 var builder = CreateWebHostBuilder(
@@ -35,12 +37,14 @@ namespace QIQO.Monitor.Service
 
                 if (isService)
                 {
+                    logger.Debug("RunAsCustomService in main application");
                     // To run the app without the CustomWebHostService change the
                     // next line to host.RunAsService();
                     host.RunAsCustomService();
                 }
                 else
                 {
+                    logger.Debug("Run in main application");
                     host.Run();
                 }
             }
@@ -66,6 +70,7 @@ namespace QIQO.Monitor.Service
                 })
                 .UseNLog()
                 .UseStartup<Startup>();
+                //*** At some point, I would really like to use SSL in this service
                 //.ConfigureKestrel((context, options) =>
                 //{
                 //    options.ListenAnyIP(7377, listenOptions =>
