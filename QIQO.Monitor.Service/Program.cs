@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting.WindowsServices;
 using Microsoft.AspNetCore.Server.Kestrel.Https.Internal;
 using Microsoft.Extensions.Logging;
 using NLog.Web;
@@ -26,6 +27,7 @@ namespace QIQO.Monitor.Service
                     var pathToExe = Process.GetCurrentProcess().MainModule.FileName;
                     var pathToContentRoot = Path.GetDirectoryName(pathToExe);
                     Directory.SetCurrentDirectory(pathToContentRoot);
+                    logger.Debug($"SetCurrentDirectory in main application: {pathToContentRoot}");
                 }
 
                 var builder = CreateWebHostBuilder(
@@ -35,12 +37,14 @@ namespace QIQO.Monitor.Service
 
                 if (isService)
                 {
+                    logger.Debug("RunAsCustomService in main application");
                     // To run the app without the CustomWebHostService change the
                     // next line to host.RunAsService();
                     host.RunAsCustomService();
                 }
                 else
                 {
+                    logger.Debug("Run in main application");
                     host.Run();
                 }
             }
@@ -65,25 +69,18 @@ namespace QIQO.Monitor.Service
                     logging.SetMinimumLevel(LogLevel.Information);
                 })
                 .UseNLog()
-                //.ConfigureAppConfiguration((context, config) =>
+                .UseStartup<Startup>();
+                //*** At some point, I would really like to use SSL in this service
+                //.ConfigureKestrel((context, options) =>
                 //{
-                //    // Configure the app here.
-                //})
-                .UseStartup<Startup>()
-                .ConfigureKestrel((context, options) =>
-                {
-                    options.ListenAnyIP(7377, listenOptions =>
-                    {
-                        listenOptions.UseHttps(httpsOptions =>
-                        {
-                            var localhostCert = CertificateLoader.LoadFromStoreCert(
-                                "localhost", "My", StoreLocation.CurrentUser,
-                                allowInvalid: true);
-                            httpsOptions.ServerCertificateSelector = (connectionContext, name) => localhostCert;
-                        });
-                    });
-                });
-
-
+                //    options.ListenAnyIP(7377, listenOptions =>
+                //    {
+                //        var signingCertificate = CertificateLoader.LoadFromStoreCert(
+                //            "QIQO Software", "(null)", StoreLocation.CurrentUser,
+                //            allowInvalid: true);
+                //        // var signingCertificate = new X509Certificate2(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "qiqo-cert.pfx"));
+                //        listenOptions.UseHttps(signingCertificate);
+                //    });
+                //});
     }
 }
