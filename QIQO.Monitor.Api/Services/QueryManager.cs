@@ -1,8 +1,8 @@
-﻿using QIQO.Monitor.SQLServer.Data;
+﻿using Microsoft.Extensions.Logging;
 using QIQO.Monitor.Core.Contracts;
+using QIQO.Monitor.SQLServer.Data;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Extensions.Logging;
 
 namespace QIQO.Monitor.Api.Services
 {

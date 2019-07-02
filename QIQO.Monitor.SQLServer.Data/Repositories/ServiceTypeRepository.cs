@@ -51,7 +51,7 @@ namespace QIQO.Monitor.SQLServer.Data
             Log.LogInformation("Accessing ServiceTypeRepository Delete function");
             using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_service_type_del", Mapper.MapParamsForDelete(entity));
         }
-        
+
         public override void DeleteByID(int entityKey)
         {
             Log.LogInformation("Accessing ServiceTypeRepository Delete function");

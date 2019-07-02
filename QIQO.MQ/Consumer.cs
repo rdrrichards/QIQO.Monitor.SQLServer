@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using RabbitMQ.Client;
 using RabbitMQ.Client.MessagePatterns;
+using System;
+using System.Collections.Generic;
 
 namespace QIQO.MQ
 {
@@ -14,7 +14,8 @@ namespace QIQO.MQ
         public Consumer(IConfiguration configuration)
         {
             _configuration = configuration;
-            _factory = new ConnectionFactory {
+            _factory = new ConnectionFactory
+            {
                 HostName = _configuration["QueueConfig:Server"],
                 UserName = _configuration["QueueConfig:User"],
                 Password = _configuration["QueueConfig:Password"]

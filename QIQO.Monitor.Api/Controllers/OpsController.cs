@@ -1,6 +1,6 @@
-﻿using System;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using QIQO.Monitor.SQLServer.Data;
+using System;
 
 namespace QIQO.Monitor.Api.Controllers
 {

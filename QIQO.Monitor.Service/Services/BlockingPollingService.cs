@@ -16,7 +16,7 @@ namespace QIQO.Monitor.Service.Services
         private readonly IHubClientService _hubClientService;
 
         public BlockingPollingService(ILogger<BlockingPollingService> logger, IDbContextFactory dbContextFactory,
-            IDataRepositoryFactory dataRepositoryFactory, IHubClientService hubClientService, IHealthService healthService) 
+            IDataRepositoryFactory dataRepositoryFactory, IHubClientService hubClientService, IHealthService healthService)
             : base(logger, dbContextFactory, dataRepositoryFactory, healthService)
         {
             _hubClientService = hubClientService;
@@ -59,7 +59,7 @@ namespace QIQO.Monitor.Service.Services
                         _hubClientService.SendResult(ResultType.Blocking, new PollingMonitorResult(Server, Service, Monitor, ex));
                         AssessUnhealthy();
                     }
-                    
+
                     Thread.Sleep(PollingInterval);
                     if (token.IsCancellationRequested)
                         break;

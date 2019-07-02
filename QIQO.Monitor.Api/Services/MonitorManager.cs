@@ -1,8 +1,7 @@
-﻿using QIQO.Monitor.SQLServer.Data;
-using QIQO.Monitor.Core.Contracts;
+﻿using Microsoft.Extensions.Logging;
+using QIQO.Monitor.SQLServer.Data;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Extensions.Logging;
 
 namespace QIQO.Monitor.Api.Services
 {
@@ -35,7 +34,8 @@ namespace QIQO.Monitor.Api.Services
         {
             var monitorData = _cacheService.GetMonitors().ToList();
             var monitors = new List<Monitor>();
-            monitorData.ForEach(m => {
+            monitorData.ForEach(m =>
+            {
                 var queries = _queryManager.GetQueries(m.MonitorKey);
                 monitors.Add(new Monitor(m, queries));
             });
@@ -45,7 +45,8 @@ namespace QIQO.Monitor.Api.Services
         {
             var monitorData = _cacheService.GetServiceMonitors(serviceKey).ToList();
             var monitors = new List<Monitor>();
-            monitorData.ForEach(m => {
+            monitorData.ForEach(m =>
+            {
                 var queries = _queryManager.GetQueries(m.MonitorKey);
                 monitors.Add(new Monitor(m, queries, GetMonitorProperties(serviceKey, m.MonitorKey)));
             });

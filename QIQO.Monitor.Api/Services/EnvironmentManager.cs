@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
-using QIQO.Monitor.SQLServer.Data;
 using QIQO.Monitor.Core.Contracts;
+using QIQO.Monitor.SQLServer.Data;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -30,45 +30,51 @@ namespace QIQO.Monitor.Api.Services
         }
         public List<Environment> GetEnvironments()
         {
-            return ExecuteOperation(() => {
+            return ExecuteOperation(() =>
+            {
                 return _environmentEntityService.Map(_cacheService.GetEnvironments());
             });
         }
         public List<Environment> GetServiceEnvironments(int serviceKey)
         {
-            return ExecuteOperation(() => {
+            return ExecuteOperation(() =>
+            {
                 return _environmentEntityService.Map(_cacheService.GetServiceEnvironments(serviceKey));
             });
         }
         public List<Environment> GetServerEnvironments(int serviceKey)
         {
-            return ExecuteOperation(() => {
+            return ExecuteOperation(() =>
+            {
                 return _environmentEntityService.Map(_cacheService.GetServiceEnvironments(serviceKey));
             });
         }
         public Environment AddEnvironment(EnvironmentAdd environment)
         {
-            return ExecuteOperation(() => {
+            return ExecuteOperation(() =>
+            {
                 var endData = new EnvironmentData { EnvironmentName = environment.EnvironmentName };
                 _environmentRepository.Insert(endData);
                 _cacheService.RefreshCache();
                 return GetEnvironments().FirstOrDefault(e => e.EnvironmentName == environment.EnvironmentName);
             });
-            
+
         }
         public Environment UpdateEnvironment(int environmentKey, EnvironmentUpdate environment)
         {
-            return ExecuteOperation(() => {
+            return ExecuteOperation(() =>
+            {
                 var endData = new EnvironmentData { EnvironmentKey = environmentKey, EnvironmentName = environment.EnvironmentName };
                 _environmentRepository.Save(endData);
                 _cacheService.RefreshCache();
                 return GetEnvironments().FirstOrDefault(e => e.EnvironmentKey == environmentKey);
             });
-            
+
         }
         public void DeleteEnvironment(int environmentKey)
         {
-            ExecuteOperation(() => {
+            ExecuteOperation(() =>
+            {
                 var endData = new EnvironmentData { EnvironmentKey = environmentKey };
                 _environmentRepository.Delete(endData);
                 _cacheService.RefreshCache();

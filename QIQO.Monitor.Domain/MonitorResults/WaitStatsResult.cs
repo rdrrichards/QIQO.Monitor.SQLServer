@@ -29,7 +29,7 @@ namespace QIQO.Monitor.Domain
         public decimal WaitPercentage { get; }
         public decimal AvgWaitSec { get; }
         public decimal AvgResSec { get; }
-        public decimal AvgSigSec { get;}
+        public decimal AvgSigSec { get; }
         public decimal WaitSec { get; }
         public decimal ResourceSec { get; }
         public decimal SignalSec { get; }

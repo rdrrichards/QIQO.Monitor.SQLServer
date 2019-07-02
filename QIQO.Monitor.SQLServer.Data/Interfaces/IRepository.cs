@@ -17,7 +17,8 @@ namespace QIQO.Monitor.SQLServer.Data
     public interface IEnvironmentRepository : IRepository<EnvironmentData> { }
     public interface IEnvironmentServerRepository : IRepository<EnvironmentServerData> { }
     public interface IEnvironmentServiceRepository : IRepository<EnvironmentServiceData> { }
-    public interface IServiceMonitorRepository : IRepository<ServiceMonitorData> {
+    public interface IServiceMonitorRepository : IRepository<ServiceMonitorData>
+    {
         IEnumerable<ServiceMonitorData> GetAll(int service_key, int monitor_key);
     }
     public interface IServiceMonitorAttributeRepository : IRepository<ServiceMonitorAttributeData>
@@ -49,10 +50,12 @@ namespace QIQO.Monitor.SQLServer.Data
     {
         IEnumerable<HardwareData> Get(string queryText);
     }
-    public interface IBlockingRepository : IReadRepository<BlockingData> {
+    public interface IBlockingRepository : IReadRepository<BlockingData>
+    {
         IEnumerable<BlockingData> Get(string queryText);
     }
-    public interface IOpenTransactionRepository : IReadRepository<OpenTransactionData> {
+    public interface IOpenTransactionRepository : IReadRepository<OpenTransactionData>
+    {
         IEnumerable<OpenTransactionData> Get(string queryText);
     }
     public interface IEnvironmentMap : IMapper<EnvironmentData> { }
@@ -70,7 +73,8 @@ namespace QIQO.Monitor.SQLServer.Data
     }
 
     public interface IWaitStatsLogMap : IMapper<WaitStatsLogData> { }
-    public interface IWaitStatsLogRepository : IRepository<WaitStatsLogData> {
+    public interface IWaitStatsLogRepository : IRepository<WaitStatsLogData>
+    {
         IEnumerable<WaitStatsLogData> Get(int serviceKey);
         IEnumerable<WaitStatsLogData> Get(int serviceKey, int sampleCount);
         IEnumerable<WaitStatsLogData> Get(int serviceKey, DateTime startDate, DateTime endDate);

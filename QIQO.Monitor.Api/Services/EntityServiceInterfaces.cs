@@ -8,7 +8,8 @@ namespace QIQO.Monitor.Api
     public interface IMonitorEntityService : IEntityService<Monitor, MonitorData> { }
     public interface IQueryEntityService : IEntityService<Query, QueryData> { }
     public interface IEnvironmentEntityService : IEntityService<Environment, EnvironmentData> { }
-    public interface IMonitorPropertiesEntityService {
+    public interface IMonitorPropertiesEntityService
+    {
         MonitorProperty Map(ServiceMonitorAttributeData serviceMonitorAttributeData,
             AttributeTypeData attributeTypeData, AttributeDataTypeData attributeDataTypeData);
     }

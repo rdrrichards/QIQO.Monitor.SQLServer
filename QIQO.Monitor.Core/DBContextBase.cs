@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using QIQO.Monitor.Core.Contracts;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using Microsoft.Extensions.Logging;
-using QIQO.Monitor.Core.Contracts;
 
 namespace QIQO.Monitor.Core
 {

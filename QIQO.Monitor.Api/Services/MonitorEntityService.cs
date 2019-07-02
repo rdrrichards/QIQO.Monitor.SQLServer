@@ -6,7 +6,8 @@ namespace QIQO.Monitor.Api
     {
         public Monitor Map(MonitorData ent) => new Monitor(ent);
 
-        public MonitorData Map(Monitor ent) => new MonitorData {
+        public MonitorData Map(Monitor ent) => new MonitorData
+        {
             MonitorKey = ent.MonitorKey,
             MonitorName = ent.MonitorName,
             MonitorTypeKey = (int)ent.MonitorType,

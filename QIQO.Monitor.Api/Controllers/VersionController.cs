@@ -1,7 +1,7 @@
-﻿using System.Linq;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using QIQO.Monitor.Api.Services;
 using QIQO.Monitor.SQLServer.Data;
+using System.Linq;
 
 namespace QIQO.Monitor.Api.Controllers
 {
@@ -11,7 +11,7 @@ namespace QIQO.Monitor.Api.Controllers
     {
         private readonly IServiceManager _serviceManager;
 
-        public VersionController(IDbContextFactory dbContextFactory, 
+        public VersionController(IDbContextFactory dbContextFactory,
             IDataRepositoryFactory repositoryFactory, IServiceManager serviceManager) : base(dbContextFactory, repositoryFactory)
         {
             _serviceManager = serviceManager;

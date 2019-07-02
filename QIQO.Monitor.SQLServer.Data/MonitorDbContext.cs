@@ -2,10 +2,6 @@
 using Microsoft.Extensions.Logging;
 using QIQO.Monitor.Core;
 using QIQO.Monitor.Core.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
 
 namespace QIQO.Monitor.SQLServer.Data
 {

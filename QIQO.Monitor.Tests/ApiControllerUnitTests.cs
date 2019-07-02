@@ -147,7 +147,7 @@ namespace QIQO.Monitor.Tests
             var rf = new Mock<IDataRepositoryFactory>();
             var sm = new Mock<IServiceManager>();
             var repo = new Mock<IBlockingRepository>();
-            sm.Setup(m => m.GetServices()).Returns(new List<Api.Service>{data});
+            sm.Setup(m => m.GetServices()).Returns(new List<Api.Service> { data });
             rf.Setup(m => m.GetDataRepository<IBlockingRepository>()).Returns(repo.Object);
 
             // Act
@@ -409,7 +409,7 @@ namespace QIQO.Monitor.Tests
         {
             // Arrange
             var newData = new Api.EnvironmentAdd { EnvironmentName = "Test" };
-            var data = new EnvironmentData  { EnvironmentKey = 1, EnvironmentName = "Test" };
+            var data = new EnvironmentData { EnvironmentKey = 1, EnvironmentName = "Test" };
             var obj = new Api.Environment(new EnvironmentData { EnvironmentKey = 1, EnvironmentName = "Test" });
             var em = new Mock<IEnvironmentManager>();
             em.Setup(m => m.AddEnvironment(It.IsAny<Api.EnvironmentAdd>())).Returns(obj);

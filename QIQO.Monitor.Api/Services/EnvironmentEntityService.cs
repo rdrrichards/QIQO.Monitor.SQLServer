@@ -6,7 +6,8 @@ namespace QIQO.Monitor.Api
     {
         public Environment Map(EnvironmentData ent) => new Environment(ent);
 
-        public EnvironmentData Map(Environment ent) => new EnvironmentData {
+        public EnvironmentData Map(Environment ent) => new EnvironmentData
+        {
             EnvironmentKey = ent.EnvironmentKey,
             EnvironmentName = ent.EnvironmentName
         };

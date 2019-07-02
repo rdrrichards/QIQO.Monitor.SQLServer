@@ -66,8 +66,15 @@ namespace QIQO.Monitor.Tests
         public void ServiceEntityServiceTest()
         {
             // Arrange
-            var data = new ServiceData { ServiceKey = 1, ServiceName = "Test", InstanceName = "I1",
-                ServerKey = 1, ServiceSource = "Test", ServiceTypeKey = 1 };
+            var data = new ServiceData
+            {
+                ServiceKey = 1,
+                ServiceName = "Test",
+                InstanceName = "I1",
+                ServerKey = 1,
+                ServiceSource = "Test",
+                ServiceTypeKey = 1
+            };
             var model = new Api.Service(data);
             // Act
             var es = new ServiceEntityService();

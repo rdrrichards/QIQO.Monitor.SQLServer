@@ -22,7 +22,8 @@ namespace QIQO.Monitor.Service
             }
         }
         public PollingMonitorResult(Server server, Service service, Monitor monitor, Exception exception) :
-            this(server, service, monitor, null, exception) { }
+            this(server, service, monitor, null, exception)
+        { }
         public IMonitorResult? MonitorResult { get; }
         public bool HasError { get; } = false;
         public MonitorException? Exception { get; } = null;

@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using QIQO.Monitor.Core;
-using System;
 using System.Collections.Generic;
 
 namespace QIQO.Monitor.SQLServer.Data

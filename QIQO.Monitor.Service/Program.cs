@@ -1,14 +1,11 @@
-﻿using System;
+﻿using Microsoft.AspNetCore;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Logging;
+using NLog.Web;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Hosting.WindowsServices;
-using Microsoft.AspNetCore.Server.Kestrel.Https.Internal;
-using Microsoft.Extensions.Logging;
-using NLog.Web;
 
 namespace QIQO.Monitor.Service
 {
@@ -70,17 +67,17 @@ namespace QIQO.Monitor.Service
                 })
                 .UseNLog()
                 .UseStartup<Startup>();
-                //*** At some point, I would really like to use SSL in this service
-                //.ConfigureKestrel((context, options) =>
-                //{
-                //    options.ListenAnyIP(7377, listenOptions =>
-                //    {
-                //        var signingCertificate = CertificateLoader.LoadFromStoreCert(
-                //            "QIQO Software", "(null)", StoreLocation.CurrentUser,
-                //            allowInvalid: true);
-                //        // var signingCertificate = new X509Certificate2(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "qiqo-cert.pfx"));
-                //        listenOptions.UseHttps(signingCertificate);
-                //    });
-                //});
+        //*** At some point, I would really like to use SSL in this service
+        //.ConfigureKestrel((context, options) =>
+        //{
+        //    options.ListenAnyIP(7377, listenOptions =>
+        //    {
+        //        var signingCertificate = CertificateLoader.LoadFromStoreCert(
+        //            "QIQO Software", "(null)", StoreLocation.CurrentUser,
+        //            allowInvalid: true);
+        //        // var signingCertificate = new X509Certificate2(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "qiqo-cert.pfx"));
+        //        listenOptions.UseHttps(signingCertificate);
+        //    });
+        //});
     }
 }

@@ -51,7 +51,7 @@ namespace QIQO.Monitor.SQLServer.Data
             Log.LogInformation("Accessing MonitorRepository Delete function");
             using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_monitor_del", Mapper.MapParamsForDelete(entity));
         }
-        
+
         public override void DeleteByID(int entityKey)
         {
             Log.LogInformation("Accessing MonitorRepository Delete function");

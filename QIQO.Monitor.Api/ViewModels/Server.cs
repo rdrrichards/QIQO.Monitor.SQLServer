@@ -31,5 +31,5 @@ namespace QIQO.Monitor.Api
         public List<Service> Services { get; } = new List<Service>();
         public List<Environment> Environments { get; } = new List<Environment>();
     }
-    
+
 }

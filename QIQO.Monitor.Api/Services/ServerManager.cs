@@ -1,7 +1,7 @@
-﻿using QIQO.Monitor.SQLServer.Data;
+﻿using Microsoft.Extensions.Logging;
+using QIQO.Monitor.SQLServer.Data;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Extensions.Logging;
 
 namespace QIQO.Monitor.Api.Services
 {
@@ -19,7 +19,7 @@ namespace QIQO.Monitor.Api.Services
         private readonly IServerRepository _serverRepository;
         private readonly IServiceManager _serviceManager;
 
-        public ServerManager(ILogger<ServerManager> logger, ICoreCacheService cacheService, 
+        public ServerManager(ILogger<ServerManager> logger, ICoreCacheService cacheService,
             IEnvironmentManager environmentManager, IServerRepository serverRepository, IServiceManager serviceManager) : base(logger)
         {
             _cacheService = cacheService;

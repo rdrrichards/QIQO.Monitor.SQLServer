@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using QIQO.Monitor.Api.Services;
 using QIQO.Monitor.SQLServer.Data;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace QIQO.Monitor.Api.Controllers
 {
@@ -12,7 +12,7 @@ namespace QIQO.Monitor.Api.Controllers
     {
         private readonly IServiceManager _serviceManager;
 
-        public OpenTransactionController(IDbContextFactory dbContextFactory, 
+        public OpenTransactionController(IDbContextFactory dbContextFactory,
             IDataRepositoryFactory repositoryFactory, IServiceManager serviceManager) : base(dbContextFactory, repositoryFactory)
         {
             _serviceManager = serviceManager;

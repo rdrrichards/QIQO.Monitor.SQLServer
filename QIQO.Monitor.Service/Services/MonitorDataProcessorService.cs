@@ -8,7 +8,8 @@ using System.Collections.Generic;
 
 namespace QIQO.Monitor.Service
 {
-    public interface IMonitorDataProcessorService {
+    public interface IMonitorDataProcessorService
+    {
         void StartProcessing();
     }
     public class MonitorDataProcessorService : IMonitorDataProcessorService
@@ -57,7 +58,7 @@ namespace QIQO.Monitor.Service
             {
                 _logger.LogError($"Error processing {monitorDataType} data in MonitorDataProcessorService", ex);
                 return false;
-            }            
+            }
         }
     }
 }

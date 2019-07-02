@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using QIQO.Monitor.Service.Polling;
 using QIQO.Monitor.Service.Services;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace QIQO.Monitor.Service
@@ -40,7 +39,7 @@ namespace QIQO.Monitor.Service
             server.Services.Where(s => s.ServiceType == ServiceType.SqlServer).ToList().ForEach(service =>
             {
                 _logger.LogInformation($"Beginning to monitor Sql Server {service.ServiceSource}");
-                service.Monitors.ForEach(monitor => 
+                service.Monitors.ForEach(monitor =>
                 {
                     switch (monitor.MonitorCategory)
                     {
@@ -60,7 +59,7 @@ namespace QIQO.Monitor.Service
                         default:
                             break;
                     }
-                });                
+                });
             });
         }
     }

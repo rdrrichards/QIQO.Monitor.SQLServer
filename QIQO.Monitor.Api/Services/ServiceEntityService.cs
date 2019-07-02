@@ -6,7 +6,8 @@ namespace QIQO.Monitor.Api
     {
         public Service Map(ServiceData ent) => new Service(ent);
 
-        public ServiceData Map(Service ent) => new ServiceData {
+        public ServiceData Map(Service ent) => new ServiceData
+        {
             ServiceKey = ent.ServiceKey,
             ServiceName = ent.ServiceName,
             InstanceName = ent.InstanceName,

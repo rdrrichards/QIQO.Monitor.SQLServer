@@ -17,7 +17,7 @@ namespace QIQO.Monitor.Service.Services
         private readonly IHubClientService _hubClientService;
 
         public OpenTransactionPollingService(ILogger<OpenTransactionPollingService> logger, IDbContextFactory dbContextFactory,
-            IDataRepositoryFactory dataRepositoryFactory, IHubClientService hubClientService, IHealthService healthService) 
+            IDataRepositoryFactory dataRepositoryFactory, IHubClientService hubClientService, IHealthService healthService)
             : base(logger, dbContextFactory, dataRepositoryFactory, healthService)
         {
             _hubClientService = hubClientService;

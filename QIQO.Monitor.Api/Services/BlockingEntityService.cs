@@ -6,7 +6,7 @@ using System;
 namespace QIQO.Monitor.Api.Services
 {
     public interface IBlockingEntityService : IEntityService<Blocking, BlockingData> { }
-    public class BlockingEntityService: IBlockingEntityService
+    public class BlockingEntityService : IBlockingEntityService
     {
         public Blocking Map(BlockingData ent) => new Blocking(ent.LockType, ent.Database, ent.BlockObject,
                 ent.LockRequest, ent.WaiterSid, ent.WaitTime, ent.WaiterBatch,
