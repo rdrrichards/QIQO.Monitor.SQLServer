@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using QIQO.Monitor.Api.Services;
 using QIQO.Monitor.SQLServer.Data;
@@ -24,6 +24,7 @@ namespace QIQO.Monitor.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMemoryCache();
             services.AddCors(options =>
             {
                 options.AddPolicy("AnyOrigin", builder =>
@@ -37,12 +38,13 @@ namespace QIQO.Monitor.Api
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc(Configuration["Swagger:Version"],
-                    new Info
+                    new Microsoft.OpenApi.Models.OpenApiInfo
                     {
                         Title = Configuration["Swagger:ApplicationName"],
                         Version = Configuration["Swagger:Version"],
                         Description = Configuration["Swagger:Description"]
-                    });
+                    }
+                    );
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, $"{Assembly.GetExecutingAssembly().GetName().Name}.xml");
                 c.IncludeXmlComments(xmlPath);
             });
@@ -51,11 +53,11 @@ namespace QIQO.Monitor.Api
             services.AddSingleton<IResultsCacheService, ResultsCacheService>();
             services.AddDataAccess();
             services.AddEntityServices();
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -72,8 +74,12 @@ namespace QIQO.Monitor.Api
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", Configuration["Swagger:ApplicationName"]);
             });
             app.UseHttpsRedirection();
+            // app.UseStaticFiles();
             app.UseCors("AnyOrigin");
-            app.UseMvc();
+            app.UseRouting();
+            app.UseEndpoints(endpoints => {
+                endpoints.MapControllers();
+            });
         }
     }
 }
