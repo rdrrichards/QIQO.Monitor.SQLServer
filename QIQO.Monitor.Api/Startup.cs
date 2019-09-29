@@ -50,7 +50,7 @@ namespace QIQO.Monitor.Api
             });
 
 
-            services.AddSingleton<IResultsCacheService, ResultsCacheService>();
+            //services.AddSingleton<IResultsCacheService, ResultsCacheService>();
             services.AddDataAccess();
             services.AddEntityServices();
             services.AddControllers();

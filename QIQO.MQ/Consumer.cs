@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.Configuration;
 using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
 using RabbitMQ.Client.MessagePatterns;
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace QIQO.MQ
 {
@@ -31,25 +33,21 @@ namespace QIQO.MQ
         }
         private void ProcessMessages(string exchangeName, string queueName, string routingKey, Action<string, string> action)
         {
-            using (var _connection = _factory.CreateConnection())
+            using var _connection = _factory.CreateConnection();
+            using var channel = _connection.CreateModel();
+            channel.ExchangeDeclare(exchangeName, "topic");
+            channel.QueueDeclare(queueName, true, false, false, null);
+            channel.QueueBind(queueName, exchangeName, routingKey);
+            channel.BasicQos(0, 10, false);
+            var consumer = new EventingBasicConsumer(channel); //, queueName, false);
+            consumer.Received += (model, ea) =>
             {
-                using (var channel = _connection.CreateModel())
-                {
-                    channel.ExchangeDeclare(exchangeName, "topic");
-                    channel.QueueDeclare(queueName, true, false, false, null);
-                    channel.QueueBind(queueName, exchangeName, routingKey);
-                    channel.BasicQos(0, 10, false);
-                    var subscription = new Subscription(channel, queueName, false);
-
-                    while (true)
-                    {
-                        var deliveryArguments = subscription.Next();
-                        var message = deliveryArguments.Body.DeSerializeText();
-                        action.Invoke(deliveryArguments.RoutingKey, message);
-                        subscription.Ack(deliveryArguments);
-                    }
-                }
-            }
+                var message = ea.Body.DeSerializeText();
+                action.Invoke(ea.RoutingKey, message);
+            };
+            channel.BasicConsume(queue: queueName,
+                          autoAck: true,
+                          consumer: consumer);
         }
         private void ProcessMessages(string exchangeName, string queueName, string routingKey, Func<string, string, bool> action)
         {
@@ -57,29 +55,26 @@ namespace QIQO.MQ
             {
                 {"x-dead-letter-exchange", _configuration["QueueConfig:Monitor:DeadLetterExchange"]}
             };
-            using (var _connection = _factory.CreateConnection())
+            using var _connection = _factory.CreateConnection();
+            using var channel = _connection.CreateModel();
+            channel.ExchangeDeclare(exchangeName, "topic");
+            channel.QueueDeclare(queueName, true, false, false, queueArgs);
+            channel.QueueBind(queueName, exchangeName, routingKey);
+
+            channel.BasicQos(0, 10, false);
+            var consumer = new EventingBasicConsumer(channel); //, queueName, false);
+            consumer.Received += (model, ea) =>
             {
-                using (var channel = _connection.CreateModel())
-                {
-                    channel.ExchangeDeclare(exchangeName, "topic");
-                    channel.QueueDeclare(queueName, true, false, false, queueArgs);
-                    channel.QueueBind(queueName, exchangeName, routingKey);
-
-                    channel.BasicQos(0, 10, false);
-                    var subscription = new Subscription(channel, queueName, false);
-
-                    while (true)
-                    {
-                        var deliveryArguments = subscription.Next();
-                        var message = deliveryArguments.Body.DeSerializeText();
-                        var ret = action.Invoke(deliveryArguments.RoutingKey, message);
-                        if (ret)
-                            subscription.Ack(deliveryArguments);
-                        else
-                            subscription.Nack(deliveryArguments, false, false);
-                    }
-                }
-            }
+                var message = ea.Body.DeSerializeText();
+                var ret = action.Invoke(ea.RoutingKey, message);
+                    //if (ret)
+                    //    //consumer.Ack(ea);
+                    //else
+                    //    //consumer.Nack(ea, false, false);
+                };
+            channel.BasicConsume(queue: queueName,
+                          autoAck: true,
+                          consumer: consumer);
         }
     }
 }

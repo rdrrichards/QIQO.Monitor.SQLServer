@@ -42,6 +42,7 @@ namespace QIQO.Monitor.Core
             }
             finally
             {
+                cmd.Dispose();
                 _connection.Close();
             }
 
@@ -49,7 +50,7 @@ namespace QIQO.Monitor.Core
 
         public virtual int ExecuteNonQuerySQLStatement(string sqlStatement)
         {
-            int ret_val = 0;
+            int ret_val;
             var cmd = new SqlCommand(sqlStatement, _connection) { CommandType = CommandType.Text };
 
             try
@@ -66,6 +67,7 @@ namespace QIQO.Monitor.Core
             }
             finally
             {
+                cmd.Dispose();
                 _connection.Close();
             }
         }
@@ -95,6 +97,7 @@ namespace QIQO.Monitor.Core
             }
             finally
             {
+                cmd.Dispose();
                 _connection.Close();
             }
         }
@@ -129,6 +132,10 @@ namespace QIQO.Monitor.Core
                 Log.LogError(ex.Message);
                 throw ex;
             }
+            finally
+            {
+                cmd.Dispose();
+            }
         }
 
         public SqlDataReader ExecuteProcedureAsSqlDataReader(string procedureName)
@@ -145,6 +152,10 @@ namespace QIQO.Monitor.Core
                 Log.LogError(ex.Message);
                 throw ex;
             }
+            finally
+            {
+                cmd.Dispose();
+            }
         }
 
         public SqlDataReader ExecuteSqlStatementAsSqlDataReader(string sqlStatement)
@@ -160,6 +171,10 @@ namespace QIQO.Monitor.Core
             {
                 Log.LogError(ex.Message);
                 throw ex;
+            }
+            finally
+            {
+                cmd.Dispose();
             }
         }
 

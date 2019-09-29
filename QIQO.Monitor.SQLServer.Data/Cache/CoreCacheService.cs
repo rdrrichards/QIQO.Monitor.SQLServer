@@ -111,8 +111,8 @@ namespace QIQO.Monitor.SQLServer.Data
         public IEnumerable<ServiceData> GetServices(int serverKey) => GetServices().Where(s => s.ServerKey == serverKey);
 
         private MemoryCacheEntryOptions GetMemoryCacheEntryOptions() =>
-            new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromMinutes(20))
-            .SetPriority(CacheItemPriority.NeverRemove);
+            new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromMinutes(20));
+            //.SetPriority(CacheItemPriority.NeverRemove);
 
         public IEnumerable<MonitorData> GetMonitors()
         {
@@ -132,7 +132,7 @@ namespace QIQO.Monitor.SQLServer.Data
         public IEnumerable<EnvironmentData> GetEnvironments()
         {
             if (!_cache.TryGetValue(CoreCacheKeys.Environments, out IEnumerable<EnvironmentData> environments))
-                environments = _cache.Set(CoreCacheKeys.Environments, _environmentRepository.GetAll(), GetMemoryCacheEntryOptions());
+                environments = _cache.Set(CoreCacheKeys.Environments, _environmentRepository.GetAll());
             return environments;
         }
 
