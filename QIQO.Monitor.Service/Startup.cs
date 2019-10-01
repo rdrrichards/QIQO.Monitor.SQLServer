@@ -13,13 +13,13 @@ namespace QIQO.Monitor.Service
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMemoryCache();
+            services.AddSignalR();
             services.AddEntityServices();
             services.AddDataAccess();
             services.AddPollers();
             services.AddTransient<IMQPublisher, MQPublisher>();
             services.AddTransient<IMQConsumer, MQConsumer>();
             services.AddSingleton<IServerManager, ServerManager>();
-            services.AddSignalR();
             services.AddTransient<IHubClientService, HubClientService>();
             services.AddSingleton<IMonitorService, MonitorService>();
             services.AddSingleton<IMonitorDataProcessorService, MonitorDataProcessorService>();
@@ -35,9 +35,10 @@ namespace QIQO.Monitor.Service
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseEndpoints(routes =>
+            app.UseRouting();
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapHub<ResultsHub>("/results");
+                endpoints.MapHub<ResultsHub>("/results");
             });
         }
     }

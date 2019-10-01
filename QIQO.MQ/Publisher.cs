@@ -6,10 +6,6 @@ namespace QIQO.MQ
 {
     public class Publisher
     {
-        private ConnectionFactory _factory;
-        private IConnection _connection;
-        private IModel _model;
-
         private readonly IConfiguration _configuration;
 
         public Publisher(IConfiguration configuration)
@@ -37,35 +33,25 @@ namespace QIQO.MQ
         }
         private void Publish(byte[] message, string exchangeName, string queueName, string routingKey)
         {
-            CreateConnection(exchangeName, queueName, routingKey);
-            _model.BasicPublish(exchangeName, routingKey, null, message);
-            Close();
-        }
-
-        private void CreateConnection(string exchangeName, string queueName, string routingKey)
-        {
-            _factory = new ConnectionFactory
+            var factory = new ConnectionFactory
             {
                 HostName = _configuration["QueueConfig:Server"],
                 UserName = _configuration["QueueConfig:User"],
                 Password = _configuration["QueueConfig:Password"]
             };
             var queueArgs = new Dictionary<string, object>
-            {
-                {"x-dead-letter-exchange", _configuration["QueueConfig:Monitor:DeadLetterExchange"]},
-                // {"x-expires", 30000}
-            };
-            _connection = _factory.CreateConnection();
-            _model = _connection.CreateModel();
-            _model.ExchangeDeclare(exchangeName, "topic");
-
-            _model.QueueDeclare(queueName, true, false, false, queueArgs);
-
-            _model.QueueBind(queueName, exchangeName, routingKey);
-        }
-        private void Close()
-        {
-            _connection.Close();
+                {
+                    {"x-dead-letter-exchange", _configuration["QueueConfig:Monitor:DeadLetterExchange"]},
+                    // {"x-expires", 30000}
+                };
+            using var connection = factory.CreateConnection();
+            using var channel = connection.CreateModel();
+            channel.ExchangeDeclare(exchangeName, "topic");
+            channel.QueueDeclare(queueName, true, false, false, queueArgs);
+            channel.BasicPublish(exchange: exchangeName,
+                                 routingKey: routingKey,
+                                 basicProperties: null,
+                                 body: message);
         }
     }
 }
