@@ -12,7 +12,7 @@ namespace QIQO.Monitor.Service
         {
             _logger = logger;
         }
-        public async Task SendResult(string resultType, string result)
+        public async Task SendResult(int resultType, string result)
         {
             try
             {

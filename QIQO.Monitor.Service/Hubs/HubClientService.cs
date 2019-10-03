@@ -44,7 +44,7 @@ namespace QIQO.Monitor.Service
                 if (connection.State == HubConnectionState.Connected)
                 {
                     // _logger.LogInformation($"HubConnectionState Connected >> {resultType.ToString()}");
-                    await connection.InvokeAsync("SendResult", resultType.ToString(), result);
+                    await connection.InvokeAsync("SendResult", resultType, result);
                 }
             }
             catch (System.Exception ex)
