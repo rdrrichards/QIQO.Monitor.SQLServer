@@ -67,10 +67,10 @@ namespace QIQO.MQ
             {
                 var message = ea.Body.DeSerializeText();
                 var ret = action.Invoke(ea.RoutingKey, message);
-                    //if (ret)
-                    //    //consumer.Ack(ea);
-                    //else
-                    //    //consumer.Nack(ea, false, false);
+                if (ret)
+                        channel.BasicAck(ea.DeliveryTag, false);
+                    else
+                        channel.BasicNack(ea.DeliveryTag, false, false);
                 };
             channel.BasicConsume(queue: queueName,
                           autoAck: true,
