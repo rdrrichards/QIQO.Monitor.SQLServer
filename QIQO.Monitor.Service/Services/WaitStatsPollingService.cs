@@ -15,16 +15,14 @@ namespace QIQO.Monitor.Service.Services
     public interface IWaitStatsPollingService : IPollingService { }
     public class WaitStatsPollingService : PollingServiceBase<WaitStatsData>, IWaitStatsPollingService
     {
-        private readonly IHubClientService _hubClientService;
         private readonly IConfiguration _configuration;
         private readonly IMQPublisher _qPublisher;
 
         public WaitStatsPollingService(ILogger<WaitStatsPollingService> logger, IDbContextFactory dbContextFactory,
-            IDataRepositoryFactory dataRepositoryFactory, IHubClientService hubClientService, IHealthService healthService,
+            IDataRepositoryFactory dataRepositoryFactory, IHealthService healthService,
             IConfiguration configuration, IMQPublisher qPublisher)
             : base(logger, dbContextFactory, dataRepositoryFactory, healthService)
         {
-            _hubClientService = hubClientService;
             _configuration = configuration;
             PollingInterval = int.TryParse(_configuration["Polling:WaitStatsPollingInterval"], out int interval) ? interval : (1000 * 60 * 5);
             _qPublisher = qPublisher;

@@ -46,7 +46,7 @@ namespace QIQO.MQ
                 };
             using var connection = factory.CreateConnection();
             using var channel = connection.CreateModel();
-            channel.ExchangeDeclare(exchangeName, "topic");
+            channel.ExchangeDeclare(exchangeName, ExchangeType.Topic);
             channel.QueueDeclare(queueName, true, false, false, queueArgs);
             channel.BasicPublish(exchange: exchangeName,
                                  routingKey: routingKey,

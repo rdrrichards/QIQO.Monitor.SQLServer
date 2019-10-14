@@ -34,10 +34,6 @@ namespace QIQO.Monitor.Service
             _qConsumer.Dequeue(_configuration["QueueConfig:Monitor:Exchange"],
                                 _configuration["QueueConfig:Monitor:AddQueue"], "#", ProcessMonitorData);
         }
-        private void ProcessMonitorDataA(string monitorDataType, string dataJSON)
-        {
-            _logger.LogDebug($"{monitorDataType}: {dataJSON}");
-        }
         private bool ProcessMonitorData(string monitorDataType, string dataJSON)
         {
             try

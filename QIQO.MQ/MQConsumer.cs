@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using System;
 
 namespace QIQO.MQ
@@ -10,7 +11,7 @@ namespace QIQO.MQ
     }
     public class MQConsumer : Consumer, IMQConsumer
     {
-        public MQConsumer(IConfiguration configuration) : base(configuration) { }
+        public MQConsumer(IConfiguration configuration, ILogger<MQConsumer> logger) : base(configuration, logger) { }
         public void Dequeue(string exchangeName, string queueName, string routingKey, Action<string, string> action)
         {
             ReceiveMessages(exchangeName, queueName, routingKey, action);
