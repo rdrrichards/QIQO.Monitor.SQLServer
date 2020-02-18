@@ -30,7 +30,7 @@ namespace QIQO.Monitor.Core
                     var rows = new List<T>();
                     while (dr.Read())
                         rows.Add(Mapper.Map(dr));
-                    dr.Dispose();
+                    // dr.Dispose();
                     return rows;
                 }
                 catch (Exception ex)
@@ -38,6 +38,10 @@ namespace QIQO.Monitor.Core
                     Log.LogError(ex.Message);
                     Log.LogError(ex.StackTrace);
                     throw;
+                }
+                finally
+                {
+                    dr.Dispose();
                 }
             else return new List<T>();
         }
@@ -57,6 +61,10 @@ namespace QIQO.Monitor.Core
                     Log.LogError(ex.Message);
                     Log.LogError(ex.StackTrace);
                     throw;
+                }
+                finally
+                {
+                    dr.Dispose();
                 }
             else return new T();
         }
