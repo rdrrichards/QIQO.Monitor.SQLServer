@@ -4,6 +4,7 @@ using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace QIQO.MQ
 {
@@ -45,7 +46,8 @@ namespace QIQO.MQ
                 consumer.Received += (model, ea) =>
                 {
                     _logger.LogInformation($"ProcessMessages (Action) Received Routing Key: {ea.RoutingKey}");
-                    var message = ea.Body.DeSerializeText();
+                    var body = ea.Body.Span;
+                    var message = Encoding.UTF8.GetString(body);
                     // _logger.LogInformation($"ProcessMessages (Action) Received Message {message}");
                     action.Invoke(ea.RoutingKey, message);
                 };
@@ -71,7 +73,8 @@ namespace QIQO.MQ
             consumer.Received += (model, ea) =>
             {
                 _logger.LogInformation($"ProcessMessages (Func) Received Routing Key: {ea.RoutingKey}");
-                var message = ea.Body.DeSerializeText();
+                var body = ea.Body.Span;
+                var message = Encoding.UTF8.GetString(body);
                 // _logger.LogInformation($"ProcessMessages (Func) Received Message {message}");
                 var ret = action.Invoke(ea.RoutingKey, message);
                 if (ret)
