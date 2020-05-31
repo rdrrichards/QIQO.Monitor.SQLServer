@@ -35,7 +35,6 @@ namespace QIQO.Monitor.Core
                 }
                 catch (Exception ex)
                 {
-                    Log.LogError(ex.Message);
                     Log.LogError(ex.StackTrace);
                     throw;
                 }
@@ -58,7 +57,6 @@ namespace QIQO.Monitor.Core
                 }
                 catch (Exception ex)
                 {
-                    Log.LogError(ex.Message);
                     Log.LogError(ex.StackTrace);
                     throw;
                 }
