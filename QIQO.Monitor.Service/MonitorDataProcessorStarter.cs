@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace QIQO.Monitor.Service
 {
-    public class MonitorDataProcessorStarter : IHostedService
+    public class MonitorDataProcessorStarter : BackgroundService
     {
         private readonly IServiceProvider _serviceProvider;
 
@@ -14,7 +14,7 @@ namespace QIQO.Monitor.Service
         {
             _serviceProvider = serviceProvider;
         }
-        public Task StartAsync(CancellationToken cancellationToken)
+        protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
             using (var scope = _serviceProvider.CreateScope())
             {
@@ -22,11 +22,6 @@ namespace QIQO.Monitor.Service
                     scope.ServiceProvider
                         .GetRequiredService<IMonitorDataProcessorService>();
             }
-            return Task.CompletedTask;
-        }
-
-        public Task StopAsync(CancellationToken cancellationToken)
-        {
             return Task.CompletedTask;
         }
     }
