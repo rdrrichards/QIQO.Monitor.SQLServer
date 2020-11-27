@@ -38,7 +38,7 @@ namespace QIQO.Monitor.Core
             catch (Exception ex)
             {
                 Log.LogError(ex.Message);
-                throw ex;
+                throw;
             }
             finally
             {
@@ -63,7 +63,7 @@ namespace QIQO.Monitor.Core
             catch (Exception ex)
             {
                 Log.LogError(ex.Message);
-                throw ex;
+                throw;
             }
             finally
             {
@@ -93,7 +93,7 @@ namespace QIQO.Monitor.Core
             catch (Exception ex)
             {
                 Log.LogError(ex.Message);
-                throw ex;
+                throw;
             }
             finally
             {
@@ -130,7 +130,7 @@ namespace QIQO.Monitor.Core
             catch (Exception ex)
             {
                 Log.LogError(ex.Message);
-                throw ex;
+                throw;
             }
             finally
             {
@@ -150,7 +150,7 @@ namespace QIQO.Monitor.Core
             catch (Exception ex)
             {
                 Log.LogError(ex.Message);
-                throw ex;
+                throw;
             }
             finally
             {
@@ -170,7 +170,7 @@ namespace QIQO.Monitor.Core
             catch (Exception ex)
             {
                 Log.LogError(ex.Message);
-                throw ex;
+                throw;
             }
             finally
             {
