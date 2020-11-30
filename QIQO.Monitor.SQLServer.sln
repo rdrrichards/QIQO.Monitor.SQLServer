@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.271
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QIQO.Monitor.SQLServer.Data", "QIQO.Monitor.SQLServer.Data\QIQO.Monitor.SQLServer.Data.csproj", "{919D4E2A-0CE2-4A6C-9EE0-2E3136E4851F}"
 EndProject
@@ -10,8 +10,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QIQO.Monitor.Tests", "QIQO.Monitor.Tests\QIQO.Monitor.Tests.csproj", "{1E5F65E8-241A-4795-8475-CCD5C01B2BF2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QIQO.Monitor.Api", "QIQO.Monitor.Api\QIQO.Monitor.Api.csproj", "{A8726579-6FA3-4BCD-92AC-200E21167CF9}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QIQO.Monitor.Service", "QIQO.Monitor.Service\QIQO.Monitor.Service.csproj", "{D7227A0B-6A96-49B0-B678-DBCC8842ECD8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QIQO.Monitor.Domain", "QIQO.Monitor.Domain\QIQO.Monitor.Domain.csproj", "{A84ED4B9-8BDE-4B78-8BAC-A70959290D81}"
 EndProject
@@ -39,10 +37,6 @@ Global
 		{A8726579-6FA3-4BCD-92AC-200E21167CF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A8726579-6FA3-4BCD-92AC-200E21167CF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A8726579-6FA3-4BCD-92AC-200E21167CF9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D7227A0B-6A96-49B0-B678-DBCC8842ECD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D7227A0B-6A96-49B0-B678-DBCC8842ECD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D7227A0B-6A96-49B0-B678-DBCC8842ECD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D7227A0B-6A96-49B0-B678-DBCC8842ECD8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A84ED4B9-8BDE-4B78-8BAC-A70959290D81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A84ED4B9-8BDE-4B78-8BAC-A70959290D81}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A84ED4B9-8BDE-4B78-8BAC-A70959290D81}.Release|Any CPU.ActiveCfg = Release|Any CPU
