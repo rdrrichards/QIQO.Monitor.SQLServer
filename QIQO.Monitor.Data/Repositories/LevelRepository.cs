@@ -1,0 +1,66 @@
+﻿using Microsoft.Extensions.Logging;
+using QIQO.Monitor.Core;
+using System;
+using System.Collections.Generic;
+using System.Data.SqlClient;
+
+namespace QIQO.Monitor.Data
+{
+    public class LevelRepository : RepositoryBase<LevelData>,
+                                     ILevelRepository
+    {
+        private readonly IMonitorDbContext entityContext;
+        public LevelRepository(IMonitorDbContext dbc, ILevelMap map, ILogger<LevelData> log) : base(log, map)
+        {
+            entityContext = dbc;
+        }
+
+        public override IEnumerable<LevelData> GetAll()
+        {
+            Log.LogInformation("Accessing LevelRepository GetAll function");
+            using (entityContext) return MapRows(entityContext.ExecuteProcedureAsSqlDataReader("usp_level_all"));
+        }
+
+        public override LevelData GetByID(int level_key)
+        {
+            Log.LogInformation("Accessing LevelRepository GetByID function");
+            var pcol = new List<SqlParameter>() { Mapper.BuildParam("@level_key", level_key) };
+            using (entityContext) return MapRow(entityContext.ExecuteProcedureAsSqlDataReader("usp_level_get", pcol));
+        }
+
+        public override void Insert(LevelData entity)
+        {
+            Log.LogInformation("Accessing LevelRepository Insert function");
+            if (entity != null)
+                Upsert(entity);
+            else
+                throw new ArgumentException(nameof(entity));
+        }
+
+        public override void Save(LevelData entity)
+        {
+            Log.LogInformation("Accessing LevelRepository Save function");
+            if (entity != null)
+                Upsert(entity);
+            else
+                throw new ArgumentException(nameof(entity));
+        }
+
+        public override void Delete(LevelData entity)
+        {
+            Log.LogInformation("Accessing LevelRepository Delete function");
+            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_level_del", Mapper.MapParamsForDelete(entity));
+        }
+
+        public override void DeleteByID(int entityKey)
+        {
+            Log.LogInformation("Accessing LevelRepository Delete function");
+            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_level_del", Mapper.MapParamsForDelete(entityKey));
+        }
+
+        private void Upsert(LevelData entity)
+        {
+            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_level_ups", Mapper.MapParamsForUpsert(entity));
+        }
+    }
+}
