@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using QIQO.Monitor.Core.Contracts;
+﻿using QIQO.Monitor.Core.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -10,18 +9,11 @@ namespace QIQO.Monitor.Core
         where T : class, IEntity, new()
     {
         protected readonly IMapper<T> Mapper;
-        protected readonly ILogger<T> Log;
 
-        public RepositoryBase(ILogger<T> logger, IMapper<T> map)
+        public RepositoryBase(IMapper<T> map)
         {
-            Log = logger;
             Mapper = map;
         }
-
-        // What steps would we need to take in order to make this happen?
-        //  Mapper<T> - which could be tricky since we want to avoid using reflection
-        //  We could use a mapper factory and get the mapper class from the container
-        //          This would entail creating a mapper interface, which shouldn't be difficult
         protected IEnumerable<T> MapRows(DbDataReader dr)
         {
             if (!dr.IsClosed)
@@ -33,10 +25,8 @@ namespace QIQO.Monitor.Core
                     // dr.Dispose();
                     return rows;
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    Log.LogError(ex.Message);
-                    Log.LogError(ex.StackTrace);
                     throw;
                 }
                 finally
@@ -56,10 +46,8 @@ namespace QIQO.Monitor.Core
                     else
                         return new T();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    Log.LogError(ex.Message);
-                    Log.LogError(ex.StackTrace);
                     throw;
                 }
                 finally
@@ -70,10 +58,8 @@ namespace QIQO.Monitor.Core
         }
 
         public abstract void Delete(T entity);
-        // public abstract void DeleteByCode(string entity_code);
         public abstract void DeleteByID(int entity_key);
         public abstract IEnumerable<T> GetAll();
-        // public abstract T GetByCode(string account_code, string entity_code);
         public abstract T GetByID(int entity_key);
         public abstract void Insert(T entity);
         public abstract void Save(T entity);

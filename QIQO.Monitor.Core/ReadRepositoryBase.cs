@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using QIQO.Monitor.Core.Contracts;
+﻿using QIQO.Monitor.Core.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Data.Common;
@@ -10,18 +9,11 @@ namespace QIQO.Monitor.Core
         where T : class, IEntity, new()
     {
         protected readonly IReadMapper<T> Mapper;
-        protected readonly ILogger<T> Log;
-
-        public ReadRepositoryBase(ILogger<T> logger, IReadMapper<T> map)
+     
+        public ReadRepositoryBase(IReadMapper<T> map)
         {
-            Log = logger;
             Mapper = map;
         }
-
-        // What steps would we need to take in order to make this happen?
-        //  Mapper<T> - which could be tricky since we want to avoid using reflection
-        //  We could use a mapper factory and get the mapper class from the container
-        //          This would entail creating a mapper interface, which shouldn't be difficult
         protected IEnumerable<T> MapRows(DbDataReader dr)
         {
             if (!dr.IsClosed)
@@ -33,9 +25,8 @@ namespace QIQO.Monitor.Core
                     // dr.Dispose();
                     return rows;
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    Log.LogError(ex.StackTrace);
                     throw;
                 }
                 finally
@@ -55,9 +46,8 @@ namespace QIQO.Monitor.Core
                     else
                         return new T();
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
-                    Log.LogError(ex.StackTrace);
                     throw;
                 }
                 finally
@@ -66,7 +56,6 @@ namespace QIQO.Monitor.Core
                 }
             else return new T();
         }
-
         public abstract IEnumerable<T> Get();
     }
 }

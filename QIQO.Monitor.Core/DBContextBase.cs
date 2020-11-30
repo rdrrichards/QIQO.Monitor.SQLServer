@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using QIQO.Monitor.Core.Contracts;
+﻿using QIQO.Monitor.Core.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -10,11 +9,9 @@ namespace QIQO.Monitor.Core
     public class DbContextBase : IDbContext
     {
         protected readonly SqlConnection _connection;
-        protected readonly ILogger<DbContextBase> Log;
 
-        public DbContextBase(ILogger<DbContextBase> logger, string connectionString)
+        public DbContextBase(string connectionString)
         {
-            Log = logger;
             _connection = new SqlConnection(connectionString);
         }
 
@@ -35,9 +32,8 @@ namespace QIQO.Monitor.Core
                 _connection.Close();
                 return ret_val;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Log.LogError(ex.Message);
                 throw;
             }
             finally
@@ -60,9 +56,8 @@ namespace QIQO.Monitor.Core
                 _connection.Close();
                 return ret_val;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Log.LogError(ex.Message);
                 throw;
             }
             finally
@@ -90,9 +85,8 @@ namespace QIQO.Monitor.Core
                 _connection.Close();
                 return ret_val;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Log.LogError(ex.Message);
                 throw;
             }
             finally
@@ -127,9 +121,8 @@ namespace QIQO.Monitor.Core
                 _connection.Open();
                 return cmd.ExecuteReader(CommandBehavior.CloseConnection);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Log.LogError(ex.Message);
                 throw;
             }
             finally
@@ -147,9 +140,8 @@ namespace QIQO.Monitor.Core
                 _connection.Open();
                 return cmd.ExecuteReader(CommandBehavior.CloseConnection);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Log.LogError(ex.Message);
                 throw;
             }
             finally
@@ -167,9 +159,8 @@ namespace QIQO.Monitor.Core
                 _connection.Open();
                 return cmd.ExecuteReader(CommandBehavior.CloseConnection);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Log.LogError(ex.Message);
                 throw;
             }
             finally
