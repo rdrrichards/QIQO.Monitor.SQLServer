@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using QIQO.Monitor.Api.Services;
+using QIQO.Monitor.Domain;
 using QIQO.Monitor.SQLServer.Data;
 using System.Collections.Generic;
 using System.Linq;

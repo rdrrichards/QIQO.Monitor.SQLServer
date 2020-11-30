@@ -25,16 +25,16 @@ namespace QIQO.Monitor.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMemoryCache();
-            services.AddCors(options =>
-            {
-                options.AddPolicy("AnyOrigin", builder =>
-                {
-                    builder
-                        .AllowAnyOrigin()
-                        .AllowAnyHeader()
-                        .AllowAnyMethod();
-                });
-            });
+            //services.AddCors(options =>
+            //{
+            //    options.AddPolicy("AnyOrigin", builder =>
+            //    {
+            //        builder
+            //            .AllowAnyOrigin()
+            //            .AllowAnyHeader()
+            //            .AllowAnyMethod();
+            //    });
+            //});
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc(Configuration["Swagger:Version"],
@@ -51,7 +51,10 @@ namespace QIQO.Monitor.Api
 
 
             //services.AddSingleton<IResultsCacheService, ResultsCacheService>();
-            services.AddDataAccess();
+
+            services.AddDataAccessServices(options => {
+                options.ConnectionString = Configuration["ConnectionStrings:QIQOMonitor"];
+            });
             services.AddEntityServices();
             services.AddControllers();
         }

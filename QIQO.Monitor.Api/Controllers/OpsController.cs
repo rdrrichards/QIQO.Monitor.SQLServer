@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using QIQO.Monitor.SQLServer.Data;
+using QIQO.Monitor.Data;
 using System;
 
 namespace QIQO.Monitor.Api.Controllers

@@ -19,4 +19,13 @@ namespace QIQO.Monitor.Api
         public bool HasError { get; } = false;
         public Exception Exception { get; } = null;
     }
+
+    public enum MonitorCategories
+    {
+        Version = 1,
+        SQLServerHardware,
+        DetectBlocking,
+        OpenTranactions,
+        WaitStatistics
+    }
 }
