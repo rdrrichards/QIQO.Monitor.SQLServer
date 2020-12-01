@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using QIQO.Monitor.Core;
+﻿using QIQO.Monitor.Core;
 using QIQO.Monitor.Core.Contracts;
 
 namespace QIQO.Monitor.SQLServer.Data
@@ -9,7 +7,7 @@ namespace QIQO.Monitor.SQLServer.Data
     public class MonitorDbContext : DbContextBase, IMonitorDbContext //, IDisposable
     {
         // public SQLServerDbContext() : this(null, null) { }
-        public MonitorDbContext(ILogger<MonitorDbContext> logger, IConfiguration configuration) : base(logger, configuration.GetConnectionString("QIQOMonitor"))
+        public MonitorDbContext(string connectionString) : base(connectionString)
         {
             // Log.LogInformation("Hello from the AccountDbContext!");
         }

@@ -1,8 +1,9 @@
-﻿using System;
+﻿using QIQO.Monitor.Core.Contracts;
+using System;
 
 namespace QIQO.Monitor.SQLServer.Data
 {
-    public class OpenTransactionData : CommonData
+    public class OpenTransactionData : IEntity
     {
         public int SessionId { get; set; }
         public string HostName { get; set; }

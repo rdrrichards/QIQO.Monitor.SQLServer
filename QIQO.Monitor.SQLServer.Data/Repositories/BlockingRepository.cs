@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using QIQO.Monitor.Core;
+﻿using QIQO.Monitor.Core;
 using System.Collections.Generic;
 
 namespace QIQO.Monitor.SQLServer.Data
@@ -8,7 +7,7 @@ namespace QIQO.Monitor.SQLServer.Data
     {
         private readonly ISqlServerDbContext entityContext;
 
-        public BlockingRepository(ISqlServerDbContext dbc, IBlockingMap map, ILogger<BlockingData> log) : base(log, map)
+        public BlockingRepository(ISqlServerDbContext dbc, IBlockingMap map) : base(map)
         {
             entityContext = dbc;
         }

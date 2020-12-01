@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using QIQO.Monitor.Core;
+﻿using QIQO.Monitor.Core;
 using System.Collections.Generic;
 
 namespace QIQO.Monitor.SQLServer.Data
@@ -8,8 +7,7 @@ namespace QIQO.Monitor.SQLServer.Data
     {
         private readonly ISqlServerDbContext entityContext;
 
-        public OpenTranactionRepository(ISqlServerDbContext dbc, IOpenTranactionMap map,
-            ILogger<OpenTransactionData> log) : base(log, map)
+        public OpenTranactionRepository(ISqlServerDbContext dbc, IOpenTranactionMap map) : base(map)
         {
             entityContext = dbc;
         }

@@ -1,6 +1,8 @@
-﻿namespace QIQO.Monitor.SQLServer.Data
+﻿using QIQO.Monitor.Core.Contracts;
+
+namespace QIQO.Monitor.SQLServer.Data
 {
-    public class BlockingData : CommonData
+    public class BlockingData : IEntity
     {
         public string LockType { get; set; }
         public string Database { get; set; }

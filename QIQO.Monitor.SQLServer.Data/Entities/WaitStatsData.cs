@@ -1,6 +1,8 @@
-﻿namespace QIQO.Monitor.SQLServer.Data
+﻿using QIQO.Monitor.Core.Contracts;
+
+namespace QIQO.Monitor.SQLServer.Data
 {
-    public class WaitStatsData : CommonData
+    public class WaitStatsData : IEntity
     {
         public long BatchNo { get; set; }
         public string WaitType { get; set; }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using QIQO.Monitor.Core.Contracts;
+using System;
 
 namespace QIQO.Monitor.SQLServer.Data
 {
@@ -9,17 +10,18 @@ namespace QIQO.Monitor.SQLServer.Data
     }
     public class DataRepositoryFactory : IDataRepositoryFactory
     {
-        private IServiceCollection _services;
+        private IServiceProvider _serviceProviders;
 
-        public DataRepositoryFactory(IServiceCollection services)
+        public DataRepositoryFactory(IServiceProvider serviceProviders)
         {
-            _services = services;
+            _serviceProviders = serviceProviders;
         }
 
         public T GetDataRepository<T>() where T : IRepository
         {
-            var p = _services.BuildServiceProvider();
-            return p.GetService<T>();
+            //var p = _services.BuildServiceProvider();
+            return _serviceProviders.GetService<T>();
+            // return default;
         }
 
     }

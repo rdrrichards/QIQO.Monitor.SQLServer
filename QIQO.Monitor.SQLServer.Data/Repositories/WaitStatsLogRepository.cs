@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using QIQO.Monitor.Core;
+﻿using QIQO.Monitor.Core;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -10,19 +9,17 @@ namespace QIQO.Monitor.SQLServer.Data
     {
         private readonly IMonitorDbContext entityContext;
 
-        public WaitStatsLogRepository(IMonitorDbContext dbc, IWaitStatsLogMap map, ILogger<WaitStatsLogData> log) : base(log, map)
+        public WaitStatsLogRepository(IMonitorDbContext dbc, IWaitStatsLogMap map) : base(map)
         {
             entityContext = dbc;
         }
         public IEnumerable<WaitStatsLogData> Get(int serviceKey)
         {
-            Log.LogInformation("Accessing WaitStatsLogRepository Get for analysis function");
             var pcol = new List<SqlParameter>() { Mapper.BuildParam("@service_key", serviceKey) };
             using (entityContext) return MapRows(entityContext.ExecuteProcedureAsSqlDataReader("usp_wait_stats_log_get", pcol));
         }
         public IEnumerable<WaitStatsLogData> Get(int serviceKey, int sampleCount)
         {
-            Log.LogInformation("Accessing WaitStatsLogRepository Get for analysis function");
             var pcol = new List<SqlParameter>() {
                 Mapper.BuildParam("@service_key", serviceKey),
                 Mapper.BuildParam("@sample_count", sampleCount)
@@ -31,7 +28,6 @@ namespace QIQO.Monitor.SQLServer.Data
         }
         public IEnumerable<WaitStatsLogData> Get(int serviceKey, DateTime startDate, DateTime endDate)
         {
-            Log.LogInformation("Accessing WaitStatsLogRepository Get for analysis function");
             var pcol = new List<SqlParameter>() {
                 Mapper.BuildParam("@service_key", serviceKey),
                 Mapper.BuildParam("@start_date", startDate),

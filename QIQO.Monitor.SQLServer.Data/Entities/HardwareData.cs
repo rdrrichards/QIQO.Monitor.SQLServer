@@ -1,8 +1,9 @@
-﻿using System;
+﻿using QIQO.Monitor.Core.Contracts;
+using System;
 
 namespace QIQO.Monitor.SQLServer.Data
 {
-    public class HardwareData : CommonData
+    public class HardwareData : IEntity
     {
         public int LogicalCPUCount { get; set; }
         public int SchedulerCount { get; set; }
