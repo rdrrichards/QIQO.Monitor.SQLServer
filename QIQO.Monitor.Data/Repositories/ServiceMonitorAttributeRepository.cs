@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using QIQO.Monitor.Core;
+﻿using QIQO.Monitor.Core;
 using System;
 using System.Collections.Generic;
 
@@ -9,14 +8,13 @@ namespace QIQO.Monitor.Data
                                      IServiceMonitorAttributeRepository
     {
         private readonly IMonitorDbContext entityContext;
-        public ServiceMonitorAttributeRepository(IMonitorDbContext dbc, IServiceMonitorAttributeMap map, ILogger<ServiceMonitorAttributeData> log) : base(log, map)
+        public ServiceMonitorAttributeRepository(IMonitorDbContext dbc, IServiceMonitorAttributeMap map) : base(map)
         {
             entityContext = dbc;
         }
 
         public override IEnumerable<ServiceMonitorAttributeData> GetAll()
         {
-            Log.LogInformation("Accessing ServiceMonitorAttributeRepository GetAll function");
             using (entityContext) return MapRows(entityContext.ExecuteProcedureAsSqlDataReader("usp_service_monitor_attribute_all"));
         }
 
@@ -24,12 +22,10 @@ namespace QIQO.Monitor.Data
             throw new NotAllowedException("Selecting service monitor relationship data with this method is not allowed. Use GetAll(service_key, monitor_key) instead.");
         public IEnumerable<ServiceMonitorAttributeData> GetAll(int service_key, int monitor_key)
         {
-            Log.LogInformation("Accessing ServiceMonitorAttributeRepository GetAll function");
             using (entityContext) return MapRows(entityContext.ExecuteProcedureAsSqlDataReader("usp_service_monitor_attribute_get"));
         }
         public override void Insert(ServiceMonitorAttributeData entity)
         {
-            Log.LogInformation("Accessing ServiceMonitorAttributeRepository Insert function");
             if (entity != null)
                 Upsert(entity);
             else
@@ -38,7 +34,6 @@ namespace QIQO.Monitor.Data
 
         public override void Save(ServiceMonitorAttributeData entity)
         {
-            Log.LogInformation("Accessing ServiceMonitorAttributeRepository Save function");
             if (entity != null)
                 Upsert(entity);
             else
@@ -47,7 +42,6 @@ namespace QIQO.Monitor.Data
 
         public override void Delete(ServiceMonitorAttributeData entity)
         {
-            Log.LogInformation("Accessing ServiceMonitorAttributeRepository Delete function");
             using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_service_monitor_attribute_del", Mapper.MapParamsForDelete(entity));
         }
 

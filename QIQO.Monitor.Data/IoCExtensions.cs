@@ -1,13 +1,30 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using System;
 
 namespace QIQO.Monitor.Data
 {
-    public static class IoCExtensions
+    public static class DataExtensions
     {
-        public static IServiceCollection AddDataAccess(this IServiceCollection services)
+        public static IServiceCollection AddApplicationDataAccessServices(this IServiceCollection services,
+            Action<DataAccessOptions> configuration = null)
         {
+            services.AddTransient<IMonitorDbContext>(serviceProvider => {
+                var optionsProvider = serviceProvider.GetService<IOptions<DataAccessOptions>>();
+                var options = optionsProvider.Value;
+
+                // Allow the developer to perform further configuration
+                configuration?.Invoke(options);
+
+                if (string.IsNullOrEmpty(options.ConnectionString))
+                {
+                    throw new InvalidOperationException($"No {nameof(DataAccessOptions.ConnectionString)} " +
+                        $"was set on the {nameof(DataAccessOptions)}.");
+                }
+                return new MonitorDbContext(options.ConnectionString);
+            });
+
             services.AddSingleton<ICoreCacheService, CoreCacheService>();
-            services.AddSingleton<IMonitorDbContext, MonitorDbContext>();
 
             services.AddTransient<IServerMap, ServerMap>();
             services.AddTransient<IServerRepository, ServerRepository>();
@@ -50,5 +67,13 @@ namespace QIQO.Monitor.Data
             services.AddTransient<IEnvironmentServiceRepository, EnvironmentServiceRepository>();
             return services;
         }
+        public static void AddDataServices(this IServiceCollection services, Action<DataAccessOptions> configuration = null)
+        {
+            AddApplicationDataAccessServices(services, configuration);
+        }
+    }
+    public class DataAccessOptions
+    {
+        public string ConnectionString { get; set; }
     }
 }

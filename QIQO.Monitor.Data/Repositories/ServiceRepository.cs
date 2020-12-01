@@ -10,27 +10,24 @@ namespace QIQO.Monitor.Data
                                      IServiceRepository
     {
         private readonly IMonitorDbContext entityContext;
-        public ServiceRepository(IMonitorDbContext dbc, IServiceMap map, ILogger<ServiceData> log) : base(log, map)
+        public ServiceRepository(IMonitorDbContext dbc, IServiceMap map) : base(map)
         {
             entityContext = dbc;
         }
 
         public override IEnumerable<ServiceData> GetAll()
         {
-            Log.LogInformation("Accessing ServiceRepository GetAll function");
             using (entityContext) return MapRows(entityContext.ExecuteProcedureAsSqlDataReader("usp_service_all"));
         }
 
         public override ServiceData GetByID(int service_key)
         {
-            Log.LogInformation("Accessing ServiceRepository GetByID function");
             var pcol = new List<SqlParameter>() { Mapper.BuildParam("@service_key", service_key) };
             using (entityContext) return MapRow(entityContext.ExecuteProcedureAsSqlDataReader("usp_service_get", pcol));
         }
 
         public override void Insert(ServiceData entity)
         {
-            Log.LogInformation("Accessing ServiceRepository Insert function");
             if (entity != null)
                 Upsert(entity);
             else
@@ -39,7 +36,6 @@ namespace QIQO.Monitor.Data
 
         public override void Save(ServiceData entity)
         {
-            Log.LogInformation("Accessing ServiceRepository Save function");
             if (entity != null)
                 Upsert(entity);
             else
@@ -48,13 +44,11 @@ namespace QIQO.Monitor.Data
 
         public override void Delete(ServiceData entity)
         {
-            Log.LogInformation("Accessing ServiceRepository Delete function");
             using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_service_del", Mapper.MapParamsForDelete(entity));
         }
 
         public override void DeleteByID(int entityKey)
         {
-            Log.LogInformation("Accessing ServiceRepository Delete function");
             using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_service_del", Mapper.MapParamsForDelete(entityKey));
         }
 

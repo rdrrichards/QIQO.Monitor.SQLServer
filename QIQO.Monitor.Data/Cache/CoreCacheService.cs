@@ -53,19 +53,19 @@ namespace QIQO.Monitor.Data
         private void InitializeCache()
         {
             _logger.LogInformation($"Initializing {nameof(CoreCacheService)}");
-            InitializeCache(() => _serverRepository.GetAll(), true);
-            InitializeCache(() => _queryRepository.GetAll(), true);
-            InitializeCache(() => _serviceRepository.GetAll(), true);
-            InitializeCache(() => _monitorRepository.GetAll(), true);
-            InitializeCache(() => _environmentRepository.GetAll(), true);
-            InitializeCache(() => _monitorQueryRepository.GetAll(), true);
-            InitializeCache(() => _environmentServerRepository.GetAll(), true);
-            InitializeCache(() => _environmentServiceRepository.GetAll(), true);
-            InitializeCache(() => _serviceMonitorRepository.GetAll(), true);
-            InitializeCache(() => _categoryRepository.GetAll(), true);
-            InitializeCache(() => _attributeTypeRepository.GetAll(), true);
-            InitializeCache(() => _attributeDataTypeRepository.GetAll(), true);
-            InitializeCache(() => _serviceMonitorAttributeRepository.GetAll(), true);
+            InitializeCache<ServerData>(() => _serverRepository.GetAll(), true);
+            InitializeCache<QueryData>(() => _queryRepository.GetAll(), true);
+            InitializeCache<ServiceData>(() => _serviceRepository.GetAll(), true);
+            InitializeCache<MonitorData>(() => _monitorRepository.GetAll(), true);
+            InitializeCache<EnvironmentData>(() => _environmentRepository.GetAll(), true);
+            InitializeCache<MonitorQueryData>(() => _monitorQueryRepository.GetAll(), true);
+            InitializeCache<EnvironmentServerData>(() => _environmentServerRepository.GetAll(), true);
+            InitializeCache<EnvironmentServiceData>(() => _environmentServiceRepository.GetAll(), true);
+            InitializeCache<ServiceMonitorData>(() => _serviceMonitorRepository.GetAll(), true);
+            InitializeCache<CategoryData>(() => _categoryRepository.GetAll(), true);
+            InitializeCache<AttributeTypeData>(() => _attributeTypeRepository.GetAll(), true);
+            InitializeCache<AttributeDataTypeData>(() => _attributeDataTypeRepository.GetAll(), true);
+            InitializeCache<ServiceMonitorAttributeData>(() => _serviceMonitorAttributeRepository.GetAll(), true);
         }
         public void RefreshCache()
         {
@@ -75,17 +75,17 @@ namespace QIQO.Monitor.Data
 
         private void InitializeCache<T>(Func<IEnumerable<T>> getAll, bool force = false)
         {
-            if (!(_memoryCache.Get(nameof(T)) is IReadOnlyList<T>) || force)
+            if (!(_memoryCache.Get(typeof(T).Name) is IReadOnlyList<T>) || force)
             {
-                _memoryCache.Set(nameof(T), getAll.Invoke().ToList().AsReadOnly(), _cacheEntryOptions);
+                _memoryCache.Set(typeof(T).Name, getAll.Invoke().ToList().AsReadOnly(), _cacheEntryOptions);
             }
         }
         public IReadOnlyList<T> GetCacheItem<T>()
         {
-            if (!(_memoryCache.Get(nameof(T)) is IReadOnlyList<T>))
+            if (!(_memoryCache.Get(typeof(T).Name) is IReadOnlyList<T>))
                 InitializeCache();
 
-            return _memoryCache.Get<IReadOnlyList<T>>(nameof(T));
+            return _memoryCache.Get<IReadOnlyList<T>>(typeof(T).Name);
         }
         public IEnumerable<ServerData> GetServers() => GetCacheItem<ServerData>();
         public ServerData GetServer(int serverKey) => GetServers().FirstOrDefault(s => s.ServerKey == serverKey);

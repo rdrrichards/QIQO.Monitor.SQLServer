@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using QIQO.Monitor.Core;
+﻿using QIQO.Monitor.Core;
 using System;
 using System.Collections.Generic;
 
@@ -9,14 +8,13 @@ namespace QIQO.Monitor.Data
                                      IServiceMonitorRepository
     {
         private readonly IMonitorDbContext entityContext;
-        public ServiceMonitorRepository(IMonitorDbContext dbc, IServiceMonitorMap map, ILogger<ServiceMonitorData> log) : base(log, map)
+        public ServiceMonitorRepository(IMonitorDbContext dbc, IServiceMonitorMap map) : base(map)
         {
             entityContext = dbc;
         }
 
         public override IEnumerable<ServiceMonitorData> GetAll()
         {
-            Log.LogInformation("Accessing ServiceMonitorRepository GetAll function");
             using (entityContext) return MapRows(entityContext.ExecuteProcedureAsSqlDataReader("usp_service_monitor_all"));
         }
 
@@ -24,12 +22,10 @@ namespace QIQO.Monitor.Data
             throw new NotAllowedException("Selecting service monitor relationship data with this method is not allowed. Use GetAll(service_key, monitor_key) instead.");
         public IEnumerable<ServiceMonitorData> GetAll(int service_key, int monitor_key)
         {
-            Log.LogInformation("Accessing ServiceMonitorRepository GetAll function");
             using (entityContext) return MapRows(entityContext.ExecuteProcedureAsSqlDataReader("usp_service_monitor_get"));
         }
         public override void Insert(ServiceMonitorData entity)
         {
-            Log.LogInformation("Accessing ServiceMonitorRepository Insert function");
             if (entity != null)
                 Upsert(entity);
             else
@@ -38,7 +34,6 @@ namespace QIQO.Monitor.Data
 
         public override void Save(ServiceMonitorData entity)
         {
-            Log.LogInformation("Accessing ServiceMonitorRepository Save function");
             if (entity != null)
                 Upsert(entity);
             else
@@ -47,7 +42,6 @@ namespace QIQO.Monitor.Data
 
         public override void Delete(ServiceMonitorData entity)
         {
-            Log.LogInformation("Accessing ServiceMonitorRepository Delete function");
             using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_service_monitor_del", Mapper.MapParamsForDelete(entity));
         }
 

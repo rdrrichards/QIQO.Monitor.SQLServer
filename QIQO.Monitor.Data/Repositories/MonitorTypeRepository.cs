@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using QIQO.Monitor.Core;
+﻿using QIQO.Monitor.Core;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -10,27 +9,24 @@ namespace QIQO.Monitor.Data
                                      IMonitorTypeRepository
     {
         private readonly IMonitorDbContext entityContext;
-        public MonitorTypeRepository(IMonitorDbContext dbc, IMonitorTypeMap map, ILogger<MonitorTypeData> log) : base(log, map)
+        public MonitorTypeRepository(IMonitorDbContext dbc, IMonitorTypeMap map) : base(map)
         {
             entityContext = dbc;
         }
 
         public override IEnumerable<MonitorTypeData> GetAll()
         {
-            Log.LogInformation("Accessing MonitorTypeRepository GetAll function");
             using (entityContext) return MapRows(entityContext.ExecuteProcedureAsSqlDataReader("usp_monitor_type_all"));
         }
 
         public override MonitorTypeData GetByID(int monitor_type_key)
         {
-            Log.LogInformation("Accessing MonitorTypeRepository GetByID function");
             var pcol = new List<SqlParameter>() { Mapper.BuildParam("@monitor_type_key", monitor_type_key) };
             using (entityContext) return MapRow(entityContext.ExecuteProcedureAsSqlDataReader("usp_monitor_type_get", pcol));
         }
 
         public override void Insert(MonitorTypeData entity)
         {
-            Log.LogInformation("Accessing MonitorTypeRepository Insert function");
             if (entity != null)
                 Upsert(entity);
             else
@@ -39,7 +35,6 @@ namespace QIQO.Monitor.Data
 
         public override void Save(MonitorTypeData entity)
         {
-            Log.LogInformation("Accessing MonitorTypeRepository Save function");
             if (entity != null)
                 Upsert(entity);
             else
@@ -48,13 +43,11 @@ namespace QIQO.Monitor.Data
 
         public override void Delete(MonitorTypeData entity)
         {
-            Log.LogInformation("Accessing MonitorTypeRepository Delete function");
             using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_monitor_type_del", Mapper.MapParamsForDelete(entity));
         }
 
         public override void DeleteByID(int entityKey)
         {
-            Log.LogInformation("Accessing MonitorTypeRepository Delete function");
             using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_monitor_type_del", Mapper.MapParamsForDelete(entityKey));
         }
 
