@@ -9,8 +9,9 @@ namespace QIQO.Monitor.SQLServer.Data
         public static IServiceCollection AddSqlServerDataAccessServices(this IServiceCollection services, 
             Action<DataAccessOptions> configuration = null)
         {
-            services.AddSingleton<IDbContextFactory, DbContextFactory>();
-            services.AddSingleton<IDataRepositoryFactory, DataRepositoryFactory>();
+            //services.AddSingleton<IDbContextFactory, DbContextFactory>();
+            //services.AddSingleton<IDataRepositoryFactory, DataRepositoryFactory>();
+            services.AddSingleton<ISqlServerDbContext>(new SqlServerDbContext("Data Source=RDRRL8\\D1;User ID=QIQOMonitorUser;Password=QIQOMonitorUser;Database=QIQOMonitor;Application Name=QIQOMonitorServiceAPI"));
 
             services.AddTransient<IVersionMap, VersionMap>();
             services.AddTransient<IVersionRepository, VersionRepository>();

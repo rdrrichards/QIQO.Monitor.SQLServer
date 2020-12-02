@@ -9,11 +9,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QIQO.Monitor.Core", "QIQO.M
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QIQO.Monitor.Tests", "QIQO.Monitor.Tests\QIQO.Monitor.Tests.csproj", "{1E5F65E8-241A-4795-8475-CCD5C01B2BF2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QIQO.Monitor.Api", "QIQO.Monitor.Api\QIQO.Monitor.Api.csproj", "{A8726579-6FA3-4BCD-92AC-200E21167CF9}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QIQO.Monitor.Domain", "QIQO.Monitor.Domain\QIQO.Monitor.Domain.csproj", "{A84ED4B9-8BDE-4B78-8BAC-A70959290D81}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QIQO.MQ", "QIQO.MQ\QIQO.MQ.csproj", "{9DB06CFA-3976-455E-89E5-B117DF21271F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QIQO.Monitor.Service", "QIQO.Monitor.Service\QIQO.Monitor.Service.csproj", "{4B8EC89B-2484-480C-870E-08DE7650D664}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QIQO.Monitor.Data", "QIQO.Monitor.Data\QIQO.Monitor.Data.csproj", "{8F702710-80A7-4AE5-A031-3410B3BE408E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QIQO.Monitor.Client", "QIQO.Monitor.Client\QIQO.Monitor.Client.csproj", "{324B2056-2838-4616-AE8F-6DE017804919}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,10 +37,6 @@ Global
 		{1E5F65E8-241A-4795-8475-CCD5C01B2BF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1E5F65E8-241A-4795-8475-CCD5C01B2BF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1E5F65E8-241A-4795-8475-CCD5C01B2BF2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A8726579-6FA3-4BCD-92AC-200E21167CF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A8726579-6FA3-4BCD-92AC-200E21167CF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A8726579-6FA3-4BCD-92AC-200E21167CF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A8726579-6FA3-4BCD-92AC-200E21167CF9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A84ED4B9-8BDE-4B78-8BAC-A70959290D81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A84ED4B9-8BDE-4B78-8BAC-A70959290D81}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A84ED4B9-8BDE-4B78-8BAC-A70959290D81}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -45,6 +45,18 @@ Global
 		{9DB06CFA-3976-455E-89E5-B117DF21271F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9DB06CFA-3976-455E-89E5-B117DF21271F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9DB06CFA-3976-455E-89E5-B117DF21271F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B8EC89B-2484-480C-870E-08DE7650D664}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B8EC89B-2484-480C-870E-08DE7650D664}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B8EC89B-2484-480C-870E-08DE7650D664}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B8EC89B-2484-480C-870E-08DE7650D664}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F702710-80A7-4AE5-A031-3410B3BE408E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F702710-80A7-4AE5-A031-3410B3BE408E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F702710-80A7-4AE5-A031-3410B3BE408E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F702710-80A7-4AE5-A031-3410B3BE408E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{324B2056-2838-4616-AE8F-6DE017804919}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{324B2056-2838-4616-AE8F-6DE017804919}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{324B2056-2838-4616-AE8F-6DE017804919}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{324B2056-2838-4616-AE8F-6DE017804919}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

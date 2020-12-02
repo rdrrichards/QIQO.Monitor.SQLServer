@@ -7,9 +7,9 @@ namespace QIQO.Monitor.SQLServer.Data
 {
     public class WaitStatsLogRepository : RepositoryBase<WaitStatsLogData>, IWaitStatsLogRepository
     {
-        private readonly IMonitorDbContext entityContext;
+        private readonly ISqlServerDbContext entityContext;
 
-        public WaitStatsLogRepository(IMonitorDbContext dbc, IWaitStatsLogMap map) : base(map)
+        public WaitStatsLogRepository(ISqlServerDbContext dbc, IWaitStatsLogMap map) : base(map)
         {
             entityContext = dbc;
         }
