@@ -62,6 +62,10 @@ namespace QIQO.Monitor.Client
             });
             services.AddEntityServices();
             services.AddControllersWithViews();
+            services.AddSignalR(options => {
+                options.EnableDetailedErrors = true;
+                options.MaximumReceiveMessageSize = null;
+            });
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -93,13 +97,15 @@ namespace QIQO.Monitor.Client
             app.UseRouting();
 
             app.UseSwagger();
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", Configuration["Swagger:ApplicationName"]));
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json",
+                $"{Configuration["Swagger:ApplicationName"]} {Configuration["Swagger:Version"]}"));
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
+                endpoints.MapHub<MonitorComms>("monitorHub");
             });
 
             app.UseSpa(spa =>

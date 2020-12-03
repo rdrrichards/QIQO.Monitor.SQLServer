@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CommunicationService } from './shared/communication.service';
 
 @Component({
   selector: 'qiqo-root',
@@ -7,4 +8,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'monitor-client';
+  constructor(private commsService: CommunicationService) {
+    this.commsService.joinIn();
+  }
 }

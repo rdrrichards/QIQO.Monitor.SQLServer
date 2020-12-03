@@ -2,7 +2,7 @@
 using QIQO.Monitor.Data;
 using System;
 
-namespace QIQO.Monitor.Controllers
+namespace QIQO.Monitor.Client
 {
     [Route("api/[controller]")]
     [ApiController]

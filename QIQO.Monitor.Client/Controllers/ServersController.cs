@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace QIQO.Monitor.Controllers
+namespace QIQO.Monitor.Client
 {
     [Route("api/[controller]")]
     [ApiController]
