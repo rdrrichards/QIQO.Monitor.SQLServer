@@ -5,7 +5,8 @@ namespace QIQO.Monitor.Domain
 {
     public class BlockingResult : MonitorResult<Blocking>
     {
-        public override List<Blocking> Results { get; } = new List<Blocking>();
+        public override ResultType resultType => ResultType.Blocking;
+        public override IEnumerable<Blocking> results { get; set; } = new List<Blocking>();
     }
     public partial class Blocking : IModel
     {
@@ -13,26 +14,26 @@ namespace QIQO.Monitor.Domain
             string lockRequest, int waiterSid, long waitTime, string waiterBatch,
             string waiterStatement, int blockerSid, string blockerBatch)
         {
-            LockType = lockType;
-            Database = database;
-            BlockObject = blockObject;
-            LockRequest = lockRequest;
-            WaiterSid = waiterSid;
-            WaitTime = waitTime;
-            WaiterBatch = waiterBatch;
-            WaiterStatement = waiterStatement;
-            BlockerSid = blockerSid;
-            BlockerBatch = blockerBatch;
+            this.lockType = lockType;
+            this.database = database;
+            this.blockObject = blockObject;
+            this.lockRequest = lockRequest;
+            this.waiterSid = waiterSid;
+            this.waitTime = waitTime;
+            this.waiterBatch = waiterBatch;
+            this.waiterStatement = waiterStatement;
+            this.blockerSid = blockerSid;
+            this.blockerBatch = blockerBatch;
         }
-        public string LockType { get; }
-        public string Database { get; }
-        public long BlockObject { get; }
-        public string LockRequest { get; }
-        public int WaiterSid { get; }
-        public long WaitTime { get; }
-        public string WaiterBatch { get; }
-        public string WaiterStatement { get; }
-        public int BlockerSid { get; }
-        public string BlockerBatch { get; }
+        public string lockType { get; }
+        public string database { get; }
+        public long blockObject { get; }
+        public string lockRequest { get; }
+        public int waiterSid { get; }
+        public long waitTime { get; }
+        public string waiterBatch { get; }
+        public string waiterStatement { get; }
+        public int blockerSid { get; }
+        public string blockerBatch { get; }
     }
 }

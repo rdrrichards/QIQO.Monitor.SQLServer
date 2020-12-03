@@ -5,7 +5,8 @@ namespace QIQO.Monitor.Domain
 {
     public class HealthResult : MonitorResult<Health>
     {
-        public override List<Health> Results { get; } = new List<Health>();
+        public override IEnumerable<Health> results { get; set; } = new List<Health>();
+        public override ResultType resultType { get; } = ResultType.Health;
     }
     public partial class Health : IModel
     {
@@ -15,6 +16,7 @@ namespace QIQO.Monitor.Domain
     public enum HealthStatus
     {
         Healthly,
+        Degraded,
         Unhealthy
     }
 }

@@ -7,13 +7,20 @@ namespace QIQO.Monitor.Domain
     public interface IMonitorResult { }
     public interface IMonitorResult<T> : IMonitorResult where T : IModel
     {
-        DateTime ResultDateTime { get; }
-        List<T> Results { get; }
+        DateTime resultDateTime { get; }
+        IEnumerable<T> results { get; set; }
     }
     public abstract class MonitorResult<T> : IMonitorResult<T> where T : IModel
     {
-        public virtual DateTime ResultDateTime { get; } = DateTime.Now;
-        // public IResultPayload ResultPayload { get; }
-        public abstract List<T> Results { get; }
+        public abstract ResultType resultType { get; }
+        public virtual DateTime resultDateTime { get; } = DateTime.Now;
+        public abstract IEnumerable<T> results { get; set; }
+    }
+    public enum ResultType
+    {
+        Health,
+        Blocking,
+        OpenTransaction,
+        WaitStats
     }
 }
