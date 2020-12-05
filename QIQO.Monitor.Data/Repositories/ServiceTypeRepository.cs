@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using QIQO.Monitor.Core;
+﻿using QIQO.Monitor.Core;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -9,21 +8,21 @@ namespace QIQO.Monitor.Data
     public class ServiceTypeRepository : RepositoryBase<ServiceTypeData>,
                                      IServiceTypeRepository
     {
-        private readonly IMonitorDbContext entityContext;
+        private readonly IMonitorDbContext _entityContext;
         public ServiceTypeRepository(IMonitorDbContext dbc, IServiceTypeMap map) : base(map)
         {
-            entityContext = dbc;
+            _entityContext = dbc;
         }
 
         public override IEnumerable<ServiceTypeData> GetAll()
         {
-            using (entityContext) return MapRows(entityContext.ExecuteProcedureAsSqlDataReader("usp_service_type_all"));
+            using (_entityContext) return MapRows(_entityContext.ExecuteProcedureAsSqlDataReader("monServiceTypeGetAll"));
         }
 
-        public override ServiceTypeData GetByID(int service_type_key)
+        public override ServiceTypeData GetByID(int serviceTypeKey)
         {
-            var pcol = new List<SqlParameter>() { Mapper.BuildParam("@service_type_key", service_type_key) };
-            using (entityContext) return MapRow(entityContext.ExecuteProcedureAsSqlDataReader("usp_service_type_get", pcol));
+            var pcol = new List<SqlParameter>() { Mapper.BuildParam("@ServiceType_key", serviceTypeKey) };
+            using (_entityContext) return MapRow(_entityContext.ExecuteProcedureAsSqlDataReader("monServiceTypeGet", pcol));
         }
 
         public override void Insert(ServiceTypeData entity)
@@ -44,17 +43,17 @@ namespace QIQO.Monitor.Data
 
         public override void Delete(ServiceTypeData entity)
         {
-            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_service_type_del", Mapper.MapParamsForDelete(entity));
+            using (_entityContext) _entityContext.ExecuteProcedureNonQuery("monServiceTypeDelete", Mapper.MapParamsForDelete(entity));
         }
 
         public override void DeleteByID(int entityKey)
         {
-            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_service_type_del", Mapper.MapParamsForDelete(entityKey));
+            using (_entityContext) _entityContext.ExecuteProcedureNonQuery("monServiceTypeDelete", Mapper.MapParamsForDelete(entityKey));
         }
 
         private void Upsert(ServiceTypeData entity)
         {
-            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_service_type_ups", Mapper.MapParamsForUpsert(entity));
+            using (_entityContext) _entityContext.ExecuteProcedureNonQuery("monServiceTypeUpsert", Mapper.MapParamsForUpsert(entity));
         }
     }
 }

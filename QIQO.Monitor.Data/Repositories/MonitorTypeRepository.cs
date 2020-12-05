@@ -8,21 +8,21 @@ namespace QIQO.Monitor.Data
     public class MonitorTypeRepository : RepositoryBase<MonitorTypeData>,
                                      IMonitorTypeRepository
     {
-        private readonly IMonitorDbContext entityContext;
+        private readonly IMonitorDbContext _entityContext;
         public MonitorTypeRepository(IMonitorDbContext dbc, IMonitorTypeMap map) : base(map)
         {
-            entityContext = dbc;
+            _entityContext = dbc;
         }
 
         public override IEnumerable<MonitorTypeData> GetAll()
         {
-            using (entityContext) return MapRows(entityContext.ExecuteProcedureAsSqlDataReader("usp_monitor_type_all"));
+            using (_entityContext) return MapRows(_entityContext.ExecuteProcedureAsSqlDataReader("monMonitorTypeGetAll"));
         }
 
-        public override MonitorTypeData GetByID(int monitor_type_key)
+        public override MonitorTypeData GetByID(int monitorTypeKey)
         {
-            var pcol = new List<SqlParameter>() { Mapper.BuildParam("@monitor_type_key", monitor_type_key) };
-            using (entityContext) return MapRow(entityContext.ExecuteProcedureAsSqlDataReader("usp_monitor_type_get", pcol));
+            var pcol = new List<SqlParameter>() { Mapper.BuildParam("@monitorTypeKey", monitorTypeKey) };
+            using (_entityContext) return MapRow(_entityContext.ExecuteProcedureAsSqlDataReader("monMonitorTypeGet", pcol));
         }
 
         public override void Insert(MonitorTypeData entity)
@@ -43,17 +43,17 @@ namespace QIQO.Monitor.Data
 
         public override void Delete(MonitorTypeData entity)
         {
-            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_monitor_type_del", Mapper.MapParamsForDelete(entity));
+            using (_entityContext) _entityContext.ExecuteProcedureNonQuery("monMonitorTypeDelete", Mapper.MapParamsForDelete(entity));
         }
 
         public override void DeleteByID(int entityKey)
         {
-            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_monitor_type_del", Mapper.MapParamsForDelete(entityKey));
+            using (_entityContext) _entityContext.ExecuteProcedureNonQuery("monMonitorTypeDelete", Mapper.MapParamsForDelete(entityKey));
         }
 
         private void Upsert(MonitorTypeData entity)
         {
-            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_monitor_type_ups", Mapper.MapParamsForUpsert(entity));
+            using (_entityContext) _entityContext.ExecuteProcedureNonQuery("monMonitorTypeUpsert", Mapper.MapParamsForUpsert(entity));
         }
     }
 

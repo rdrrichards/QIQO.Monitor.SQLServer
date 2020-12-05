@@ -14,8 +14,8 @@ namespace QIQO.Monitor.Data
             {
                 return new CategoryData()
                 {
-                    CategoryKey = NullCheck<int>(record["category_key"]),
-                    CategoryName = NullCheck<string>(record["category_name"])
+                    CategoryKey = NullCheck<int>(record["CategoryKey"]),
+                    CategoryName = NullCheck<string>(record["CategoryName"])
                 };
             }
             catch (Exception ex)
@@ -26,8 +26,8 @@ namespace QIQO.Monitor.Data
 
         public List<SqlParameter> MapParamsForUpsert(CategoryData entity) => new List<SqlParameter>
             {
-                BuildParam("@category_key", entity.CategoryKey),
-                BuildParam("@category_name", entity.CategoryName),
+                BuildParam("@CategoryKey", entity.CategoryKey),
+                BuildParam("@CategoryName", entity.CategoryName),
                 // GetOutParam()
             };
 
@@ -35,7 +35,7 @@ namespace QIQO.Monitor.Data
 
         public List<SqlParameter> MapParamsForDelete(int category_key) => new List<SqlParameter>
             {
-                BuildParam("@category_key", category_key),
+                BuildParam("@CategoryKey", category_key),
                 // GetOutParam()
             };
     }

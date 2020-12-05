@@ -14,11 +14,11 @@ namespace QIQO.Monitor.Data
             {
                 return new MonitorData()
                 {
-                    MonitorKey = NullCheck<int>(record["monitor_key"]),
-                    MonitorTypeKey = NullCheck<int>(record["monitor_type_key"]),
-                    MonitorName = NullCheck<string>(record["monitor_name"]),
-                    LevelKey = NullCheck<int>(record["level_key"]),
-                    CategoryKey = NullCheck<int>(record["category_key"]),
+                    MonitorKey = NullCheck<int>(record["MonitorKey"]),
+                    MonitorTypeKey = NullCheck<int>(record["MonitorTypeKey"]),
+                    MonitorName = NullCheck<string>(record["MonitorName"]),
+                    LevelKey = NullCheck<int>(record["LevelKey"]),
+                    CategoryKey = NullCheck<int>(record["CategoryKey"]),
                 };
             }
             catch (Exception ex)
@@ -29,11 +29,11 @@ namespace QIQO.Monitor.Data
 
         public List<SqlParameter> MapParamsForUpsert(MonitorData entity) => new List<SqlParameter>
             {
-                BuildParam("@monitor_key", entity.MonitorKey),
-                BuildParam("@monitor_type_key", entity.MonitorTypeKey),
-                BuildParam("@monitor_name", entity.MonitorName),
-                BuildParam("@level_key", entity.LevelKey),
-                BuildParam("@category_key", entity.CategoryKey),
+                BuildParam("@MonitorKey", entity.MonitorKey),
+                BuildParam("@MonitorTypeKey", entity.MonitorTypeKey),
+                BuildParam("@MonitorName", entity.MonitorName),
+                BuildParam("@LevelKey", entity.LevelKey),
+                BuildParam("@CategoryKey", entity.CategoryKey),
                 // GetOutParam()
             };
 
@@ -41,7 +41,7 @@ namespace QIQO.Monitor.Data
 
         public List<SqlParameter> MapParamsForDelete(int category_key) => new List<SqlParameter>
             {
-                BuildParam("@monitor_key", category_key),
+                BuildParam("@MonitorKey", category_key),
                 // GetOutParam()
             };
     }

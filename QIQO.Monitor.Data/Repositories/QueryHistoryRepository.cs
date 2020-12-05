@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using QIQO.Monitor.Core;
+﻿using QIQO.Monitor.Core;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -9,21 +8,21 @@ namespace QIQO.Monitor.Data
     public class QueryHistoryRepository : RepositoryBase<QueryHistoryData>,
                                      IQueryHistoryRepository
     {
-        private readonly IMonitorDbContext entityContext;
+        private readonly IMonitorDbContext _entityContext;
         public QueryHistoryRepository(IMonitorDbContext dbc, IQueryHistoryMap map) : base(map)
         {
-            entityContext = dbc;
+            _entityContext = dbc;
         }
 
         public override IEnumerable<QueryHistoryData> GetAll()
         {
-            using (entityContext) return MapRows(entityContext.ExecuteProcedureAsSqlDataReader("usp_query_history_all"));
+            using (_entityContext) return MapRows(_entityContext.ExecuteProcedureAsSqlDataReader("monQueryHistoryGetAll"));
         }
 
-        public override QueryHistoryData GetByID(int query_history_key)
+        public override QueryHistoryData GetByID(int queryHistoryKey)
         {
-            var pcol = new List<SqlParameter>() { Mapper.BuildParam("@query_history_key", query_history_key) };
-            using (entityContext) return MapRow(entityContext.ExecuteProcedureAsSqlDataReader("usp_query_history_get", pcol));
+            var pcol = new List<SqlParameter>() { Mapper.BuildParam("@queryHistoryKey", queryHistoryKey) };
+            using (_entityContext) return MapRow(_entityContext.ExecuteProcedureAsSqlDataReader("monQueryHistoryGet", pcol));
         }
 
         public override void Insert(QueryHistoryData entity)
@@ -44,16 +43,16 @@ namespace QIQO.Monitor.Data
 
         public override void Delete(QueryHistoryData entity)
         {
-            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_query_history_del", Mapper.MapParamsForDelete(entity));
+            using (_entityContext) _entityContext.ExecuteProcedureNonQuery("monQueryHistoryDelete", Mapper.MapParamsForDelete(entity));
         }
         public override void DeleteByID(int entityKey)
         {
-            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_query_history_del", Mapper.MapParamsForDelete(entityKey));
+            using (_entityContext) _entityContext.ExecuteProcedureNonQuery("monQueryHistoryDelete", Mapper.MapParamsForDelete(entityKey));
         }
 
         private void Upsert(QueryHistoryData entity)
         {
-            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_query_history_ups", Mapper.MapParamsForUpsert(entity));
+            using (_entityContext) _entityContext.ExecuteProcedureNonQuery("monQueryHistoryUpsert", Mapper.MapParamsForUpsert(entity));
         }
     }
 }

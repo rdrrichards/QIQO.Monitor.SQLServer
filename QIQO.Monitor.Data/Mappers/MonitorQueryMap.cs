@@ -14,8 +14,8 @@ namespace QIQO.Monitor.Data
             {
                 return new MonitorQueryData()
                 {
-                    MonitorKey = NullCheck<int>(record["monitor_key"]),
-                    QueryKey = NullCheck<int>(record["query_key"]),
+                    MonitorKey = NullCheck<int>(record["MonitorKey"]),
+                    QueryKey = NullCheck<int>(record["QueryKey"]),
                 };
             }
             catch (Exception ex)
@@ -26,15 +26,15 @@ namespace QIQO.Monitor.Data
 
         public List<SqlParameter> MapParamsForUpsert(MonitorQueryData entity) => new List<SqlParameter>
             {
-                BuildParam("@monitor_key", entity.MonitorKey),
-                BuildParam("@query_key", entity.QueryKey),
+                BuildParam("@MonitorKey", entity.MonitorKey),
+                BuildParam("@QueryKey", entity.QueryKey),
                 // GetOutParam()
             };
 
         public List<SqlParameter> MapParamsForDelete(MonitorQueryData entity) => new List<SqlParameter>
             {
-                BuildParam("@monitor_key", entity.MonitorKey),
-                BuildParam("@query_key", entity.QueryKey),
+                BuildParam("@MonitorKey", entity.MonitorKey),
+                BuildParam("@QueryKey", entity.QueryKey),
                 // GetOutParam()
             };
 

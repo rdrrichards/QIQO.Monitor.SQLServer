@@ -14,9 +14,9 @@ namespace QIQO.Monitor.Data
             {
                 return new QueryData()
                 {
-                    QueryKey = NullCheck<int>(record["query_key"]),
-                    Name = NullCheck<string>(record["name"]),
-                    QueryText = NullCheck<string>(record["query_text"])
+                    QueryKey = NullCheck<int>(record["QueryKey"]),
+                    Name = NullCheck<string>(record["Name"]),
+                    QueryText = NullCheck<string>(record["QueryText"])
                 };
             }
             catch (Exception ex)
@@ -27,9 +27,9 @@ namespace QIQO.Monitor.Data
 
         public List<SqlParameter> MapParamsForUpsert(QueryData entity) => new List<SqlParameter>
             {
-                BuildParam("@query_key", entity.QueryKey),
-                BuildParam("@name", entity.Name),
-                BuildParam("@query_text", entity.QueryText),
+                BuildParam("@QueryKey", entity.QueryKey),
+                BuildParam("@Name", entity.Name),
+                BuildParam("@QueryText", entity.QueryText),
                 // GetOutParam()
             };
 
@@ -37,7 +37,7 @@ namespace QIQO.Monitor.Data
 
         public List<SqlParameter> MapParamsForDelete(int query_key) => new List<SqlParameter>
             {
-                BuildParam("@query_key", query_key),
+                BuildParam("@QueryKey", query_key),
                 // GetOutParam()
             };
     }

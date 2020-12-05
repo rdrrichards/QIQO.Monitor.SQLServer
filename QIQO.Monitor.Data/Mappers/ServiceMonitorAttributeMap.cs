@@ -14,10 +14,10 @@ namespace QIQO.Monitor.Data
             {
                 return new ServiceMonitorAttributeData()
                 {
-                    ServiceKey = NullCheck<int>(record["service_key"]),
-                    MonitorKey = NullCheck<int>(record["monitor_key"]),
-                    AttributeTypeKey = NullCheck<int>(record["attribute_type_key"]),
-                    AttributeValue = NullCheck<string>(record["attribute_value"]),
+                    ServiceKey = NullCheck<int>(record["ServiceKey"]),
+                    MonitorKey = NullCheck<int>(record["MonitorKey"]),
+                    AttributeTypeKey = NullCheck<int>(record["AttributeTypeKey"]),
+                    AttributeValue = NullCheck<string>(record["AttributeValue"]),
                 };
             }
             catch (Exception ex)
@@ -28,18 +28,18 @@ namespace QIQO.Monitor.Data
 
         public List<SqlParameter> MapParamsForUpsert(ServiceMonitorAttributeData entity) => new List<SqlParameter>
             {
-                BuildParam("@service_key", entity.ServiceKey),
-                BuildParam("@monitor_key", entity.MonitorKey),
-                BuildParam("@attribute_type_key", entity.AttributeTypeKey),
-                BuildParam("@attribute_value", entity.AttributeValue),
+                BuildParam("@ServiceKey", entity.ServiceKey),
+                BuildParam("@MonitorKey", entity.MonitorKey),
+                BuildParam("@AttributeTypeKey", entity.AttributeTypeKey),
+                BuildParam("@AttributeValue", entity.AttributeValue),
                 // GetOutParam()
             };
 
         public List<SqlParameter> MapParamsForDelete(ServiceMonitorAttributeData entity) => new List<SqlParameter>
             {
-                BuildParam("@service_key", entity.ServiceKey),
-                BuildParam("@monitor_key", entity.MonitorKey),
-                BuildParam("@attribute_type_key", entity.AttributeTypeKey),
+                BuildParam("@ServiceKey", entity.ServiceKey),
+                BuildParam("@MonitorKey", entity.MonitorKey),
+                BuildParam("@AttributeTypeKey", entity.AttributeTypeKey),
                 // GetOutParam()
             };
 

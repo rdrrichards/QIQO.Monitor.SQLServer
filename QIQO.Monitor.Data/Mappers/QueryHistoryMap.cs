@@ -14,11 +14,11 @@ namespace QIQO.Monitor.Data
             {
                 return new QueryHistoryData()
                 {
-                    QueryHistoryKey = NullCheck<int>(record["query_history_key"]),
-                    MonitorKey = NullCheck<int>(record["monitor_key"]),
-                    QueryKey = NullCheck<int>(record["query_key"]),
-                    ServiceKey = NullCheck<int>(record["service_key"]),
-                    ResultText = NullCheck<string>(record["result_text"])
+                    QueryHistoryKey = NullCheck<int>(record["QueryHistoryKey"]),
+                    MonitorKey = NullCheck<int>(record["MonitorKey"]),
+                    QueryKey = NullCheck<int>(record["QueryKey"]),
+                    ServiceKey = NullCheck<int>(record["ServiceKey"]),
+                    ResultText = NullCheck<string>(record["ResultText"])
                 };
             }
             catch (Exception ex)
@@ -29,11 +29,11 @@ namespace QIQO.Monitor.Data
 
         public List<SqlParameter> MapParamsForUpsert(QueryHistoryData entity) => new List<SqlParameter>
             {
-                BuildParam("@query_history_key", entity.QueryHistoryKey),
-                BuildParam("@monitor_key", entity.MonitorKey),
-                BuildParam("@query_key", entity.QueryKey),
-                BuildParam("@service_key", entity.ServiceKey),
-                BuildParam("@result_text", entity.ResultText),
+                BuildParam("@QueryHistoryKey", entity.QueryHistoryKey),
+                BuildParam("@MonitorKey", entity.MonitorKey),
+                BuildParam("@QueryKey", entity.QueryKey),
+                BuildParam("@ServiceKey", entity.ServiceKey),
+                BuildParam("@ResultText", entity.ResultText),
                 // GetOutParam()
             };
 
@@ -41,7 +41,7 @@ namespace QIQO.Monitor.Data
 
         public List<SqlParameter> MapParamsForDelete(int category_key) => new List<SqlParameter>
             {
-                BuildParam("@category_key", category_key),
+                BuildParam("@QueryHistoryKey", category_key),
                 // GetOutParam()
             };
     }

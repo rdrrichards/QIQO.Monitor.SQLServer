@@ -14,12 +14,12 @@ namespace QIQO.Monitor.Data
             {
                 return new ServiceData()
                 {
-                    ServiceKey = NullCheck<int>(record["service_key"]),
-                    ServerKey = NullCheck<int>(record["server_key"]),
-                    ServiceTypeKey = NullCheck<int>(record["service_type_key"]),
-                    ServiceName = NullCheck<string>(record["service_name"]),
-                    InstanceName = NullCheck<string>(record["instance_name"]),
-                    ServiceSource = NullCheck<string>(record["service_source"])
+                    ServiceKey = NullCheck<int>(record["ServiceKey"]),
+                    ServerKey = NullCheck<int>(record["ServerKey"]),
+                    ServiceTypeKey = NullCheck<int>(record["ServiceTypeKey"]),
+                    ServiceName = NullCheck<string>(record["ServiceName"]),
+                    InstanceName = NullCheck<string>(record["InstanceName"]),
+                    ServiceSource = NullCheck<string>(record["ServiceSource"])
                 };
             }
             catch (Exception ex)
@@ -30,12 +30,12 @@ namespace QIQO.Monitor.Data
 
         public List<SqlParameter> MapParamsForUpsert(ServiceData entity) => new List<SqlParameter>
             {
-                BuildParam("@service_key", entity.ServiceKey),
-                BuildParam("@server_key", entity.ServerKey),
-                BuildParam("@service_type_key", entity.ServiceTypeKey),
-                BuildParam("@service_name", entity.ServiceName),
-                BuildParam("@instance_name", entity.InstanceName),
-                BuildParam("@service_source", entity.ServiceSource),
+                BuildParam("@ServiceKey", entity.ServiceKey),
+                BuildParam("@ServerKey", entity.ServerKey),
+                BuildParam("@ServiceTypeKey", entity.ServiceTypeKey),
+                BuildParam("@ServiceName", entity.ServiceName),
+                BuildParam("@InstanceName", entity.InstanceName),
+                BuildParam("@ServiceSource", entity.ServiceSource),
                 // GetOutParam()
             };
 
@@ -43,7 +43,7 @@ namespace QIQO.Monitor.Data
 
         public List<SqlParameter> MapParamsForDelete(int category_key) => new List<SqlParameter>
             {
-                BuildParam("@service_key", category_key),
+                BuildParam("@ServiceKey", category_key),
                 // GetOutParam()
             };
     }

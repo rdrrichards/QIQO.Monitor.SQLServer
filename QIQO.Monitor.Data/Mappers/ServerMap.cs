@@ -14,8 +14,8 @@ namespace QIQO.Monitor.Data
             {
                 return new ServerData()
                 {
-                    ServerKey = NullCheck<int>(record["server_key"]),
-                    ServerName = NullCheck<string>(record["server_name"])
+                    ServerKey = NullCheck<int>(record["ServerKey"]),
+                    ServerName = NullCheck<string>(record["ServerName"])
                 };
             }
             catch (Exception ex)
@@ -26,8 +26,8 @@ namespace QIQO.Monitor.Data
 
         public List<SqlParameter> MapParamsForUpsert(ServerData entity) => new List<SqlParameter>
             {
-                BuildParam("@server_key", entity.ServerKey),
-                BuildParam("@server_name", entity.ServerName),
+                BuildParam("@ServerKey", entity.ServerKey),
+                BuildParam("@ServerName", entity.ServerName),
                 // GetOutParam()
             };
 
@@ -35,7 +35,7 @@ namespace QIQO.Monitor.Data
 
         public List<SqlParameter> MapParamsForDelete(int server_key) => new List<SqlParameter>
             {
-                BuildParam("@server_key", server_key),
+                BuildParam("@ServerKey", server_key),
                 // GetOutParam()
             };
     }

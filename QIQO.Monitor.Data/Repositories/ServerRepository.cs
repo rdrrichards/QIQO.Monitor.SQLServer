@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using QIQO.Monitor.Core;
+﻿using QIQO.Monitor.Core;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -9,21 +8,21 @@ namespace QIQO.Monitor.Data
     public class ServerRepository : RepositoryBase<ServerData>,
                                      IServerRepository
     {
-        private readonly IMonitorDbContext entityContext;
+        private readonly IMonitorDbContext _entityContext;
         public ServerRepository(IMonitorDbContext dbc, IServerMap map) : base(map)
         {
-            entityContext = dbc;
+            _entityContext = dbc;
         }
 
         public override IEnumerable<ServerData> GetAll()
         {
-            using (entityContext) return MapRows(entityContext.ExecuteProcedureAsSqlDataReader("usp_server_all"));
+            using (_entityContext) return MapRows(_entityContext.ExecuteProcedureAsSqlDataReader("monMonitoredServerGetAll"));
         }
 
-        public override ServerData GetByID(int server_key)
+        public override ServerData GetByID(int serverKey)
         {
-            var pcol = new List<SqlParameter>() { Mapper.BuildParam("@server_key", server_key) };
-            using (entityContext) return MapRow(entityContext.ExecuteProcedureAsSqlDataReader("usp_server_get", pcol));
+            var pcol = new List<SqlParameter>() { Mapper.BuildParam("@serverKey", serverKey) };
+            using (_entityContext) return MapRow(_entityContext.ExecuteProcedureAsSqlDataReader("monMonitoredServerGet", pcol));
         }
 
         public override void Insert(ServerData entity)
@@ -44,17 +43,17 @@ namespace QIQO.Monitor.Data
 
         public override void Delete(ServerData entity)
         {
-            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_server_del", Mapper.MapParamsForDelete(entity));
+            using (_entityContext) _entityContext.ExecuteProcedureNonQuery("monMonitoredServerDelete", Mapper.MapParamsForDelete(entity));
         }
 
         public override void DeleteByID(int entityKey)
         {
-            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_server_del", Mapper.MapParamsForDelete(entityKey));
+            using (_entityContext) _entityContext.ExecuteProcedureNonQuery("monMonitoredServerDelete", Mapper.MapParamsForDelete(entityKey));
         }
 
         private void Upsert(ServerData entity)
         {
-            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_server_ups", Mapper.MapParamsForUpsert(entity));
+            using (_entityContext) _entityContext.ExecuteProcedureNonQuery("monMonitoredServerUpsert", Mapper.MapParamsForUpsert(entity));
         }
     }
 }

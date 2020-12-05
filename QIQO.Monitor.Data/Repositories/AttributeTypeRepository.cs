@@ -8,21 +8,21 @@ namespace QIQO.Monitor.Data
     public class AttributeTypeRepository : RepositoryBase<AttributeTypeData>,
                                      IAttributeTypeRepository
     {
-        private readonly IMonitorDbContext entityContext;
+        private readonly IMonitorDbContext _entityContext;
         public AttributeTypeRepository(IMonitorDbContext dbc, IAttributeTypeMap map) : base(map)
         {
-            entityContext = dbc;
+            _entityContext = dbc;
         }
 
         public override IEnumerable<AttributeTypeData> GetAll()
         {
-            using (entityContext) return MapRows(entityContext.ExecuteProcedureAsSqlDataReader("usp_attribute_type_all"));
+            using (_entityContext) return MapRows(_entityContext.ExecuteProcedureAsSqlDataReader("monAttributeTypeGetAll"));
         }
 
-        public override AttributeTypeData GetByID(int attribute_type_key)
+        public override AttributeTypeData GetByID(int attributeTypeKey)
         {
-            var pcol = new List<SqlParameter>() { Mapper.BuildParam("@attribute_type_key", attribute_type_key) };
-            using (entityContext) return MapRow(entityContext.ExecuteProcedureAsSqlDataReader("usp_attribute_type_get", pcol));
+            var pcol = new List<SqlParameter>() { Mapper.BuildParam("@AttributeTypeKey", attributeTypeKey) };
+            using (_entityContext) return MapRow(_entityContext.ExecuteProcedureAsSqlDataReader("monAttributeTypeGet", pcol));
         }
 
         public override void Insert(AttributeTypeData entity)
@@ -43,17 +43,17 @@ namespace QIQO.Monitor.Data
 
         public override void Delete(AttributeTypeData entity)
         {
-            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_attribute_type_del", Mapper.MapParamsForDelete(entity));
+            using (_entityContext) _entityContext.ExecuteProcedureNonQuery("monAttributeTypeDelete", Mapper.MapParamsForDelete(entity));
         }
 
         public override void DeleteByID(int entityKey)
         {
-            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_attribute_type_del", Mapper.MapParamsForDelete(entityKey));
+            using (_entityContext) _entityContext.ExecuteProcedureNonQuery("monAttributeTypeDelete", Mapper.MapParamsForDelete(entityKey));
         }
 
         private void Upsert(AttributeTypeData entity)
         {
-            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_attribute_type_ups", Mapper.MapParamsForUpsert(entity));
+            using (_entityContext) _entityContext.ExecuteProcedureNonQuery("monAttributeTypeUpsert", Mapper.MapParamsForUpsert(entity));
         }
     }
 

@@ -14,8 +14,8 @@ namespace QIQO.Monitor.Data
             {
                 return new LevelData()
                 {
-                    LevelKey = NullCheck<int>(record["level_key"]),
-                    LevelName = NullCheck<string>(record["level_name"])
+                    LevelKey = NullCheck<int>(record["LevelKey"]),
+                    LevelName = NullCheck<string>(record["LevelName"])
                 };
             }
             catch (Exception ex)
@@ -26,8 +26,8 @@ namespace QIQO.Monitor.Data
 
         public List<SqlParameter> MapParamsForUpsert(LevelData entity) => new List<SqlParameter>
             {
-                BuildParam("@level_key", entity.LevelKey),
-                BuildParam("@level_name", entity.LevelName),
+                BuildParam("@LevelKey", entity.LevelKey),
+                BuildParam("@LevelName", entity.LevelName),
                 // GetOutParam()
             };
 
@@ -35,7 +35,7 @@ namespace QIQO.Monitor.Data
 
         public List<SqlParameter> MapParamsForDelete(int level_key) => new List<SqlParameter>
             {
-                BuildParam("@level_key", level_key),
+                BuildParam("@LevelKey", level_key),
                 // GetOutParam()
             };
     }

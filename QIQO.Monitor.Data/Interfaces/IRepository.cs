@@ -1,5 +1,4 @@
 ﻿using QIQO.Monitor.Core.Contracts;
-using System;
 using System.Collections.Generic;
 
 namespace QIQO.Monitor.Data

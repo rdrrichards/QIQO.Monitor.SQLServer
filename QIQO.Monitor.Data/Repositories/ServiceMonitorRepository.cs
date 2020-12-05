@@ -7,22 +7,22 @@ namespace QIQO.Monitor.Data
     public class ServiceMonitorRepository : RepositoryBase<ServiceMonitorData>,
                                      IServiceMonitorRepository
     {
-        private readonly IMonitorDbContext entityContext;
+        private readonly IMonitorDbContext _entityContext;
         public ServiceMonitorRepository(IMonitorDbContext dbc, IServiceMonitorMap map) : base(map)
         {
-            entityContext = dbc;
+            _entityContext = dbc;
         }
 
         public override IEnumerable<ServiceMonitorData> GetAll()
         {
-            using (entityContext) return MapRows(entityContext.ExecuteProcedureAsSqlDataReader("usp_service_monitor_all"));
+            using (_entityContext) return MapRows(_entityContext.ExecuteProcedureAsSqlDataReader("monMonitoredServiceMonitorGetAll"));
         }
 
         public override ServiceMonitorData GetByID(int monitor_key) =>
             throw new NotAllowedException("Selecting service monitor relationship data with this method is not allowed. Use GetAll(service_key, monitor_key) instead.");
         public IEnumerable<ServiceMonitorData> GetAll(int service_key, int monitor_key)
         {
-            using (entityContext) return MapRows(entityContext.ExecuteProcedureAsSqlDataReader("usp_service_monitor_get"));
+            using (_entityContext) return MapRows(_entityContext.ExecuteProcedureAsSqlDataReader("monMonitoredServiceMonitorGet"));
         }
         public override void Insert(ServiceMonitorData entity)
         {
@@ -42,7 +42,7 @@ namespace QIQO.Monitor.Data
 
         public override void Delete(ServiceMonitorData entity)
         {
-            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_service_monitor_del", Mapper.MapParamsForDelete(entity));
+            using (_entityContext) _entityContext.ExecuteProcedureNonQuery("monMonitoredServiceMonitorDelete", Mapper.MapParamsForDelete(entity));
         }
 
         public override void DeleteByID(int entityKey) =>
@@ -50,7 +50,7 @@ namespace QIQO.Monitor.Data
 
         private void Upsert(ServiceMonitorData entity)
         {
-            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_service_monitor_ups", Mapper.MapParamsForUpsert(entity));
+            using (_entityContext) _entityContext.ExecuteProcedureNonQuery("monMonitoredServiceMonitorUpsert", Mapper.MapParamsForUpsert(entity));
         }
     }
 }

@@ -7,22 +7,22 @@ namespace QIQO.Monitor.Data
     public class ServiceMonitorAttributeRepository : RepositoryBase<ServiceMonitorAttributeData>,
                                      IServiceMonitorAttributeRepository
     {
-        private readonly IMonitorDbContext entityContext;
+        private readonly IMonitorDbContext _entityContext;
         public ServiceMonitorAttributeRepository(IMonitorDbContext dbc, IServiceMonitorAttributeMap map) : base(map)
         {
-            entityContext = dbc;
+            _entityContext = dbc;
         }
 
         public override IEnumerable<ServiceMonitorAttributeData> GetAll()
         {
-            using (entityContext) return MapRows(entityContext.ExecuteProcedureAsSqlDataReader("usp_service_monitor_attribute_all"));
+            using (_entityContext) return MapRows(_entityContext.ExecuteProcedureAsSqlDataReader("monMonitoredServiceMonitorAttributeGetAll"));
         }
 
         public override ServiceMonitorAttributeData GetByID(int monitor_key) =>
             throw new NotAllowedException("Selecting service monitor relationship data with this method is not allowed. Use GetAll(service_key, monitor_key) instead.");
         public IEnumerable<ServiceMonitorAttributeData> GetAll(int service_key, int monitor_key)
         {
-            using (entityContext) return MapRows(entityContext.ExecuteProcedureAsSqlDataReader("usp_service_monitor_attribute_get"));
+            using (_entityContext) return MapRows(_entityContext.ExecuteProcedureAsSqlDataReader("monMonitoredServiceMonitorAttributeGet"));
         }
         public override void Insert(ServiceMonitorAttributeData entity)
         {
@@ -42,7 +42,7 @@ namespace QIQO.Monitor.Data
 
         public override void Delete(ServiceMonitorAttributeData entity)
         {
-            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_service_monitor_attribute_del", Mapper.MapParamsForDelete(entity));
+            using (_entityContext) _entityContext.ExecuteProcedureNonQuery("monMonitoredServiceMonitorAttributeDelete", Mapper.MapParamsForDelete(entity));
         }
 
         public override void DeleteByID(int entityKey) =>
@@ -50,7 +50,7 @@ namespace QIQO.Monitor.Data
 
         private void Upsert(ServiceMonitorAttributeData entity)
         {
-            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_service_monitor_attribute_ups", Mapper.MapParamsForUpsert(entity));
+            using (_entityContext) _entityContext.ExecuteProcedureNonQuery("monMonitoredServiceMonitorAttributeUpsert", Mapper.MapParamsForUpsert(entity));
         }
     }
 }

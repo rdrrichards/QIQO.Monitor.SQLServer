@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using QIQO.Monitor.Core;
+﻿using QIQO.Monitor.Core;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -9,21 +8,21 @@ namespace QIQO.Monitor.Data
     public class LevelRepository : RepositoryBase<LevelData>,
                                      ILevelRepository
     {
-        private readonly IMonitorDbContext entityContext;
+        private readonly IMonitorDbContext _entityContext;
         public LevelRepository(IMonitorDbContext dbc, ILevelMap map) : base(map)
         {
-            entityContext = dbc;
+            _entityContext = dbc;
         }
 
         public override IEnumerable<LevelData> GetAll()
         {
-            using (entityContext) return MapRows(entityContext.ExecuteProcedureAsSqlDataReader("usp_level_all"));
+            using (_entityContext) return MapRows(_entityContext.ExecuteProcedureAsSqlDataReader("monMonitorLevelGetAll"));
         }
 
-        public override LevelData GetByID(int level_key)
+        public override LevelData GetByID(int monitorLevelKey)
         {
-            var pcol = new List<SqlParameter>() { Mapper.BuildParam("@level_key", level_key) };
-            using (entityContext) return MapRow(entityContext.ExecuteProcedureAsSqlDataReader("usp_level_get", pcol));
+            var pcol = new List<SqlParameter>() { Mapper.BuildParam("@MonitorLevelKey", monitorLevelKey) };
+            using (_entityContext) return MapRow(_entityContext.ExecuteProcedureAsSqlDataReader("monMonitorLevelGet", pcol));
         }
 
         public override void Insert(LevelData entity)
@@ -44,17 +43,17 @@ namespace QIQO.Monitor.Data
 
         public override void Delete(LevelData entity)
         {
-            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_level_del", Mapper.MapParamsForDelete(entity));
+            using (_entityContext) _entityContext.ExecuteProcedureNonQuery("monMonitorLevelDelete", Mapper.MapParamsForDelete(entity));
         }
 
         public override void DeleteByID(int entityKey)
         {
-            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_level_del", Mapper.MapParamsForDelete(entityKey));
+            using (_entityContext) _entityContext.ExecuteProcedureNonQuery("monMonitorLevelDelete", Mapper.MapParamsForDelete(entityKey));
         }
 
         private void Upsert(LevelData entity)
         {
-            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_level_ups", Mapper.MapParamsForUpsert(entity));
+            using (_entityContext) _entityContext.ExecuteProcedureNonQuery("monMonitorLevelUpsert", Mapper.MapParamsForUpsert(entity));
         }
     }
 }

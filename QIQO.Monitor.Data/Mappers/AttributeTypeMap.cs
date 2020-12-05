@@ -14,9 +14,9 @@ namespace QIQO.Monitor.Data
             {
                 return new AttributeTypeData()
                 {
-                    AttributeTypeKey = NullCheck<int>(record["attribute_type_key"]),
-                    AttributeDataTypeKey = NullCheck<int>(record["attribute_data_type_key"]),
-                    AttributeTypeName = NullCheck<string>(record["attribute_type_name"])
+                    AttributeTypeKey = NullCheck<int>(record["AttributeTypeKey"]),
+                    AttributeDataTypeKey = NullCheck<int>(record["AttributeDataTypeKey"]),
+                    AttributeTypeName = NullCheck<string>(record["AttributeTypeName"])
                 };
             }
             catch (Exception ex)
@@ -27,9 +27,9 @@ namespace QIQO.Monitor.Data
 
         public List<SqlParameter> MapParamsForUpsert(AttributeTypeData entity) => new List<SqlParameter>
             {
-                BuildParam("@attribute_type_key", entity.AttributeTypeKey),
-                BuildParam("@attribute_data_type_key", entity.AttributeDataTypeKey),
-                BuildParam("@attribute_type_name", entity.AttributeTypeName),
+                BuildParam("@AttributeTypeKey", entity.AttributeTypeKey),
+                BuildParam("@AttributeDataTypeKey", entity.AttributeDataTypeKey),
+                BuildParam("@AttributeTypeName", entity.AttributeTypeName),
                 // GetOutParam()
             };
 
@@ -37,7 +37,7 @@ namespace QIQO.Monitor.Data
 
         public List<SqlParameter> MapParamsForDelete(int attributeTypeKey) => new List<SqlParameter>
             {
-                BuildParam("@attribute_type_key", attributeTypeKey),
+                BuildParam("@AttributeTypeKey", attributeTypeKey),
                 // GetOutParam()
             };
     }

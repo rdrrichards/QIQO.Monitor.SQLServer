@@ -8,21 +8,21 @@ namespace QIQO.Monitor.Data
     public class EnvironmentServerRepository : RepositoryBase<EnvironmentServerData>,
                                      IEnvironmentServerRepository
     {
-        private readonly IMonitorDbContext entityContext;
+        private readonly IMonitorDbContext _entityContext;
         public EnvironmentServerRepository(IMonitorDbContext dbc, IEnvironmentServerMap map) : base(map)
         {
-            entityContext = dbc;
+            _entityContext = dbc;
         }
 
         public override IEnumerable<EnvironmentServerData> GetAll()
         {
-            using (entityContext) return MapRows(entityContext.ExecuteProcedureAsSqlDataReader("usp_environment_server_all"));
+            using (_entityContext) return MapRows(_entityContext.ExecuteProcedureAsSqlDataReader("monMonitorEnvironmentServerGetAll"));
         }
 
         public override EnvironmentServerData GetByID(int monitor_key)
         {
             var pcol = new List<SqlParameter>() { Mapper.BuildParam("@monitor_key", monitor_key) };
-            using (entityContext) return MapRow(entityContext.ExecuteProcedureAsSqlDataReader("usp_environment_server_get", pcol));
+            using (_entityContext) return MapRow(_entityContext.ExecuteProcedureAsSqlDataReader("monMonitorEnvironmentServerGet", pcol));
         }
 
         public override void Insert(EnvironmentServerData entity)
@@ -43,17 +43,17 @@ namespace QIQO.Monitor.Data
 
         public override void Delete(EnvironmentServerData entity)
         {
-            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_environment_server_del", Mapper.MapParamsForDelete(entity));
+            using (_entityContext) _entityContext.ExecuteProcedureNonQuery("monMonitorEnvironmentServerDelete", Mapper.MapParamsForDelete(entity));
         }
 
         public override void DeleteByID(int entityKey)
         {
-            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_environment_server_del", Mapper.MapParamsForDelete(entityKey));
+            using (_entityContext) _entityContext.ExecuteProcedureNonQuery("monMonitorEnvironmentServerDelete", Mapper.MapParamsForDelete(entityKey));
         }
 
         private void Upsert(EnvironmentServerData entity)
         {
-            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_environment_server_ups", Mapper.MapParamsForUpsert(entity));
+            using (_entityContext) _entityContext.ExecuteProcedureNonQuery("monMonitorEnvironmentServerUpsert", Mapper.MapParamsForUpsert(entity));
         }
     }
 }

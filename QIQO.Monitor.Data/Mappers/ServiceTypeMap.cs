@@ -14,8 +14,8 @@ namespace QIQO.Monitor.Data
             {
                 return new ServiceTypeData()
                 {
-                    ServiceTypeKey = NullCheck<int>(record["service_type_key"]),
-                    ServiceTypeName = NullCheck<string>(record["service_type_name"])
+                    ServiceTypeKey = NullCheck<int>(record["ServiceTypeKey"]),
+                    ServiceTypeName = NullCheck<string>(record["ServiceTypeName"])
                 };
             }
             catch (Exception ex)
@@ -26,8 +26,8 @@ namespace QIQO.Monitor.Data
 
         public List<SqlParameter> MapParamsForUpsert(ServiceTypeData entity) => new List<SqlParameter>
             {
-                BuildParam("@service_type_key", entity.ServiceTypeKey),
-                BuildParam("@service_type_name", entity.ServiceTypeName),
+                BuildParam("@ServiceTypeKey", entity.ServiceTypeKey),
+                BuildParam("@ServiceTypeName", entity.ServiceTypeName),
                 // GetOutParam()
             };
 
@@ -35,7 +35,7 @@ namespace QIQO.Monitor.Data
 
         public List<SqlParameter> MapParamsForDelete(int service_type_key) => new List<SqlParameter>
             {
-                BuildParam("@service_type_key", service_type_key),
+                BuildParam("@ServiceTypeKey", service_type_key),
                 // GetOutParam()
             };
     }

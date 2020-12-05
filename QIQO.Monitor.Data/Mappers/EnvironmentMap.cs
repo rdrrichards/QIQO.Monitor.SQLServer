@@ -14,8 +14,8 @@ namespace QIQO.Monitor.Data
             {
                 return new EnvironmentData()
                 {
-                    EnvironmentKey = NullCheck<int>(record["environment_key"]),
-                    EnvironmentName = NullCheck<string>(record["environment_name"]),
+                    EnvironmentKey = NullCheck<int>(record["EnvironmentKey"]),
+                    EnvironmentName = NullCheck<string>(record["EnvironmentName"]),
                 };
             }
             catch (Exception ex)
@@ -26,14 +26,14 @@ namespace QIQO.Monitor.Data
 
         public List<SqlParameter> MapParamsForUpsert(EnvironmentData entity) => new List<SqlParameter>
             {
-                BuildParam("@environment_key", entity.EnvironmentKey),
-                BuildParam("@environment_name", entity.EnvironmentName),
+                BuildParam("@EnvironmentKey", entity.EnvironmentKey),
+                BuildParam("@EnvironmentName", entity.EnvironmentName),
                 // GetOutParam()
             };
 
         public List<SqlParameter> MapParamsForDelete(EnvironmentData entity) => new List<SqlParameter>
             {
-                BuildParam("@environment_key", entity.EnvironmentKey),
+                BuildParam("@EnvironmentKey", entity.EnvironmentKey),
                 // GetOutParam()
             };
 

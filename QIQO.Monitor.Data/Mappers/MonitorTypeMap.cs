@@ -14,8 +14,8 @@ namespace QIQO.Monitor.Data
             {
                 return new MonitorTypeData()
                 {
-                    MonitorTypeKey = NullCheck<int>(record["monitor_type_key"]),
-                    MonitorTypeName = NullCheck<string>(record["monitor_type_name"])
+                    MonitorTypeKey = NullCheck<int>(record["MonitorTypeKey"]),
+                    MonitorTypeName = NullCheck<string>(record["MonitorTypeName"])
                 };
             }
             catch (Exception ex)
@@ -26,8 +26,8 @@ namespace QIQO.Monitor.Data
 
         public List<SqlParameter> MapParamsForUpsert(MonitorTypeData entity) => new List<SqlParameter>
             {
-                BuildParam("@monitor_type_key", entity.MonitorTypeKey),
-                BuildParam("@monitor_type_name", entity.MonitorTypeName),
+                BuildParam("@MonitorTypeKey", entity.MonitorTypeKey),
+                BuildParam("@MonitorTypeName", entity.MonitorTypeName),
                 // GetOutParam()
             };
 
@@ -35,7 +35,7 @@ namespace QIQO.Monitor.Data
 
         public List<SqlParameter> MapParamsForDelete(int monitor_type_key) => new List<SqlParameter>
             {
-                BuildParam("@monitor_type_key", monitor_type_key),
+                BuildParam("@MonitorTypeKey", monitor_type_key),
                 // GetOutParam()
             };
     }

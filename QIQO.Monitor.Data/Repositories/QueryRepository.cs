@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using QIQO.Monitor.Core;
+﻿using QIQO.Monitor.Core;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -9,21 +8,21 @@ namespace QIQO.Monitor.Data
     public class QueryRepository : RepositoryBase<QueryData>,
                                      IQueryRepository
     {
-        private readonly IMonitorDbContext entityContext;
+        private readonly IMonitorDbContext _entityContext;
         public QueryRepository(IMonitorDbContext dbc, IQueryMap map) : base(map)
         {
-            entityContext = dbc;
+            _entityContext = dbc;
         }
 
         public override IEnumerable<QueryData> GetAll()
         {
-            using (entityContext) return MapRows(entityContext.ExecuteProcedureAsSqlDataReader("usp_query_all"));
+            using (_entityContext) return MapRows(_entityContext.ExecuteProcedureAsSqlDataReader("monQueryGetAll"));
         }
 
-        public override QueryData GetByID(int query_key)
+        public override QueryData GetByID(int queryKey)
         {
-            var pcol = new List<SqlParameter>() { Mapper.BuildParam("@query_key", query_key) };
-            using (entityContext) return MapRow(entityContext.ExecuteProcedureAsSqlDataReader("usp_query_get", pcol));
+            var pcol = new List<SqlParameter>() { Mapper.BuildParam("@queryKey", queryKey) };
+            using (_entityContext) return MapRow(_entityContext.ExecuteProcedureAsSqlDataReader("monQueryGet", pcol));
         }
 
         public override void Insert(QueryData entity)
@@ -44,17 +43,17 @@ namespace QIQO.Monitor.Data
 
         public override void Delete(QueryData entity)
         {
-            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_query_del", Mapper.MapParamsForDelete(entity));
+            using (_entityContext) _entityContext.ExecuteProcedureNonQuery("monQueryDelete", Mapper.MapParamsForDelete(entity));
         }
 
         public override void DeleteByID(int entityKey)
         {
-            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_query_del", Mapper.MapParamsForDelete(entityKey));
+            using (_entityContext) _entityContext.ExecuteProcedureNonQuery("monQueryDelete", Mapper.MapParamsForDelete(entityKey));
         }
 
         private void Upsert(QueryData entity)
         {
-            using (entityContext) entityContext.ExecuteProcedureNonQuery("usp_query_ups", Mapper.MapParamsForUpsert(entity));
+            using (_entityContext) _entityContext.ExecuteProcedureNonQuery("monQueryUpsert", Mapper.MapParamsForUpsert(entity));
         }
     }
 }
