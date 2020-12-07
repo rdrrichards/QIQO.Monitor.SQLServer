@@ -4,7 +4,7 @@ using System.Data;
 
 namespace QIQO.Monitor.SQLServer.Data
 {
-    public class OpenTranactionMap : MapperBase, IOpenTranactionMap
+    public class OpenTransactionMap : MapperBase, IOpenTranactionMap
     {
         public OpenTransactionData Map(IDataReader record)
         {

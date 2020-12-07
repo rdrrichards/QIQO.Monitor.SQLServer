@@ -19,8 +19,8 @@ namespace QIQO.Monitor.SQLServer.Data
             services.AddTransient<IHardwareRepository, HardwareRepository>();
             services.AddTransient<IBlockingMap, BlockingMap>();
             services.AddTransient<IBlockingRepository, BlockingRepository>();
-            services.AddTransient<IOpenTranactionMap, OpenTranactionMap>();
-            services.AddTransient<IOpenTransactionRepository, OpenTranactionRepository>();
+            services.AddTransient<IOpenTranactionMap, OpenTransactionMap>();
+            services.AddTransient<IOpenTransactionRepository, OpenTransactionRepository>();
 
             services.AddTransient<IWaitStatsMap, WaitStatsMap>();
             services.AddTransient<IWaitStatsRepository, WaitStatsRepository>();
