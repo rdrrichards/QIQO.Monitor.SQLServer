@@ -1,12 +1,16 @@
 import { Injectable } from '@angular/core';
 import * as sr from '@microsoft/signalr';
+import { Store } from '@ngrx/store';
+import { AppState } from '../state/state';
+import * as appActions from '../state/app.actions';
+import { ResultInstance } from '../models/result-instance';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommunicationService {
   private conn: sr.HubConnection | undefined;
-  constructor() {
+  constructor(private appStore: Store<AppState>) {
     this.openWSConnection();
   }
   private openWSConnection(): void {
@@ -18,8 +22,9 @@ export class CommunicationService {
       .build();
     this.conn.start().catch(err => console.log(err));
     this.conn.on('join', (userName: string) => console.log(`user ${userName} has logged into Specimen Transport.`));
-    this.conn.on('monitorresult', (result: string) => {
+    this.conn.on('monitorresult', (result: ResultInstance) => {
       console.log('result', result);
+      this.appStore.dispatch(appActions.processResultInstance({ payload: result }));
       // console.log('result parsed', JSON.parse(result));
       // // We need to dispatch to state here, rather than use a subject
       // if (this.processor.processResult(pResult)) {
