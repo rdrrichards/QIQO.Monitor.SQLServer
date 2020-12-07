@@ -1,5 +1,6 @@
 ﻿using QIQO.Monitor.Core.Contracts;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace QIQO.Monitor.Service
 {
@@ -10,7 +11,7 @@ namespace QIQO.Monitor.Service
         public MonitorType MonitorType { get; set; }
         public MonitorLevel MonitorLevel { get; set; }
         public MonitorCategories MonitorCategory { get; set; }
-        public List<Query> Queries { get; set; } = new List<Query>();
-        public List<MonitorProperty> MonitorProperties { get; set; } = new List<MonitorProperty>();
+        public IEnumerable<Query> Queries { get; set; } = Enumerable.Empty<Query>();
+        public IEnumerable<MonitorProperty> MonitorProperties { get; set; } = Enumerable.Empty<MonitorProperty>();
     }
 }

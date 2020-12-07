@@ -1,5 +1,6 @@
 ﻿using QIQO.Monitor.Core.Contracts;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace QIQO.Monitor.Service
 {
@@ -7,8 +8,8 @@ namespace QIQO.Monitor.Service
     {
         public int ServerKey { get; set; }
         public string ServerName { get; set; }
-        public List<Service> Services { get; set; } = new List<Service>();
-        public List<Environment> Environments { get; set; } = new List<Environment>();
+        public IEnumerable<Service> Services { get; set; } = Enumerable.Empty<Service>();
+        public IEnumerable<Environment> Environments { get; set; } = Enumerable.Empty<Environment>();
     }
 
 }

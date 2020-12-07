@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace QIQO.Monitor.Service
 {
-    public class BlockingMonitorService : MonitorServiceBase<BlockingData>
+    public class OpenTransactionMonitorService : MonitorServiceBase<OpenTransactionData>
     {
         private readonly Service _service;
-        private readonly ILogger<BlockingWorker> _logger;
+        private readonly ILogger<OpenTransactionWorker> _logger;
         private readonly IHttpClientHelper _httpClientHelper;
 
-        public BlockingMonitorService(Service service, ILogger<BlockingWorker> logger, IHttpClientHelper httpClientHelper)
+        public OpenTransactionMonitorService(Service service, ILogger<OpenTransactionWorker> logger, IHttpClientHelper httpClientHelper)
         {
             _service = service;
             _logger = logger;
@@ -24,7 +24,7 @@ namespace QIQO.Monitor.Service
             MonitorResultPayload payload;
             if (data is not System.Exception)
             {
-                payload = BuildMonitorResult(data as IEnumerable<BlockingData>);
+                payload = BuildMonitorResult(data as IEnumerable<OpenTransactionData>);
                 payload.healthStatus = healthStatus;
             }
             else
@@ -37,20 +37,19 @@ namespace QIQO.Monitor.Service
             await _httpClientHelper.Post("results", payload);
         }
 
-        public override MonitorResultPayload BuildMonitorResult(IEnumerable<BlockingData> data)
+        public override MonitorResultPayload BuildMonitorResult(IEnumerable<OpenTransactionData> data)
         {
             if (data.Any())
             {
-                var result = new Domain.BlockingResult
+                var result = new Domain.OpenTransactionResult
                 {
-                    results = data.Select(bd => new Domain.Blocking(bd.LockType, bd.Database, bd.BlockObject,
-                        bd.LockRequest, bd.WaiterSid, bd.WaitTime, bd.WaiterBatch,
-                        bd.WaiterStatement, bd.BlockerSid, bd.BlockerBatch))
+                    results = data.Select(otd => new Domain.OpenTransaction(otd.SessionId, otd.HostName, otd.LoginName,
+                        otd.TransactionID, otd.TransactionName, otd.TransactionBegan, otd.DatabaseId, otd.DatabaseName))
                 };
                 return new MonitorResultPayload(result);
             }
             else
-                return new MonitorResultPayload(new Domain.BlockingResult());
+                return new MonitorResultPayload(new Domain.OpenTransactionResult());
         }
 
         public async override Task StartPolling(int inverval = 10000)
@@ -62,18 +61,18 @@ namespace QIQO.Monitor.Service
                     _logger.LogInformation($"Starting monitoring for blocking for service {_service.ServiceName}");
                     using (var context = new SqlServerDbContext(CreateConnectionString(_service.ServiceSource)))
                     {
-                        var repo = new BlockingRepository(context, new BlockingMap());
+                        var repo = new OpenTransactionRepository(context, new OpenTransactionMap());
                         try
                         {
                             var data = repo.Get(_service.Monitors.First().Queries.First().QueryText);
                             if (data.Any())
                             {
-                                _logger.LogInformation($"Blocking on {_service.ServiceName}");
+                                _logger.LogInformation($"OpenTransaction on {_service.ServiceName}");
                                 await AssessUnhealthy(data);
                             }
                             else
                             {
-                                _logger.LogInformation($"No Blocking on {_service.ServiceName}");
+                                _logger.LogInformation($"No OpenTransaction on {_service.ServiceName}");
                                 await AssessHealthy(data);
                             }
                         }

@@ -21,6 +21,7 @@ namespace QIQO.Monitor.Service
                     Microsoft.Extensions.Configuration.IConfiguration configuration = hostContext.Configuration;
                     //services.AddSingleton<IMemoryCache>(new MemoryCache(new MemoryCacheOptions()));
                     services.AddHostedService<BlockingWorker>();
+                    services.AddHostedService<OpenTransactionWorker>();
                     services.AddHttpClient("QIQOMonitor", options =>
                     {
                         options.BaseAddress = new Uri(configuration["Settings:QIQOMonitorApi"]);
