@@ -12,6 +12,7 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "~11.0.3",
+    "@angular/cdk": "^11.0.2",
     "@angular/common": "~11.0.3",
     "@angular/compiler": "~11.0.3",
     "@angular/core": "~11.0.3",
@@ -22,6 +23,9 @@
     "@microsoft/signalr": "^5.0.0",
     "@ngrx/effects": "^10.1.0",
     "@ngrx/store": "^10.1.0",
+    "primeflex": "^2.0.0",
+    "primeicons": "^4.1.0",
+    "primeng": "^11.0.0-rc.2",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"
