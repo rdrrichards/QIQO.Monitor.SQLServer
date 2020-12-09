@@ -8,7 +8,6 @@ import { User } from '../models/user';
 
 @Injectable()
 export class ApplicationEffects {
-  constructor(private actions$: Actions) { } // private authService: AuthenticationService
   // loadUserInformation$ = createEffect(() => this.actions$.pipe(
   //   ofType(appActions.loadUserInformation),
   //   mergeMap((action) => this.authService.loadUserInformation().pipe(
@@ -18,4 +17,5 @@ export class ApplicationEffects {
   //     ))
   //   )
   // );
+  constructor(private actions$: Actions) { } // private authService: AuthenticationService
 }
