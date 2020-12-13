@@ -1,18 +1,27 @@
 import { Injectable } from '@angular/core';
 import * as sr from '@microsoft/signalr';
 import { Store } from '@ngrx/store';
-import { AppState } from '../state/state';
-import * as appActions from '../state/app.actions';
+import * as monFeatureActions from '../service-monitor/state/service-monitor.actions';
 import { ResultInstance } from '../models/result-instance';
+import { MonitoredServiceState } from '../service-monitor/state/state';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommunicationService {
   private conn: sr.HubConnection | undefined;
-  constructor(private appStore: Store<AppState>) {
+  constructor(private monFeatureStore: Store<MonitoredServiceState>) {
     this.openWSConnection();
   }
+  joinIn(user: string = ''): void {}
+  // joinIn(user: User): void {
+  //   if (this.conn.state === sr.HubConnectionState.Connected) {
+  //     this.conn.invoke('join', user.userInits);
+  //     if (this.compName) {
+  //       this.conn.invoke('joingroup', this.compName);
+  //     }
+  //   }
+  // }
   private openWSConnection(): void {
     this.conn = new sr.HubConnectionBuilder()
       .configureLogging(sr.LogLevel.Error)
@@ -23,8 +32,8 @@ export class CommunicationService {
     this.conn.start().catch(err => console.log(err));
     this.conn.on('join', (userName: string) => console.log(`user ${userName} has logged into Specimen Transport.`));
     this.conn.on('monitorresult', (result: ResultInstance) => {
-      console.log('result', result);
-      this.appStore.dispatch(appActions.processResultInstance({ payload: result }));
+      // console.log('result', result);
+      this.monFeatureStore.dispatch(monFeatureActions.processResultInstance({ payload: result }));
       // console.log('result parsed', JSON.parse(result));
       // // We need to dispatch to state here, rather than use a subject
       // if (this.processor.processResult(pResult)) {
@@ -41,13 +50,4 @@ export class CommunicationService {
       // }
     });
   }
-  joinIn(user: string = ''): void {}
-  // joinIn(user: User): void {
-  //   if (this.conn.state === sr.HubConnectionState.Connected) {
-  //     this.conn.invoke('join', user.userInits);
-  //     if (this.compName) {
-  //       this.conn.invoke('joingroup', this.compName);
-  //     }
-  //   }
-  // }
 }
