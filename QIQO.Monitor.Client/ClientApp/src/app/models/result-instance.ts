@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable no-shadow */
 import { MonitorResult } from './monitor-result';
 import { Exception } from './exception';
 
@@ -7,6 +9,7 @@ export interface ResultInstance {
   exception?: Exception;
   healthStatus: HealthStatus;
   monitorName: string;
+  serviceName: string;
 }
 
 export interface ResultMessage {
@@ -22,6 +25,7 @@ export enum ResultType {
 }
 
 export enum HealthStatus {
+  Unknown,
   Healthly,
   Degraded,
   Unhealthy

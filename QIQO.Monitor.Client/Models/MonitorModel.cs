@@ -1,5 +1,6 @@
 ﻿using QIQO.Monitor.Core.Contracts;
 using QIQO.Monitor.Data;
+using QIQO.Monitor.Domain;
 using System.Collections.Generic;
 
 namespace QIQO.Monitor.Client
@@ -23,5 +24,6 @@ namespace QIQO.Monitor.Client
         public MonitorCategories MonitorCategory { get; }
         public List<Query> Queries { get; } = new List<Query>();
         public List<MonitorProperty> MonitorProperties { get; } = new List<MonitorProperty>();
+        public MonitorResultPayload LastMonitorResult { get; } = new MonitorResultPayload { healthStatus = HealthStatus.Unknown };
     }
 }

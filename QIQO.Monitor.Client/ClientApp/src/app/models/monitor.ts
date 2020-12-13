@@ -1,14 +1,7 @@
+/* eslint-disable no-shadow */
+/* eslint-disable @typescript-eslint/naming-convention */
 import { Query } from './query';
-
-export interface Monitor {
-  monitorKey: number;
-  monitorName: string;
-  monitorType: number;
-  monitorLevel: MonitorLevel;
-  monitorCategory: MonitorCategories;
-  queries: Query[];
-  monitorProperties: MonitorProperty[];
-}
+import { ResultInstance } from './result-instance';
 
 export enum MonitorLevel {
   Instance = 1,
@@ -21,6 +14,17 @@ export enum MonitorCategories {
   DetectBlocking,
   OpenTranactions,
   WaitStatistics
+}
+
+export interface Monitor {
+  monitorKey: number;
+  monitorName: string;
+  monitorType: number;
+  monitorLevel: MonitorLevel;
+  monitorCategory: MonitorCategories;
+  queries: Query[];
+  monitorProperties: MonitorProperty[];
+  lastMonitorResult: ResultInstance;
 }
 
 export interface MonitorCategory {

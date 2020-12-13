@@ -15,6 +15,7 @@ namespace QIQO.Monitor.Domain
     }
     public enum HealthStatus
     {
+        Unknown,
         Healthly,
         Degraded,
         Unhealthy
