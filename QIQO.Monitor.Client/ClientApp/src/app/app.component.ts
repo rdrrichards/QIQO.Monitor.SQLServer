@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { CommunicationService } from './shared/communication.service';
+import { AppState } from './state/state';
+import * as appActions from './state/app.actions';
 
 @Component({
   selector: 'qiqo-root',
