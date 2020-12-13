@@ -1,0 +1,17 @@
+<div class="p-grid">
+  <p-card *ngFor="let service of (services$ | async)" [header]="service.serviceName"
+    [style]="{'margin-bottom': '2em'}" class="p-col-6">
+    Source: {{ service.serviceSource }}
+    <div *ngFor="let mon of service?.monitors">
+      <div *ngIf="mon?.monitorName !== 'Wait Statistics'">
+        {{ mon?.monitorName }} is {{ healthStatus[mon.lastMonitorResult.healthStatus] }}
+        <i [class]="healthStatusIcon[mon.lastMonitorResult.healthStatus]"
+          [style.color]="healthStatusColor[mon.lastMonitorResult.healthStatus]"></i>
+      </div>
+    </div>
+    <!-- <ng-template pTemplate="footer">
+      <button type="button"  class="p-button-rounded p-button-secondary p-button-lg" pButton icon="pi {{item.icon}}"
+              (click)="item.command($event)"></button>
+    </ng-template> -->
+  </p-card>
+  </div>

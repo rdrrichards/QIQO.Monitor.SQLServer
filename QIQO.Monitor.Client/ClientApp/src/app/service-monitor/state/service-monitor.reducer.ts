@@ -23,7 +23,13 @@ const appReducer = createReducer(initialState,
     {
       const ris = state.resultInstances.map(r => r);
       ris.push(payload);
-      return { ...state, resultInstances: ris };
+      const monServices = state.monitoredServices.map(s => s);
+      const currService = monServices.find(s => s.serviceName === payload.serviceName);
+      if (currService) {
+        const currMon = currService.monitors.find(m => m.monitorName === payload.monitorName);
+        if (currMon) { currMon.lastMonitorResult = payload; }
+       }
+      return { ...state, resultInstances: ris.slice(-250), monitoredServices: monServices };
     }),
   on(serviceMonitorActions.loadMonitoredServicesSuccess, (state, { payload }) =>
     ({ ...state, monitoredServices: payload })),
